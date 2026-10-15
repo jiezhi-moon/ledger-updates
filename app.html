@@ -220,6 +220,13 @@
     .paste-table th{position:sticky;top:0;background:#f1f5f9}.paste-table input{width:100%;min-width:64px;border:1px solid #cbd5e1;border-radius:5px;padding:7px;font:inherit}
     .paste-table input[data-key="name"],.paste-table input[data-key="party"]{min-width:125px}
     .paste-alert{margin:10px 0;font-size:12px;color:#92400e;white-space:pre-wrap}.paste-alert.ok{color:#047857}
+
+    /* 1.0.2: 首頁版本標籤，以及長表格編輯時隨時返回項目列表 */
+    .ledger-home-title{display:flex;align-items:center;gap:11px;flex-wrap:wrap;margin-bottom:5px}
+    .ledger-home-title h2{margin:0}
+    .ledger-version{display:inline-flex;align-items:center;border:1px solid #bfdbfe;border-radius:999px;background:#eff6ff;color:#1d4ed8;padding:3px 9px;font-size:12px;font-weight:750;white-space:nowrap}
+    .ledger-editor .ledger-backline{position:sticky;top:8px;z-index:30;background:rgba(255,255,255,.97);padding:9px 12px;margin:-9px -12px 16px;border:1px solid #e2e8f0;border-radius:12px;box-shadow:0 5px 18px rgba(15,23,42,.08);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+    @media(max-width:780px){.ledger-editor .ledger-backline{top:4px;margin:-7px -7px 14px;padding:8px}}
   </style>
 </head>
 <body>
@@ -235,7 +242,7 @@
     <section class="ledger-pane" id="ledgerPane" role="tabpanel" aria-labelledby="tabLedger">
       <div class="ledger-home" id="ledgerHome">
         <div class="ledger-head">
-          <div><h2>记账项目</h2><p class="ledger-subtitle">搜索项目名称或明细内容，打开最近编辑的账本。</p></div>
+          <div><div class="ledger-home-title"><h2>记账项目</h2><span class="ledger-version" aria-label="目前版本 1.0.2">v1.0.2</span></div><p class="ledger-subtitle">搜索项目名称或明细内容，打开最近编辑的账本。</p></div>
           <div class="ledger-backup"><span id="autoBackupStatus" style="font-size:12px;color:#64748b;align-self:center">自動備份：等待連線</span><button type="button" id="ledgerBackupBtn" class="ledger-btn-light">备份记账资料</button><button type="button" id="ledgerRestoreBtn" class="ledger-btn-plain">导入备份</button></div>
         </div>
         <div class="ledger-tools"><input id="ledgerSearch" class="ledger-search" placeholder="搜索项目名称／公司或人／商品名称" aria-label="搜索记账项目"><button type="button" id="ledgerNewBtn" class="ledger-btn-primary">＋ 新建项目</button></div>
@@ -247,7 +254,7 @@
       <div class="ledger-editor" id="ledgerEditor" hidden>
         <div class="ledger-backline"><button type="button" id="ledgerBackBtn" class="ledger-btn-plain">← 返回项目列表</button><span class="ledger-saved" id="ledgerSavedText">自动保存</span></div>
         <div class="ledger-company"><label for="ledgerCompany">项目名</label><input id="ledgerCompany" placeholder="请输入项目名称" autocomplete="off"/></div>
-        <div class="ledger-merge-startbar"><button type="button" id="ledgerMergeOpenBtn" class="ledger-btn-light">開啟合併</button><button type="button" id="ledgerColorOpenBtn" class="ledger-btn-light">🎨 標記顏色</button><span>開啟後不會預選任何格子；點一下選中，再點同一格取消。選完按「確認合併」。</span></div>
+        <div class="ledger-merge-startbar" hidden aria-hidden="true"><button type="button" id="ledgerMergeOpenBtn" class="ledger-btn-light">開啟合併</button><button type="button" id="ledgerColorOpenBtn" class="ledger-btn-light">🎨 標記顏色</button><span>開啟後不會預選任何格子；點一下選中，再點同一格取消。選完按「確認合併」。</span></div>
         <div id="ledgerColorBar" class="ledger-mergebar ledger-colorbar" hidden>
           <strong>🎨 先選顏色</strong>
           <div id="ledgerColorPalette" class="ledger-color-picks"></div>
