@@ -242,7 +242,7 @@
     <section class="ledger-pane" id="ledgerPane" role="tabpanel" aria-labelledby="tabLedger">
       <div class="ledger-home" id="ledgerHome">
         <div class="ledger-head">
-          <div><div class="ledger-home-title"><h2>记账项目</h2><span class="ledger-version" aria-label="目前版本 1.0.2">v1.0.2</span></div><p class="ledger-subtitle">搜索项目名称或明细内容，打开最近编辑的账本。</p></div>
+          <div><div class="ledger-home-title"><h2>记账项目</h2><span class="ledger-version" aria-label="目前版本 1.0.3">v1.0.3</span></div><p class="ledger-subtitle">搜索项目名称或明细内容，打开最近编辑的账本。</p></div>
           <div class="ledger-backup"><span id="autoBackupStatus" style="font-size:12px;color:#64748b;align-self:center">自動備份：等待連線</span><button type="button" id="ledgerBackupBtn" class="ledger-btn-light">备份记账资料</button><button type="button" id="ledgerRestoreBtn" class="ledger-btn-plain">导入备份</button></div>
         </div>
         <div class="ledger-tools"><input id="ledgerSearch" class="ledger-search" placeholder="搜索项目名称／公司或人／商品名称" aria-label="搜索记账项目"><button type="button" id="ledgerNewBtn" class="ledger-btn-primary">＋ 新建项目</button></div>
@@ -833,6 +833,8 @@ function ledgerCurrent(){return ledgerProjects.find(p=>p.id===activeLedgerId)||n
     }
     setInterval(()=>pushAutoBackup(),5*60*1000);
     window.addEventListener("focus",()=>pushAutoBackup());
+    // v1.0.3: The update client waits until local save + iCloud backup settle.
+    window.__ledgerUpdateCanReload = () => ledgerStorageOk && !backupBusy && (backupRevision === 0 || backupRevision === backedUpRevision);
     function ledgerSave(){const p=ledgerCurrent();if(p)p.editedAt=Date.now();try{localStorage.setItem(LEDGER_STORAGE_KEY,JSON.stringify(ledgerProjects));ledgerStorageOk=true;scheduleAutoBackup();const saved=ledgerEl("ledgerSavedText");if(saved)saved.textContent="已自动保存 · "+new Date().toLocaleTimeString("zh-CN",{hour:"2-digit",minute:"2-digit"});}catch(e){ledgerStorageOk=false;ledgerNotice("本机储存失败，请立即备份数据或检查浏览器储存权限。",true);}}
     function ledgerNotice(s,error=false){const node=ledgerEl("ledgerToast");node.textContent=s;node.className="ledger-toast"+(error?" error":"");node.hidden=!s;}
     function ledgerTab(which){const isLedger=which==="ledger";ledgerEl("ledgerPane").hidden=!isLedger;ledgerEl("invoicePane").hidden=isLedger;ledgerEl("tabLedger").setAttribute("aria-selected",String(isLedger));ledgerEl("tabInvoice").setAttribute("aria-selected",String(!isLedger));if(isLedger&&!activeLedgerId)ledgerRenderHome()}
