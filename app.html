@@ -225,6 +225,12 @@
     .ledger-home-title{display:flex;align-items:center;gap:11px;flex-wrap:wrap;margin-bottom:5px}
     .ledger-home-title h2{margin:0}
     .ledger-version{display:inline-flex;align-items:center;border:1px solid #bfdbfe;border-radius:999px;background:#eff6ff;color:#1d4ed8;padding:3px 9px;font-size:12px;font-weight:750;white-space:nowrap}
+    .ledger-update-controls{display:inline-flex;align-items:center;gap:8px;flex-wrap:wrap}
+    .ledger-update-btn{height:30px;padding:0 10px;border-radius:999px;background:#eef2ff;color:#3730a3;font-size:12px;font-weight:750;border:1px solid #dbeafe}
+    .ledger-update-btn:hover{background:#dbeafe;color:#1d4ed8}
+    .ledger-update-btn:disabled{opacity:.6;cursor:wait}
+    .ledger-update-status{font-size:11px;color:#64748b;max-width:360px;line-height:1.4}
+    .ledger-update-status.ok{color:#047857}.ledger-update-status.err{color:#b91c1c}.ledger-update-status.busy{color:#1d4ed8}
     .ledger-editor .ledger-backline{position:sticky;top:8px;z-index:30;background:rgba(255,255,255,.97);padding:9px 12px;margin:-9px -12px 16px;border:1px solid #e2e8f0;border-radius:12px;box-shadow:0 5px 18px rgba(15,23,42,.08);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
     @media(max-width:780px){.ledger-editor .ledger-backline{top:4px;margin:-7px -7px 14px;padding:8px}}
   </style>
@@ -242,7 +248,7 @@
     <section class="ledger-pane" id="ledgerPane" role="tabpanel" aria-labelledby="tabLedger">
       <div class="ledger-home" id="ledgerHome">
         <div class="ledger-head">
-          <div><div class="ledger-home-title"><h2>记账项目</h2><span class="ledger-version" aria-label="目前版本 1.0.3">v1.0.3</span></div><p class="ledger-subtitle">搜索项目名称或明细内容，打开最近编辑的账本。</p></div>
+          <div><div class="ledger-home-title"><h2>记账项目</h2><span class="ledger-version" aria-label="目前版本 1.0.4">v1.0.4</span><span class="ledger-update-controls"><button type="button" id="manualUpdateBtn" class="ledger-update-btn">检查更新</button><span id="manualUpdateStatus" class="ledger-update-status" aria-live="polite"></span></span></div><p class="ledger-subtitle">搜索项目名称或明细内容，打开最近编辑的账本。</p></div>
           <div class="ledger-backup"><span id="autoBackupStatus" style="font-size:12px;color:#64748b;align-self:center">自動備份：等待連線</span><button type="button" id="ledgerBackupBtn" class="ledger-btn-light">备份记账资料</button><button type="button" id="ledgerRestoreBtn" class="ledger-btn-plain">导入备份</button></div>
         </div>
         <div class="ledger-tools"><input id="ledgerSearch" class="ledger-search" placeholder="搜索项目名称／公司或人／商品名称" aria-label="搜索记账项目"><button type="button" id="ledgerNewBtn" class="ledger-btn-primary">＋ 新建项目</button></div>
@@ -833,8 +839,46 @@ function ledgerCurrent(){return ledgerProjects.find(p=>p.id===activeLedgerId)||n
     }
     setInterval(()=>pushAutoBackup(),5*60*1000);
     window.addEventListener("focus",()=>pushAutoBackup());
-    // v1.0.3: The update client waits until local save + iCloud backup settle.
+    // v1.0.4: Manual update controls + safe update client waits until local save + iCloud backup settle.
     window.__ledgerUpdateCanReload = () => ledgerStorageOk && !backupBusy && (backupRevision === 0 || backupRevision === backedUpRevision);
+
+    // v1.0.4: Manual updater. The server still verifies version.json + SHA-256 before installation.
+    const manualUpdateBtn=document.getElementById("manualUpdateBtn");
+    const manualUpdateStatus=document.getElementById("manualUpdateStatus");
+    function setManualUpdateStatus(message,state=""){
+      if(!manualUpdateStatus)return;
+      manualUpdateStatus.textContent=message||"";
+      manualUpdateStatus.className="ledger-update-status"+(state?" "+state:"");
+    }
+    async function refreshManualUpdateStatus(){
+      try{
+        const r=await fetch("/api/update/status",{cache:"no-store"});
+        if(!r.ok)throw new Error(`HTTP ${r.status}`);
+        const body=await r.json();
+        const u=body.update||{};
+        if(u.status==="current")setManualUpdateStatus(`已是最新版本 v${body.installed_version||u.version||""}`,"ok");
+        else if(u.status==="ready")setManualUpdateStatus(`v${u.version} 已下载并验证，正在安全安装…`,"busy");
+        else if(u.status==="installed")setManualUpdateStatus(`已安装 v${u.version}，页面会在安全时自动刷新`,"ok");
+        else if(u.status==="error")setManualUpdateStatus(`更新失败：${u.message||"未知错误"}`,"err");
+        else if(u.status==="disabled")setManualUpdateStatus(u.message||"更新未启用","err");
+        return body;
+      }catch(e){setManualUpdateStatus(`无法读取更新状态：${e.message||e}`,"err");return null;}
+    }
+    if(manualUpdateBtn){
+      manualUpdateBtn.addEventListener("click",async()=>{
+        manualUpdateBtn.disabled=true;
+        setManualUpdateStatus("正在检查 GitHub 更新…","busy");
+        try{
+          const r=await fetch("/api/update/check",{method:"POST",headers:{"Content-Type":"text/plain"},body:"check",cache:"no-store"});
+          const body=await r.json().catch(()=>({}));
+          if(!r.ok)throw new Error(body.error||`HTTP ${r.status}`);
+          await refreshManualUpdateStatus();
+        }catch(e){setManualUpdateStatus(`更新失败：${e.message||e}`,"err");}
+        finally{manualUpdateBtn.disabled=false;}
+      });
+      // Show current update state shortly after the page opens.
+      setTimeout(refreshManualUpdateStatus,700);
+    }
     function ledgerSave(){const p=ledgerCurrent();if(p)p.editedAt=Date.now();try{localStorage.setItem(LEDGER_STORAGE_KEY,JSON.stringify(ledgerProjects));ledgerStorageOk=true;scheduleAutoBackup();const saved=ledgerEl("ledgerSavedText");if(saved)saved.textContent="已自动保存 · "+new Date().toLocaleTimeString("zh-CN",{hour:"2-digit",minute:"2-digit"});}catch(e){ledgerStorageOk=false;ledgerNotice("本机储存失败，请立即备份数据或检查浏览器储存权限。",true);}}
     function ledgerNotice(s,error=false){const node=ledgerEl("ledgerToast");node.textContent=s;node.className="ledger-toast"+(error?" error":"");node.hidden=!s;}
     function ledgerTab(which){const isLedger=which==="ledger";ledgerEl("ledgerPane").hidden=!isLedger;ledgerEl("invoicePane").hidden=isLedger;ledgerEl("tabLedger").setAttribute("aria-selected",String(isLedger));ledgerEl("tabInvoice").setAttribute("aria-selected",String(!isLedger));if(isLedger&&!activeLedgerId)ledgerRenderHome()}
