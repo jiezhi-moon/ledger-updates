@@ -234,32 +234,76 @@
     .ledger-editor .ledger-backline{position:sticky;top:8px;z-index:30;background:rgba(255,255,255,.97);padding:9px 12px;margin:-9px -12px 16px;border:1px solid #e2e8f0;border-radius:12px;box-shadow:0 5px 18px rgba(15,23,42,.08);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
     .ledger-top-actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap}.ledger-top-actions[hidden]{display:none}.ledger-backline #ledgerSavedText{margin-left:auto}
     @media(max-width:780px){.ledger-editor .ledger-backline{top:4px;margin:-7px -7px 14px;padding:8px}}
+
+    /* 1.0.6: compact import area and source-vs-calculated amount review. */
+    #dropZone{max-width:640px;padding:10px 12px;text-align:left;display:flex;align-items:center;gap:6px 10px;flex-wrap:wrap}
+    #dropZone strong{font-size:13px;margin:0}#dropZone small{font-size:12px;flex:1 1 260px}
+    .invoice-import-actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap}#dropZone .import-btn{margin:0}
+    #dropZone .type-row{margin:0;gap:5px;justify-content:flex-start!important}
+    .amount-mismatch{background:#fff1f2!important;border-color:#ef4444!important}
+    .item-row.amount-mismatch{box-shadow:inset 3px 0 #dc2626}
+    .amount-check-note{font-size:12px;color:#b91c1c;line-height:1.5;margin-top:8px}
+    tr.amount-mismatch>td,tr.amount-mismatch input{background-color:#fff1f2!important;color:#991b1b}
+    tr.amount-mismatch>td:first-child{box-shadow:inset 3px 0 #dc2626}
+
+    /* v1.0.8: project list, row search, two-axis scrolling and table-only zoom. */
+    .ledger-list-head,.ledger-project{display:grid;grid-template-columns:minmax(220px,1fr) minmax(220px,.8fr) minmax(150px,.5fr) 72px;align-items:center;gap:16px}
+    .ledger-list-head{padding:9px 15px;color:#64748b;font-size:12px;font-weight:700;background:#f1f5f9;border:1px solid #e2e8f0;border-radius:10px 10px 0 0}
+    .ledger-cards{display:flex;flex-direction:column;gap:0;border:1px solid #e2e8f0;border-top:0;border-radius:0 0 10px 10px;overflow:hidden;background:#fff}
+    .ledger-project{position:relative;border:0;border-bottom:1px solid #edf2f7;border-radius:0;padding:13px 15px;box-shadow:none;min-height:64px}
+    .ledger-project:last-child{border-bottom:0}.ledger-project:hover{background:#f8fafc;transform:none}
+    .ledger-project-title{margin:0;overflow-wrap:anywhere}.ledger-project-meta{margin:0;font-size:12px}.ledger-project-sum{margin:0;font-size:14px}
+    .ledger-project-delete{position:static;justify-self:end;margin:0}
+    .ledger-backup{flex-wrap:wrap}.ledger-cloud-status{font-size:12px;max-width:270px;line-height:1.5}.ledger-cloud-status.ok{color:#047857}.ledger-cloud-status.err{color:#b91c1c}
+    .ledger-inline-search{display:flex;align-items:center;gap:4px;flex-wrap:wrap}.ledger-inline-search input{width:clamp(170px,19vw,280px);height:34px;padding:0 9px;border:1px solid #cbd5e1;border-radius:8px;font:inherit;font-size:12px}
+    .ledger-inline-search button{height:30px;padding:0 8px;border-radius:7px;background:#f1f5f9;color:#475569}.ledger-inline-search button:disabled{opacity:.4;cursor:default}
+    #ledgerRowSearchCount{font-size:11px;color:#64748b;min-width:40px}
+    .ledger-table-tools{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin:0 0 8px;font-size:12px;color:#64748b}
+    .ledger-zoom-controls{display:flex;align-items:center;gap:8px}.ledger-zoom-controls input{width:105px}.ledger-zoom-controls button{height:28px;padding:0 9px;font-size:12px}#ledgerZoomValue{min-width:38px;color:#334155}
+    #ledgerTableWrap{overflow:auto;max-height:65vh;overscroll-behavior-x:contain;touch-action:pan-x pan-y}
+    #ledgerTableWrap thead{position:sticky;top:0;z-index:8}
+    tr.ledger-search-match>td{box-shadow:inset 0 -2px #fbbf24}tr.ledger-search-current{outline:2px solid #2563eb;outline-offset:-2px}
+    .ledger-scroll-nav{position:fixed;right:18px;bottom:20px;z-index:80;display:flex;flex-direction:column;gap:7px}.ledger-scroll-nav[hidden]{display:none}
+    .ledger-scroll-nav button{height:35px;padding:0 12px;background:#fff;border:1px solid #cbd5e1;border-radius:999px;color:#1d4ed8;box-shadow:0 3px 12px #0f172a18;font-size:12px}.ledger-scroll-nav button[hidden]{display:none}
+    .ledger-name-mode select{font:inherit;font-size:13px;border:1px solid #cbd5e1;border-radius:8px;padding:7px 9px;background:#fff}.ledger-name-mode span{font-size:12px;color:#64748b}
+    .unit-review,.unit-review input{background:#fffbeb!important}.unit-review input{border-color:#f59e0b!important}
+    @media(max-width:780px){.ledger-list-head{display:none}.ledger-cards{border-top:1px solid #e2e8f0;border-radius:10px}.ledger-project{grid-template-columns:minmax(0,1fr) 80px;gap:6px 10px}.ledger-project-title{grid-column:1;grid-row:1}.ledger-project-meta{grid-column:1;grid-row:2}.ledger-project-sum{grid-column:1;grid-row:3}.ledger-project-delete{grid-column:2;grid-row:1 / 4}.ledger-inline-search{width:100%}.ledger-inline-search input{flex:1;min-width:130px}.ledger-scroll-nav{right:10px;bottom:12px}#ledgerTableWrap{max-height:60vh}}
+
+    .app-actions{display:flex;align-items:center;gap:12px}.settings-button{padding:10px 14px;border:1px solid #dbe3ed;border-radius:12px;background:#fff;color:#475569;font:inherit;font-size:13px;white-space:nowrap}.settings-button:hover{background:#f1f5f9}
+    #settingsDialog{width:min(400px,calc(100vw - 32px));padding:24px;border:1px solid #e2e8f0;border-radius:18px;color:#1e293b;box-shadow:0 20px 80px #0f172a30}#settingsDialog::backdrop{background:#0f172a55}
+    .settings-heading{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px}.settings-heading h2{margin:0;font-size:20px}.settings-close{background:#f1f5f9;color:#475569;border-radius:8px;font-size:20px;padding:2px 9px}
+    .settings-layout{border:1px solid #e2e8f0;border-radius:12px;padding:16px;display:flex;gap:24px}.settings-layout legend{font-size:14px;padding:0 5px}.settings-layout label{display:flex;align-items:center;gap:5px;font-size:14px;cursor:pointer}#settingsSaved{font-size:12px;color:#64748b;margin:14px 0 20px}
+    #ledgerHome.home-grid .ledger-list-head{display:none}#ledgerHome.home-grid .ledger-cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px;background:transparent;border:0;border-radius:0;overflow:visible}
+    #ledgerHome.home-grid .ledger-project{display:flex;flex-direction:column;align-items:stretch;gap:9px;position:relative;padding:18px;border:1px solid #e2e8f0;border-radius:14px;background:#fff;min-height:165px}
+    #ledgerHome.home-grid .ledger-project:hover{border-color:#93b4f5;background:#f8fbff}#ledgerHome.home-grid .ledger-project-title{padding-right:48px;font-size:16px}#ledgerHome.home-grid .ledger-project-meta{line-height:1.6}#ledgerHome.home-grid .ledger-project-sum{margin-top:auto;font-size:18px;color:#1d4ed8;font-weight:700}#ledgerHome.home-grid .ledger-project-delete{position:absolute;right:12px;top:12px}
+    @media(max-width:540px){.app-bar{gap:10px;flex-wrap:wrap}.app-actions{margin-left:auto;gap:7px}.settings-button{padding:9px}.app-tabs button{padding-left:16px;padding-right:16px}}
   </style>
 </head>
 <body>
   <div class="wrap">
     <header class="app-bar">
       <div class="app-mark"><span class="app-mark-icon">账</span><span>业务工具</span></div>
-      <nav class="app-tabs" role="tablist" aria-label="功能切换">
+      <div class="app-actions"><button id="settingsBtn" type="button" aria-haspopup="dialog" class="settings-button">⚙ Setting</button><nav class="app-tabs" role="tablist" aria-label="功能切换">
         <button id="tabLedger" role="tab" aria-controls="ledgerPane" aria-selected="true" type="button">记账</button>
         <button id="tabInvoice" role="tab" aria-controls="invoicePane" aria-selected="false" type="button">开票</button>
-      </nav>
+      </nav></div>
     </header>
+    <dialog id="settingsDialog" aria-labelledby="settingsTitle"><form method="dialog"><div class="settings-heading"><h2 id="settingsTitle">Setting</h2><button class="settings-close" aria-label="關閉設定" type="submit">×</button></div><fieldset class="settings-layout"><legend>記帳首頁顯示方式</legend><label><input type="radio" name="homeLayout" value="list"> 列表</label><label><input type="radio" name="homeLayout" value="grid"> 格子</label></fieldset><p id="settingsSaved" role="status">設定會保存在此瀏覽器。</p><button type="submit" class="ledger-btn-primary">完成</button></form></dialog>
 
     <section class="ledger-pane" id="ledgerPane" role="tabpanel" aria-labelledby="tabLedger">
       <div class="ledger-home" id="ledgerHome">
         <div class="ledger-head">
-          <div><div class="ledger-home-title"><h2>记账项目</h2><span class="ledger-version" aria-label="目前版本 1.0.5">v1.0.5</span><span class="ledger-update-controls"><button type="button" id="manualUpdateBtn" class="ledger-update-btn">检查更新</button><span id="manualUpdateStatus" class="ledger-update-status" aria-live="polite"></span></span></div><p class="ledger-subtitle">搜索项目名称或明细内容，打开最近编辑的账本。</p></div>
-          <div class="ledger-backup"><span id="autoBackupStatus" style="font-size:12px;color:#64748b;align-self:center">自動備份：等待連線</span><button type="button" id="ledgerBackupBtn" class="ledger-btn-light">备份记账资料</button><button type="button" id="ledgerRestoreBtn" class="ledger-btn-plain">导入备份</button></div>
+          <div><div class="ledger-home-title"><h2>记账项目</h2><span class="ledger-version" aria-label="目前版本 1.0.8">v1.0.8</span><span class="ledger-update-controls"><button type="button" id="manualUpdateBtn" class="ledger-update-btn">檢查更新</button><button type="button" id="manualApplyBtn" class="ledger-update-btn" hidden>手動更新</button><span id="manualUpdateStatus" class="ledger-update-status" aria-live="polite"></span></span></div><p class="ledger-subtitle">搜索项目名称或明细内容，打开最近编辑的账本。</p></div>
+          <div class="ledger-backup"><span id="autoBackupStatus" style="font-size:12px;color:#64748b;align-self:center">自動備份：等待連線</span><button type="button" id="ledgerCloudBackupBtn" class="ledger-btn-primary">☁ 手動雲端備份</button><span id="ledgerCloudBackupStatus" class="ledger-cloud-status" role="status" aria-live="polite"></span><button type="button" id="ledgerBackupBtn" class="ledger-btn-light">备份记账资料</button><button type="button" id="ledgerRestoreBtn" class="ledger-btn-plain">导入备份</button></div>
         </div>
         <div class="ledger-tools"><input id="ledgerSearch" class="ledger-search" placeholder="搜索项目名称／公司或人／商品名称" aria-label="搜索记账项目"><button type="button" id="ledgerNewBtn" class="ledger-btn-primary">＋ 新建项目</button></div>
         <div class="ledger-section-title"><strong>最近编辑的项目</strong><span id="ledgerProjectCount" class="ledger-saved"></span></div>
-        <div id="ledgerProjectList" class="ledger-cards"></div>
+        <div class="ledger-list-head" aria-hidden="true"><span>項目名稱</span><span>筆數／最近更新</span><span>總價合計</span><span>操作</span></div><div id="ledgerProjectList" class="ledger-cards" aria-label="記帳項目列表"></div>
         <p class="ledger-note">记账内容会自动保存在本机浏览器。换电脑、清理浏览器数据或更换文件位置前，请先点击「备份记账资料」，以后可用「导入备份」恢复。</p>
       </div>
 
       <div class="ledger-editor" id="ledgerEditor" hidden>
-        <div class="ledger-backline"><button type="button" id="ledgerBackBtn" class="ledger-btn-plain">← 返回项目列表</button><div id="ledgerMergeActions" class="ledger-top-actions" hidden><button id="ledgerMergeConfirm" type="button" class="ledger-btn-primary">✓ 确认合并成一个框</button><button id="ledgerMergeCancel" type="button" class="ledger-btn-plain">取消合併</button></div><div id="ledgerCellActions" class="ledger-top-actions" hidden><button type="button" id="ledgerCellConfirm" class="ledger-btn-primary" disabled>✓ 確認合併</button><button type="button" id="ledgerCellCancel" class="ledger-btn-plain">取消合併</button></div><span class="ledger-saved" id="ledgerSavedText">自动保存</span></div>
+        <div class="ledger-backline"><button type="button" id="ledgerBackBtn" class="ledger-btn-plain">← 返回项目列表</button><div class="ledger-inline-search"><input id="ledgerRowSearch" type="search" placeholder="搜索此帳本明細" aria-label="搜索此帳本明細"><button id="ledgerRowSearchClear" type="button" title="清除搜索" aria-label="清除搜索">×</button><button id="ledgerRowSearchPrev" type="button" title="上一筆（Shift+Enter）" aria-label="上一筆搜索結果" disabled>↑</button><button id="ledgerRowSearchNext" type="button" title="下一筆（Enter）" aria-label="下一筆搜索結果" disabled>↓</button><span id="ledgerRowSearchCount" role="status" aria-live="polite"></span></div><div id="ledgerMergeActions" class="ledger-top-actions" hidden><button id="ledgerMergeConfirm" type="button" class="ledger-btn-primary">✓ 确认合并成一个框</button><button id="ledgerMergeCancel" type="button" class="ledger-btn-plain">取消合併</button></div><div id="ledgerCellActions" class="ledger-top-actions" hidden><button type="button" id="ledgerCellConfirm" class="ledger-btn-primary" disabled>✓ 確認合併</button><button type="button" id="ledgerCellCancel" class="ledger-btn-plain">取消合併</button></div><span class="ledger-saved" id="ledgerSavedText">自动保存</span></div>
         <div class="ledger-company"><label for="ledgerCompany">项目名</label><input id="ledgerCompany" placeholder="请输入项目名称" autocomplete="off"/></div>
         <div class="ledger-merge-startbar" hidden aria-hidden="true"><button type="button" id="ledgerMergeOpenBtn" class="ledger-btn-light">開啟合併</button><button type="button" id="ledgerColorOpenBtn" class="ledger-btn-light">🎨 標記顏色</button><span>開啟後不會預選任何格子；點一下選中，再點同一格取消。選完按「確認合併」。</span></div>
         <div id="ledgerColorBar" class="ledger-mergebar ledger-colorbar" hidden>
@@ -291,13 +335,13 @@
           <strong>合併前確認</strong><p id="ledgerWarningText"></p>
           <div class="ledger-warning-actions"><button type="button" id="ledgerWarningCancel" class="ledger-btn-plain">返回修改</button><button type="button" id="ledgerWarningConfirm" class="ledger-btn-primary">仍要合併</button></div>
         </div>
-        <div class="ledger-tablewrap"><table class="ledger-table" aria-label="记账明细">
+        <div class="ledger-table-tools"><span>雙指縮放表格；可同時上下、左右滑動</span><div class="ledger-zoom-controls"><label for="ledgerZoomRange">縮放</label><input type="range" id="ledgerZoomRange" min="50" max="200" step="5" value="100"><output id="ledgerZoomValue" for="ledgerZoomRange">100%</output><button id="ledgerZoomReset" type="button" class="ledger-btn-plain">重設</button></div></div><div id="ledgerTableWrap" class="ledger-tablewrap"><table class="ledger-table" aria-label="记账明细">
           <colgroup><col class="date-col"><col class="name-col"><col class="spec-col"><col class="qty-col"><col class="unit-col"><col class="price-col"><col class="amount-col"><col class="received-col"><col class="date-total-col"><col class="received-total-col"><col class="party-col"><col class="tax-col"><col class="delivery-col"><col class="op-col"></colgroup>
           <thead><tr><th>日期</th><th>名称</th><th>规格</th><th>数量</th><th>单位</th><th>单价</th><th>总价</th><th>实收</th><th>总价合计</th><th>实收合计</th><th>公司／人名称</th><th>开票状态</th><th>送货方式</th><th>操作</th></tr></thead>
           <tbody id="ledgerLines"></tbody>
         </table></div>
         <div id="ledgerMergeResults" class="ledger-merge-result" hidden></div>
-        <div class="ledger-amountline"><div style="display:flex;gap:8px;flex-wrap:wrap"><button id="ledgerAddBtn" type="button" class="ledger-btn-light">＋ 添加一笔</button><button id="ledgerPasteBtn" type="button" class="ledger-btn-primary">📋 貼上表格／文字導入</button></div><div class="ledger-totals"><span>总价合计 <b id="ledgerTotal">¥0.00</b></span><span>实收合计 <b id="ledgerReceived">¥0.00</b></span></div></div>
+        <div class="ledger-amountline"><div style="display:flex;gap:8px;flex-wrap:wrap"><button id="ledgerAddBtn" type="button" class="ledger-btn-light">＋ 添加一笔</button><button id="ledgerPasteBtn" type="button" class="ledger-btn-primary">📋 貼上表格／文字導入</button><button id="ledgerMediaBtn" type="button" class="ledger-btn-light">📷 導入圖片／PDF</button><input id="ledgerMediaFile" type="file" accept=".pdf,image/jpeg,image/png,image/webp,image/bmp" hidden></div><div class="ledger-totals"><span>总价合计 <b id="ledgerTotal">¥0.00</b></span><span>实收合计 <b id="ledgerReceived">¥0.00</b></span></div></div>
         <div id="ledgerStartSelect"><button id="ledgerSelectBtn" type="button" class="ledger-btn-primary ledger-select-start">选择明细转入开票</button></div>
         <div id="ledgerSelectionBar" class="ledger-selectionbar" hidden><span id="ledgerSelectedCount" class="ledger-select-count">已选择 0 笔</span><button type="button" class="ledger-btn-light" id="ledgerSelectAllBtn">全选当前项目</button><button type="button" class="ledger-btn-plain" id="ledgerClearBtn">清空选择</button><button type="button" class="ledger-btn-primary" id="ledgerConfirmBtn">确定，转入开票</button><button type="button" class="ledger-btn-plain" id="ledgerCancelBtn">取消</button></div>
         <p class="ledger-note"><strong>合併方法：</strong>點「開啟合併」後不會自動選中任何格子；自己點一下選中，<strong>再點同一格取消</strong>，選好相鄰的同欄格子後按「確認合併」。也能右鍵任意格子啟動合併，但右鍵啟動不會預選那一格。內容不同會提醒。<strong>總價合計及實收合計預設不合併。</strong>合併後框內有「解除合併」，可恢復每筆原值。</p>
@@ -306,9 +350,10 @@
 
     <div id="ledgerPasteDialog" class="paste-dialog" hidden role="dialog" aria-modal="true" aria-label="貼上文字導入">
       <div class="paste-panel">
-        <h2>📋 貼上表格／文字導入帳本明細</h2>
+        <h2>匯入帳本明細</h2><p>可選擇圖片／PDF 或貼上文字；導入後先以數量 × 單價計算總價，與來源總價不同的行標為紅色。</p>
         <p>可直接從 WPS／Excel 複製表格後貼入；如果剪貼簿包含 HTML 格式，會嘗試識別背景顏色和縱向合併儲存格。<strong>來源只有「總價合計／實收合計」而沒有「實收」時，實收保持空白、兩個合計分別對應原欄位。</strong>純文字無法恢復原本的顏色或合併資訊。先預覽核對，再追加，不覆蓋原帳本。</p>
-        <div class="paste-toolbar"><label for="ledgerPasteFile" class="ledger-btn-light" style="display:inline-flex;align-items:center;border-radius:9px;padding:8px 12px;cursor:pointer">📄 選擇 HTML／TXT 表格</label><input id="ledgerPasteFile" type="file" accept=".html,.htm,.txt,text/html,text/plain" style="display:none"><span style="font-size:12px;color:#64748b">RTF 請在 WPS/Pages 開啟後複製整個表格再貼上，以保留格式</span></div>
+        <div class="paste-toolbar"><label for="ledgerPasteFile" class="ledger-btn-light" style="display:inline-flex;align-items:center;border-radius:9px;padding:8px 12px;cursor:pointer">📄 選擇 HTML／TXT 表格</label><label for="ledgerMediaFile" class="ledger-btn-light" style="padding:8px 12px;border-radius:9px;cursor:pointer">📷 選擇圖片／PDF</label><input id="ledgerPasteFile" type="file" accept=".html,.htm,.txt,text/html,text/plain" style="display:none"><span style="font-size:12px;color:#64748b">RTF 請在 WPS/Pages 開啟後複製整個表格再貼上，以保留格式</span></div>
+        <div class="paste-toolbar ledger-name-mode"><label for="ledgerImportNameMode">導入商品名稱</label><select id="ledgerImportNameMode"><option value="preserve">保留來源商品名稱</option><option value="invoice">轉為開票名稱</option></select><span>可在確認加入前切換，預覽會同步更新。</span></div>
         <textarea id="ledgerPasteText" placeholder="例如：
 鋁壓索具
 24mm-6m
@@ -329,6 +374,7 @@
       <div id="ledgerFloating" class="ledger-floating" role="dialog" aria-label="记账批注或标记" hidden></div>
     </section>
 
+    <div id="ledgerScrollNav" class="ledger-scroll-nav" aria-label="記帳頁面捲動"><button id="ledgerScrollTop" type="button" hidden>↑ 回到最上</button><button id="ledgerScrollBottom" type="button">↓ 前往最下</button></div>
     <section id="invoicePane" role="tabpanel" aria-labelledby="tabInvoice" hidden>
     <div class="grid">
       <section class="card">
@@ -336,7 +382,7 @@
         <div class="drop" id="dropZone">
           <strong>导入文件</strong>
           <small>点击下面按钮选择文件，也可以把文件拖到这里。Excel 会直接读取；PDF / 图片会自动提取文字并在需要时 OCR。</small>
-          <button class="import-btn" id="chooseFileBtn" type="button">选择导入文件</button>
+          <div class="invoice-import-actions"><button class="import-btn" id="chooseFileBtn" type="button">选择导入文件</button><button class="danger-mini" id="invoiceClearBtn" type="button">清空</button></div>
           <div class="type-row" style="justify-content:center"><span class="type-tag">XLS / XLSX</span><span class="type-tag">PDF</span><span class="type-tag">JPG / JPEG</span><span class="type-tag">PNG</span><span class="type-tag">WEBP</span></div>
         </div>
         <input id="fileInput" type="file" accept=".xls,.xlsx,.xlsm,.pdf,image/jpeg,image/png,image/webp,image/bmp" />
@@ -351,7 +397,7 @@
 
         <div id="previewArea" style="display:none">
           <div class="preview-title"><b>识别结果（可编辑）</b><button class="secondary" id="addRowBtn" type="button">＋ 添加一行</button></div>
-          <div class="name-choose-note">点击「名称」输入框，下方会显示来自你提供的《下载.xls》的品名清单；输入文字可筛选，点击即可选用。</div>
+          <div class="name-choose-note">總價已按數量 × 單價計算；紅色行與來源總價不同，可查看該行的來源金額與差額。點擊名稱可選擇品名。</div>
           <div class="preview-wrap">
             <div class="item-list" id="previewBody"></div>
           </div>
@@ -363,14 +409,12 @@
         <div class="field"><label for="taxRate">默认税率（必填）</label><input id="taxRate" value="0.13" placeholder="例如：0.13 或 13%" /><div class="help">0.13 只是初始值，请按实际开票税率修改；导入文件本身存在“税率”时会优先使用文件值。</div></div>
         <div class="field"><label for="unit">默认单位（可空）</label><input id="unit" value="" placeholder="例如：个、件、箱" /></div>
         <div class="field"><label for="taxCode">默认商品和服务税收分类编码（可空）</label><input id="taxCode" value="" inputmode="numeric" placeholder="未维护项目信息时可填写" /><div class="help">编码会按文本写入，避免 19 位编码被 Excel 改成科学计数法。</div></div>
-        <div style="margin-top:16px;font-size:13px;font-weight:700;margin-bottom:8px">自动映射</div>
-        <div class="mapping"><span>名称</span><span class="arrow">→</span><span>项目名称</span><span>规格</span><span class="arrow">→</span><span>规格型号</span><span>数量</span><span class="arrow">→</span><span>商品数量</span><span>单价</span><span class="arrow">→</span><span>商品单价</span><span>总价</span><span class="arrow">→</span><span>金额</span></div>
-        <div class="ignored"><b>品名自动修正（预览与导出一致）：</b>強力環／鋁套／不鏽鋼卡頭／不鏽鋼花蘭 → 索具；蝴蝶扣 → 双环扣；大開口鉤／環眼鉤／貨櫃鉤／細筋鉤 → 吊钩；彩帶 → 吊带；法尔胜钢丝绳（含 OCR 误读“钢丝强”）→ 光面钢丝绳；不锈钢钢丝绳保持原名；光面钢丝绳不附加“强”字。只修改名称栏，規格、數量與價格不變。</div><div class="ignored">PDF / 图片最好包含清晰的表头，例如“名称、规格、数量、单价、总价/金额”。拍照时尽量正对表格，避免倾斜、阴影和模糊。</div>
+        <div class="ignored"><b>品名自动修正（预览与导出一致）：</b>強力環／鋁套／不鏽鋼卡頭／不鏽鋼花蘭 → 索具；蝴蝶扣 → 双环扣；大開口鉤／環眼鉤／貨櫃鉤／細筋鉤 → 吊钩；彩帶 → 吊带；法尔胜钢丝绳（含 OCR 误读“钢丝强”）→ 光面钢丝绳；不锈钢钢丝绳保持原名；光面钢丝绳不附加“强”字。钢管钩 → 吊钩；单头插编钢绳／插编钢绳索具 → 钢绳索具。總價優先按數量 × 單價計算，與來源不同的行標紅。</div><div class="ignored">PDF / 图片最好包含清晰的表头，例如“名称、规格、数量、单价、总价/金额”。拍照时尽量正对表格，避免倾斜、阴影和模糊。</div>
         <div class="status" id="status">请选择文件。Excel 转换完全在浏览器本地完成；PDF / 圖片優先使用 Mac 系統辨識，本機不可用時自動改用瀏覽器 OCR（需聯網）。</div>
         <div class="actions"><button class="primary" id="convertBtn" disabled>转换并下载 XLSX</button></div>
       </section>
     </div>
-    <div class="foot">实图测试版：2026-10-14。圖片及掃描 PDF 優先使用 Mac 系統文字辨識；本機不可用時自動改用瀏覽器 OCR（需聯網），請核對識別結果。输出文件名：<b>发票开具项目信息导入模板_自动修正后.xlsx</b>。目标模板原有工作表会保留；导出时会删除顶部“填表说明”整行，不再留下空白框。PDF 最多处理 200 页。遇到 Excel 横向打印成左右两组 PDF 页面时，会自动按行重新配对。</div>
+    <div class="foot">版本 1.0.8：2026-10-23。圖片及掃描 PDF 優先使用 Mac 系統文字辨識；本機不可用時自動改用瀏覽器 OCR（需聯網），請核對識別結果。输出文件名：<b>发票开具项目信息导入模板_自动修正后.xlsx</b>。目标模板原有工作表会保留；导出时会删除顶部“填表说明”整行，不再留下空白框。PDF 最多处理 200 页。遇到 Excel 横向打印成左右两组 PDF 页面时，会自动按行重新配对。</div>
     </section>
   </div>
 
@@ -384,11 +428,11 @@
     const PDF_MAX_PAGES = 200;
     const el = id => document.getElementById(id);
     const fileInput=el("fileInput"),dropZone=el("dropZone"),chooseFileBtn=el("chooseFileBtn"),convertBtn=el("convertBtn"),statusEl=el("status"),fileNameEl=el("fileName"),rowCountEl=el("rowCount"),previewArea=el("previewArea"),previewBody=el("previewBody"),ocrNote=el("ocrNote"),addRowBtn=el("addRowBtn");
-    let currentFile=null, parsed=null;
+    let currentFile=null, parsed=null,invoiceImportGeneration=0,importProgressSink=null;
     const PROJECT_NAME_OPTIONS = Object.freeze(["铝压索具", "索具", "钢绳索具", "镀锌索具", "铝压钢绳索具", "铝压钢绳", "压套", "先编后压索具", "吊钩", "子母环", "无接头绳圈", "四股钢绳索具", "不锈钢卡头", "不锈钢花兰", "链条调节器", "铝套", "不锈钢绳", "铝压镀锌索具", "货柜钩", "耳板", "轴+帽", "单板吊钩", "不锈钢钢丝绳", "滑车", "花篮螺栓", "模锻花兰", "花蓝螺栓", "环型尼龙绳", "D型焊接环", "蝶蝶扣", "钢绳插编", "镀塑钢丝绳索具", "花兰", "双环扣", "吊绳", "链条", "链条吊具", "卸扣", "钢板起重钳", "卡头", "光面钢丝绳", "镀锌钢丝绳", "吊带"]);
     const totalSummaryEl=el("totalSummary"),totalAmountEl=el("totalAmount"),totalTipEl=el("totalTip");
 
-    function status(msg,type=""){statusEl.className="status"+(type?" "+type:"");statusEl.textContent=msg}
+    function status(msg,type=""){if(importProgressSink){importProgressSink(msg,type);return}statusEl.className="status"+(type?" "+type:"");statusEl.textContent=msg}
     function norm(v){return String(v??"").replace(/\s+/g,"").trim()}
     function safeText(v){return v==null?"":String(v).trim()}
     function fmt(v){return v==null||v===""?"":String(v)}
@@ -404,7 +448,7 @@
     // 品名纠错依据真实 OCR 结果：汉字“绳”容易误识成“强”。
     // 只纠正明确的产品名，不能因误认把“不锈钢钢丝绳”归到索具。
     function normalizeItemName(value){
-      const original=safeText(value);
+      const original=normalizeLedgerImportName(value);
       const compact=original.replace(/[\s　·•,，。:：;；_—-]/g,"")
         .replace(/鋼/g,"钢").replace(/[絲糸]/g,"丝")
         .replace(/[繩縄]/g,"绳").replace(/[鏽銹]/g,"锈")
@@ -461,10 +505,10 @@
     function clusterFieldTokens(tokens){if(!tokens.length)return[];const tol=Math.max(.00045,median(tokens.map(t=>t.h||0))*.22),groups=[];for(const t of [...tokens].sort((a,b)=>a.cy-b.cy||a.x0-b.x0)){let g=groups.length?groups[groups.length-1]:null;if(!g||Math.abs(g.y-t.cy)>tol){g={y:t.cy,tokens:[]};groups.push(g)}g.tokens.push(t);g.y=g.tokens.reduce((s,q)=>s+q.cy,0)/g.tokens.length}return groups.map(g=>({y:g.y,text:g.tokens.sort((a,b)=>a.x0-b.x0).map(q=>cleanOcrText(q.text)).join("").trim()})).filter(c=>c.text)}
     function cellsFromTokens(tokens,anchors,headerY=null){const bounds=buildBounds(anchors),by={};for(const k of Object.keys(anchors))by[k]=[];for(const t of tokens){if(headerY!==null&&t.cy<=headerY+.0015)continue;for(const p of splitAcrossColumns(t,bounds))(by[p.field]??=[]).push(p)}const cells={};for(const [k,v] of Object.entries(by))cells[k]=clusterFieldTokens(v);return cells}
     function nearestIndex(cells,y){if(!cells.length)return-1;let bi=0,bd=Infinity;for(let i=0;i<cells.length;i++){const d=Math.abs(cells[i].y-y);if(d<bd){bd=d;bi=i}}return bi}
-    function parseQtyRaw(raw){let s=safeText(raw).replace(/[＋]/g,"+").replace(/[（]/g,"(").replace(/[）]/g,")");if(!s)return{qty:null,unit:""};s=s.split("(")[0].trim();const re=/(-?\d+(?:\.\d+)?)\s*([A-Za-z\u4e00-\u9fff]+)/g,parts=[];let m;while((m=re.exec(s)))parts.push([Number(m[1]),m[2]]);if(parts.length&&parts.every(p=>Number.isFinite(p[0]))){const unit=parts[0][1];if(parts.every(p=>p[1]===unit))return{qty:parts.reduce((n,p)=>n+p[0],0),unit};if(parts.length===1)return{qty:parts[0][0],unit}}const n=s.match(/^-?\d+(?:\.\d+)?/);return n?{qty:Number(n[0]),unit:s.slice(n[0].length).trim()}: {qty:null,unit:""}}
+    function parseQtyRaw(raw){let s=safeText(raw).replace(/[＋]/g,"+").replace(/[（]/g,"(").replace(/[）]/g,")");if(!s)return{qty:null,unit:""};s=s.split("(")[0].trim();const re=/(-?\d+(?:\.\d+)?)\s*([A-Za-z\u4e00-\u9fff]+)/g,parts=[];let m;while((m=re.exec(s)))parts.push([Number(m[1]),m[2]]);if(parts.length&&parts.every(p=>Number.isFinite(p[0]))){const unit=parts[0][1];if(parts.every(p=>p[1]===unit))return{qty:parts.reduce((n,p)=>n+p[0],0),unit};if(parts.length===1)return{qty:parts[0][0],unit}}const n=s.match(/^-?\d+(?:\.\d+)?/);return n?{qty:Number(n[0]),unit:s.slice(n[0].length).trim()}: {qty:null,unit:normalizeDetectedUnit(s)}}
     function strictNumber(s){s=safeText(s).replace(/[,，￥¥]/g,"").replace(/[OoＯ]/g,"0");return /^-?\d+(?:\.\d+)?$/.test(s)?Number(s):null}
-    function rowsFromCells(cells,source=""){const names=cells.name||[],specs=cells.spec||[],qtys=cells.qty||[],prices=cells.price||[],amounts=cells.amount||[];const result=[],meta={skipped:0,combined:0};if(!names.length||!qtys.length||!amounts.length){meta.skipped=qtys.length;return{rows:result,...meta}}const qBy=names.map(()=>[]),sBy=names.map(()=>[]),pBy=names.map(()=>[]),aBy=names.map(()=>[]);for(const q of qtys)qBy[nearestIndex(names,q.y)].push(q);for(const q of specs)sBy[nearestIndex(names,q.y)].push(q);for(const q of prices)pBy[nearestIndex(names,q.y)].push(q);for(const q of amounts)aBy[nearestIndex(names,q.y)].push(q);for(let ni=0;ni<names.length;ni++){const qrows=qBy[ni].sort((a,b)=>a.y-b.y),sg=sBy[ni],pg=pBy[ni],ag=aBy[ni].sort((a,b)=>a.y-b.y);if(!qrows.length)continue;if(!ag.length){meta.skipped+=qrows.length;continue}const assigned=ag.map(()=>[]);for(const q of qrows)assigned[nearestIndex(ag,q.y)].push(q);for(let ai=0;ai<ag.length;ai++){const amount=strictNumber(ag[ai].text),sub=assigned[ai];if(!sub.length)continue;if(amount===null){meta.skipped+=sub.length;continue}if(sub.length===1){const q=sub[0],specCell=sg.length?sg[nearestIndex(sg,q.y)]:null,priceCell=pg.length?pg[nearestIndex(pg,q.y)]:null,{qty,unit}=parseQtyRaw(q.text),price=priceCell?strictNumber(priceCell.text):null;let qOut=qty,pOut=price,uOut=unit;if(qOut===null||pOut===null||Math.abs(qOut*pOut-amount)>.011){qOut=null;pOut=null;uOut=""}result.push({name:names[ni].text,spec:specCell?specCell.text:"",qty:qOut,unit:uOut,price:pOut,amount,rateRaw:null,code:"",policy:"",source})}else{const bits=sub.map(q=>{const sc=sg.length?sg[nearestIndex(sg,q.y)]:null;return (sc?sc.text:"")+(q.text?"×"+q.text:"")}).filter(Boolean);result.push({name:names[ni].text,spec:bits.join("；"),qty:null,unit:"",price:null,amount,rateRaw:null,code:"",policy:"",source});meta.combined++}}}return{rows:result,...meta}}
-    function fallbackParseText(text){const rows=[];for(let raw of String(text||"").split(/\r?\n/)){let line=raw.trim();if(!line||/(名称.*规格.*数量|合计|总计|实收|备注)/.test(norm(line)))continue;let parts=line.split(/\t|\s{2,}/).map(s=>s.trim()).filter(Boolean);if(parts.length>=5){const amount=strictNumber(parts[parts.length-1]),price=strictNumber(parts[parts.length-2]);if(amount!==null){const q=parseQtyRaw(parts[parts.length-3]),name=parts.slice(0,-4).join(" ")||parts[0],spec=parts[parts.length-4]||"";let qty=q.qty,p=price,unit=q.unit;if(qty===null||p===null||Math.abs(qty*p-amount)>.011){qty=null;p=null;unit=""}rows.push({name,spec,qty,price:p,amount,unit,rateRaw:null,code:"",policy:""})}}}return rows}
+    function rowsFromCells(cells,source=""){const names=cells.name||[],specs=cells.spec||[],qtys=cells.qty||[],prices=cells.price||[],amounts=cells.amount||[];const result=[],meta={skipped:0,combined:0};if(!names.length||!qtys.length||!amounts.length){meta.skipped=qtys.length;return{rows:result,...meta}}const qBy=names.map(()=>[]),sBy=names.map(()=>[]),pBy=names.map(()=>[]),aBy=names.map(()=>[]);for(const q of qtys)qBy[nearestIndex(names,q.y)].push(q);for(const q of specs)sBy[nearestIndex(names,q.y)].push(q);for(const q of prices)pBy[nearestIndex(names,q.y)].push(q);for(const q of amounts)aBy[nearestIndex(names,q.y)].push(q);for(let ni=0;ni<names.length;ni++){const qrows=qBy[ni].sort((a,b)=>a.y-b.y),sg=sBy[ni],pg=pBy[ni],ag=aBy[ni].sort((a,b)=>a.y-b.y);if(!qrows.length)continue;if(!ag.length){meta.skipped+=qrows.length;continue}const assigned=ag.map(()=>[]);for(const q of qrows)assigned[nearestIndex(ag,q.y)].push(q);for(let ai=0;ai<ag.length;ai++){const amount=strictNumber(ag[ai].text),sub=assigned[ai];if(!sub.length)continue;if(amount===null){meta.skipped+=sub.length;continue}if(sub.length===1){const q=sub[0],specCell=sg.length?sg[nearestIndex(sg,q.y)]:null,priceCell=pg.length?pg[nearestIndex(pg,q.y)]:null,{qty,unit}=parseQtyRaw(q.text),price=priceCell?strictNumber(priceCell.text):null;let qOut=qty,pOut=price,uOut=unit;result.push({name:names[ni].text,spec:specCell?specCell.text:"",qty:qOut,unit:uOut,price:pOut,amount,rateRaw:null,code:"",policy:"",source})}else{const bits=sub.map(q=>{const sc=sg.length?sg[nearestIndex(sg,q.y)]:null;return (sc?sc.text:"")+(q.text?"×"+q.text:"")}).filter(Boolean);result.push({name:names[ni].text,spec:bits.join("；"),qty:null,unit:"",price:null,amount,rateRaw:null,code:"",policy:"",source});meta.combined++}}}return{rows:result,...meta}}
+    function fallbackParseText(text){const rows=[];for(let raw of String(text||"").split(/\r?\n/)){let line=raw.trim();if(!line||/(名称.*规格.*数量|合计|总计|实收|备注)/.test(norm(line)))continue;let parts=line.split(/\t|\s{2,}/).map(s=>s.trim()).filter(Boolean);if(parts.length>=5){const amount=strictNumber(parts[parts.length-1]),price=strictNumber(parts[parts.length-2]);if(amount!==null){const q=parseQtyRaw(parts[parts.length-3]),name=parts.slice(0,-4).join(" ")||parts[0],spec=parts[parts.length-4]||"";let qty=q.qty,p=price,unit=q.unit;rows.push({name,spec,qty,price:p,amount,unit,rateRaw:null,code:"",policy:""})}}}return rows}
 
     let browserOcrLoader=null;
     async function loadBrowserOcr(){
@@ -490,15 +534,21 @@
       if(worker.usedBrowser)return worker.usedNative?"本機辨識中斷，已自動改用瀏覽器 OCR":"本機辨識不可用，已自動改用瀏覽器 OCR";
       return "Mac 系統文字辨識";
     }
+    function reportOcrStatus(worker,message,type=''){
+      const context=worker?.progressContext;
+      if(!context){status(message,type);return}
+      if(context.sink){if(importProgressSink===context.sink)context.sink(message,type)}
+      else if(context.invoiceGeneration===invoiceImportGeneration)status(message,type);
+    }
     async function createOcrWorker(){
       const local=location.protocol==="http:"&&location.hostname==="127.0.0.1";
-      return {native:local,usedNative:false,usedBrowser:false,browserWorker:null,browserLanguage:"",
+      return {progressContext:{sink:importProgressSink,invoiceGeneration:invoiceImportGeneration},native:local,usedNative:false,usedBrowser:false,browserWorker:null,browserLanguage:"",
         fallbackReason:local?"":"目前不是本機服務頁面",
         async terminate(){if(this.browserWorker){const w=this.browserWorker;this.browserWorker=null;await w.terminate()}}
       };
     }
-    async function nativeOcrCanvas(canvas,label,regions,mode){
-      status(`正在使用 Mac 系統文字辨識：${label}…`);
+    async function nativeOcrCanvas(canvas,label,regions,mode,worker){
+      reportOcrStatus(worker,`正在使用 Mac 系統文字辨識：${label}…`);
       const blob=await new Promise((resolve,reject)=>canvas.toBlob(b=>b?resolve(b):reject(new Error("圖片轉換失敗")),"image/png"));
       const controller=new AbortController(),timer=setTimeout(()=>controller.abort(),45000);
       try{
@@ -513,13 +563,13 @@
       }finally{clearTimeout(timer)}
     }
     async function browserOcrCanvas(canvas,worker,label,psm,mode){
-      status(`${ocrEngineLabel(worker)}，正在識別${label}…（首次使用需下載元件與語言模型）`,"warn");
+      reportOcrStatus(worker,`${ocrEngineLabel(worker)}，正在識別${label}…（首次使用需下載元件與語言模型）`,"warn");
       await loadBrowserOcr();
       const language=mode==="number"?"eng":"chi_sim+eng";
       if(!worker.browserWorker){
         let expired=false,timer;
         const pending=Tesseract.createWorker(language,1,{logger:m=>{
-          if(m.status==="recognizing text"&&Number.isFinite(m.progress))status(`${ocrEngineLabel(worker)}：${label} ${Math.round(m.progress*100)}%`,"warn");
+          if(m.status==="recognizing text"&&Number.isFinite(m.progress))reportOcrStatus(worker,`${ocrEngineLabel(worker)}：${label} ${Math.round(m.progress*100)}%`,"warn");
         }});
         pending.then(w=>{if(expired)w.terminate().catch(()=>{})},()=>{});
         try{
@@ -537,159 +587,238 @@
       return {words,text:d.text||""};
     }
     async function ocrCanvas(canvas,worker,label,psm=3,regions=null,mode="text"){
+      if(worker.progressContext&&!worker.progressContext.sink&&worker.progressContext.invoiceGeneration!==invoiceImportGeneration)throw new Error('已取消導入');
       if(worker.native){
-        try{const result=await nativeOcrCanvas(canvas,label,regions,mode);worker.usedNative=true;return result}
+        try{const result=await nativeOcrCanvas(canvas,label,regions,mode,worker);worker.usedNative=true;return result}
         catch(error){worker.native=false;worker.fallbackReason=error.message||String(error)}
       }
       worker.usedBrowser=true;
       try{return await browserOcrCanvas(canvas,worker,label,psm,mode)}
       catch(error){throw new Error(`本機辨識不可用（${worker.fallbackReason}）；備援 OCR 失敗：${error.message||error}`)}
     }
-        async function imageFileToCanvas(file){const url=URL.createObjectURL(file);try{const img=await new Promise((resolve,reject)=>{const im=new Image();im.onload=()=>resolve(im);im.onerror=()=>reject(new Error("图片读取失败。"));im.src=url});const maxW=6000,scale=Math.min(img.naturalHeight<450?2:1, maxW/img.naturalWidth || 1);const canvas=document.createElement("canvas");canvas.width=Math.max(1,Math.round(img.naturalWidth*scale));canvas.height=Math.max(1,Math.round(img.naturalHeight*scale));const ctx=canvas.getContext("2d");ctx.fillStyle="#fff";ctx.fillRect(0,0,canvas.width,canvas.height);ctx.drawImage(img,0,0,canvas.width,canvas.height);return canvas}finally{URL.revokeObjectURL(url)}}
+        async function imageFileToCanvas(file){const url=URL.createObjectURL(file);try{const img=await new Promise((resolve,reject)=>{const im=new Image();im.onload=()=>resolve(im);im.onerror=()=>reject(new Error("图片读取失败。"));im.src=url});const maxW=6000,scale=Math.min(img.naturalHeight<180?2:1, maxW/img.naturalWidth || 1);const canvas=document.createElement("canvas");canvas.width=Math.max(1,Math.round(img.naturalWidth*scale));canvas.height=Math.max(1,Math.round(img.naturalHeight*scale));const ctx=canvas.getContext("2d");ctx.fillStyle="#fff";ctx.fillRect(0,0,canvas.width,canvas.height);ctx.drawImage(img,0,0,canvas.width,canvas.height);return canvas}finally{URL.revokeObjectURL(url)}}
     // 表格圖片先偵測實際欄線／列線，不能因為 OCR 失敗就丟掉整列。
-    function detectGridGeometry(canvas,hasDate=false){
-      const w=canvas.width,h=canvas.height,ctx=canvas.getContext("2d",{willReadFrequently:true});
-      const data=ctx.getImageData(0,0,w,h).data;
-      function dark(x,y){const k=(y*w+x)*4;return data[k]<145&&data[k+1]<145&&data[k+2]<145&&data[k+3]>100}
-      function centers(indices,gap){const runs=[];for(const v of indices){let r=runs[runs.length-1];if(!r||v-r[r.length-1]>gap)runs.push([v]);else r.push(v)}return runs.map(r=>Math.round((r[0]+r[r.length-1])/2))}
-      const dx=Math.max(1,Math.round(w/3500)),dy=Math.max(1,Math.round(h/1500));
-      const xs=[];
-      for(let x=dx;x<w-dx;x+=dx){let n=0,t=0;for(let y=dy;y<h-dy;y+=Math.max(1,dy*2)){n+=dark(x,y)?1:0;t++}if(t&&n/t>.68)xs.push(x)}
-      // Keep outer borders even when a table is inset from the image edge.
-      const all=centers(xs,dx*2+1);
-      let edges;
-      if(all.length>=8||hasDate)edges=all.slice(1,7); // 日期＋五個商品欄＋合計（可另有實收）
-      else if(all.length>=6)edges=all.slice(0,6); // 普通五欄表
-      else return null;
-      if(edges.some((x,i)=>i>0&&x-edges[i-1]<w*.045))return null;
-      const left=edges[0],right=edges[5];
-      const ys=[];
-      for(let y=dy;y<h-dy;y+=dy){let n=0,t=0;for(let x=left+2;x<right-2;x+=Math.max(1,dx*2)){n+=dark(x,y)?1:0;t++}if(t&&n/t>.62)ys.push(y)}
-      const divs=centers(ys,dy*2+1).filter(y=>y>=1&&y<h-1);
-      const bands=[];
-      for(let i=1;i<divs.length;i++){
-        const a=divs[i-1],b=divs[i];
-        if(b-a>=Math.max(10,h*.012)&&b-a<h*.18)bands.push([a/h,b/h]);
-      }
-      if(bands.length<2)return null;
-      // A missing internal separator joins only the cells in that column.
-      // This preserves merged names/specifications without filling genuinely empty cells.
-      const spans=edges.slice(0,5).map((x,ci)=>{
-        const ranges=[];let start=0;
-        for(let ri=1;ri<bands.length;ri++){
-          const y=Math.round(bands[ri][0]*h),x0=x+Math.max(3,dx*3),x1=edges[ci+1]-Math.max(3,dx*3);
-          let hits=0,total=0;
-          for(let px=x0;px<x1;px+=Math.max(1,dx*2)){
-            total++;if([-dy,0,dy].some(d=>dark(px,Math.max(0,Math.min(h-1,y+d)))))hits++;
-          }
-          if(total&&hits/total>.65){ranges.push([start,ri-1]);start=ri}
-        }
-        ranges.push([start,bands.length-1]);return ranges;
-      });
-      return {edges:edges.map(x=>x/w),bands,spans,dateProbe:all.length===7&&!hasDate?[all[0]/w,all[1]/w]:null};
+    function normalizeDetectedUnit(value){
+      const s=safeText(value).replace(/[\s|｜]/g,'');
+      const units={條:'条',条:'条',只:'只',個:'个',个:'个',件:'件',根:'根',米:'m',m:'m',M:'m',公斤:'kg',kg:'kg',KG:'kg',噸:'吨',吨:'吨',套:'套',副:'副',付:'付',台:'台',組:'组',组:'组',箱:'箱',趟:'趟',卷:'卷',包:'包',張:'张',张:'张',支:'支',雙:'双',双:'双',片:'片',輛:'辆',辆:'辆',袋:'袋',本:'本',t:'t',T:'t',磅:'磅',lb:'lb',LB:'lb'};
+      return units[s]||'';
     }
-    function parseGridImage(tokens,grid){
+    async function probeGridUnits(canvas,grid,worker){
+      if(grid.headerFields||grid.edges.length<7)return;
+      const x0=Math.round(grid.edges[3]*canvas.width)+2,x1=Math.round(grid.edges[4]*canvas.width)-2,crop=document.createElement('canvas');
+      crop.width=Math.max(2,x1-x0);crop.height=canvas.height;
+      crop.getContext('2d').drawImage(canvas,x0,0,crop.width,crop.height,0,0,crop.width,crop.height);
+      const result=await ocrCanvas(crop,worker,'檢查獨立單位欄',6,null,'text');
+      const lines=result.text.split(/\r?\n/).map(t=>t.trim()).filter(Boolean),units=lines.filter(t=>normalizeDetectedUnit(t));
+      if(/单位|單位/.test(result.text)||units.length&&units.length>=lines.length*.6)grid.separateUnit=true;
+    }
+    async function recognizeGridHeaders(canvas,grid,worker){
+      const band=grid.bands[0],y=Math.round(band[0]*canvas.height),height=Math.max(2,Math.round((band[1]-band[0])*canvas.height)),crop=document.createElement('canvas');crop.width=canvas.width;crop.height=height;
+      crop.getContext('2d').drawImage(canvas,0,y,canvas.width,height,0,0,canvas.width,height);
+      const result=await ocrCanvas(crop,worker,'表頭欄位',6),fields=grid.edges.slice(0,-1).map((_,i)=>{
+        const text=result.words.filter(t=>t.cx>=grid.edges[i]&&t.cx<grid.edges[i+1]).sort((a,b)=>a.x0-b.x0).map(t=>t.text).join('');return pasteHeaderKey(text);
+      });
+      if(['name','spec','qty','price','amount'].every(k=>fields.includes(k)))grid.headerFields=fields;
+    }
+    async function recoverGridUnits(canvas,grid,worker,rows){
+      const fields=gridFieldKeys(grid,true),qtyCol=fields.indexOf('qty'),unitCol=fields.indexOf('unit');if(qtyCol<0)return;
+      for(const row of rows){
+        const known=normalizeDetectedUnit(row.unit);if(known){row.unit=known;row._unitMissing=false;continue}
+        const ci=unitCol>=0?unitCol:qtyCol,span=grid.spans[ci].find(([a,b])=>row._band>=a&&row._band<=b)||[row._band,row._band];
+        const left=Math.round(grid.edges[unitCol>=0?qtyCol:ci]*canvas.width)+2,right=Math.round(grid.edges[ci+1]*canvas.width)-2;
+        const top=Math.round(grid.bands[span[0]][0]*canvas.height)+2,bottom=Math.round(grid.bands[span[1]][1]*canvas.height)-2;
+        const width=Math.max(2,right-left),height=Math.max(2,bottom-top);
+        for(const factor of [Math.max(1,Math.min(3,80/height)),1]){
+          const pad=20,crop=document.createElement('canvas');crop.width=Math.round(width*factor)+pad*2;crop.height=Math.round(height*factor)+pad*2;
+          const ctx=crop.getContext('2d');ctx.fillStyle='#fff';ctx.fillRect(0,0,crop.width,crop.height);ctx.drawImage(canvas,left,top,width,height,pad,pad,width*factor,height*factor);
+          if(unitCol>=0){const divider=pad+(grid.edges[unitCol]*canvas.width-left)*factor;ctx.fillStyle='#fff';ctx.fillRect(divider-3*factor,pad,6*factor,height*factor)}
+          const result=await ocrCanvas(crop,worker,`第 ${row._band+1} 行單位重試`,7,null,'quantity');
+          const raw=result.text.replace(/\s/g,''),q=parseQtyRaw(raw),unit=normalizeDetectedUnit(q.unit)||normalizeDetectedUnit(raw);
+          if(!unit||row.qty!==null&&q.qty!==null&&Math.abs(row.qty-q.qty)>1e-8)continue;
+          row.unit=unit;if(row.qty===null&&q.qty!==null)row.qty=q.qty;break;
+        }
+        row._unitMissing=!normalizeDetectedUnit(row.unit);
+      }
+    }
+    function detectGridGeometry(canvas){
+      const w=canvas.width,h=canvas.height,data=canvas.getContext('2d',{willReadFrequently:true}).getImageData(0,0,w,h).data;
+      const ink=(x,y)=>{const k=(Math.max(0,Math.min(h-1,Math.round(y)))*w+Math.max(0,Math.min(w-1,Math.round(x))))*4;const r=data[k],g=data[k+1],b=data[k+2];return data[k+3]>100&&Math.max(r,g,b)-Math.min(r,g,b)<25&&(r+g+b)/3<243};
+      const centers=(values,gap)=>{const out=[];for(const v of values){const q=out.at(-1);if(!q||v-q.at(-1)>gap)out.push([v]);else q.push(v)}return out.map(a=>Math.round((a[0]+a.at(-1))/2))};
+      const step=Math.max(1,Math.floor(w/3500)),ysStep=Math.max(1,Math.floor(h/1800));let found=[];
+      for(let x=0;x<w;x+=step){let n=0,t=0,green=0;for(let y=0;y<h;y+=ysStep){n+=ink(x,y);const k=(y*w+x)*4;green+=data[k+1]-data[k]>50&&data[k+1]-data[k+2]>30;t++}if(n/t>.79||green/t>.35)found.push(x)}
+      let xs=centers(found,step*2);
+      if(!xs.length)return null;
+      if(xs[0]>w*.04)xs.unshift(0);
+      if(xs.at(-1)<w*.96)xs.push(w-1);
+      // A light grey spreadsheet grid is as useful as a black printed grid.
+      xs=xs.filter((x,i)=>!i||x-xs[i-1]>Math.max(3,w*.012));
+      if(xs.length<6)return null;
+      found=[];
+      // Specifications through line amount: these lines continue across merged names.
+      const l=xs[Math.min(2,xs.length-2)],r=xs[Math.min(5,xs.length-1)];
+      for(let y=0;y<h;y+=ysStep){let n=0,t=0;for(let x=l+2;x<r-2;x+=step*2){n+=ink(x,y);t++}if(t&&n/t>.62)found.push(y)}
+      let divs=centers(found,ysStep*2);
+      if(!divs.length)divs=[0,h-1];
+      else{if(divs[0]>h*.04)divs.unshift(0);if(divs.at(-1)<h*.96)divs.push(h-1)}
+      const gaps=divs.slice(1).map((y,i)=>y-divs[i]),minGap=Math.max(6,median(gaps)*.28),bands=[];
+      for(let i=1;i<divs.length;i++)if(divs[i]-divs[i-1]>=minGap)bands.push([divs[i-1]/h,divs[i]/h]);
+      if(!bands.length)return null;
+      const spans=xs.slice(0,-1).map((x,ci)=>{
+        const out=[];let start=0;
+        for(let ri=1;ri<bands.length;ri++){
+          const y=bands[ri][0]*h;let n=0,t=0;
+          for(let px=x+4;px<xs[ci+1]-4;px+=step*2){n+=[-ysStep,0,ysStep].some(d=>ink(px,y+d));t++}
+          if(t&&n/t>.62){out.push([start,ri-1]);start=ri}
+        }
+        out.push([start,bands.length-1]);return out;
+      });
+      return {edges:xs.map(x=>x/w),bands,spans,offset:0};
+    }
+    function gridFieldKeys(grid,includeLedger=false){
+      if(grid.headerFields){const keys=grid.headerFields;return includeLedger?keys:keys.slice(0,Math.max(keys.indexOf('amount')+1,keys.indexOf('unit')+1))}
+      const keys=['name','spec','qty',...(grid.separateUnit?['unit']:[]),'price','amount','amountTotal','receivedTotal','party','taxStatus','delivery'];
+      return keys.slice(0,Math.min(grid.edges.length-1,includeLedger?keys.length:grid.separateUnit?6:5));
+    }
+    function parseGridImage(tokens,grid,includeLedger=false){
       if(!grid)return[];
-      const edges=grid.edges,fields=["name","spec","qty","price","amount"];
-      const groups=grid.bands.map(()=>fields.map(()=>[]));
+      const fields=gridFieldKeys(grid,includeLedger),groups=grid.bands.map(()=>fields.map(()=>[]));
       for(const t of tokens){
-        const ci=edges.findIndex((v,i)=>i<5&&t.cx>=v&&t.cx<edges[i+1]);
-        if(ci<0)continue;
-        const span=(grid.spans?.[ci]||grid.bands.map((_,i)=>[i,i])).find(([a,b])=>t.cy>=grid.bands[a][0]&&t.cy<=grid.bands[b][1]);
+        const ci=grid.edges.findIndex((x,i)=>i<fields.length&&t.cx>=x&&t.cx<grid.edges[i+1]);if(ci<0)continue;
+        const span=grid.spans[ci].find(([a,b])=>t.cy>=grid.bands[a][0]&&t.cy<=grid.bands[b][1]);
         if(span)for(let ri=span[0];ri<=span[1];ri++)groups[ri][ci].push(t);
       }
-      // 每个网格行保留 _band 编号，避免因 OCR 漏行导致其他行字段错位。
       return groups.map((cols,i)=>{
-        const vals=cols.map(arr=>arr.sort((a,b)=>Math.abs(a.cy-b.cy)>.012?a.cy-b.cy:a.x0-b.x0).map(t=>t.text).join("").replace(/[|｜]/g,"").trim());
-        const q=parseQtyRaw(vals[2]);
-        if(q.qty===null){const unit=vals[2].replace(/條/g,"条");if(/^条+$/.test(unit))q.unit="条"}
-        return {_band:i,name:vals[0],spec:vals[1],qty:q.qty,unit:q.unit,price:strictNumber(vals[3]),amount:strictNumber(vals[4]),rateRaw:null,code:"",policy:""};
+        const vals=cols.map(a=>a.sort((a,b)=>Math.abs(a.cy-b.cy)>.1*(a.h+b.h)?a.cy-b.cy:a.x0-b.x0).map(t=>t.text).join('').replace(/[|｜]/g,'').trim());
+        const raw=Object.fromEntries(fields.map((k,j)=>[k,vals[j]]));
+        const q=parseQtyRaw(raw.qty||'');q.unit=normalizeDetectedUnit(raw.unit)||normalizeDetectedUnit(q.unit)||q.unit;if(q.qty===null&&/^条+$/.test((raw.qty||'').replace(/條/g,'条')))q.unit='条';
+        const out={_band:i,name:raw.name||'',spec:raw.spec||'',qty:q.qty,unit:q.unit,price:strictNumber(raw.price),amount:strictNumber(raw.amount),rateRaw:null,code:'',policy:''};
+        if(includeLedger){
+          for(const key of ['amountTotal','receivedTotal'])out[key]=raw[key]?strictNumber(raw[key]):'';
+          for(const key of ['party','taxStatus','delivery'])out[key]=raw[key]||'';
+          out.importedTotals=fields.includes('amountTotal')||fields.includes('receivedTotal');
+          // Shared totals are stored once; their merged display is restored in the ledger.
+          for(let ci=0;ci<fields.length;ci++)if(['amountTotal','receivedTotal','party','taxStatus','delivery'].includes(fields[ci])&&grid.spans[ci].some(([a,b])=>i>a&&i<=b))out[fields[ci]]='';
+        }
+        return out;
       });
     }
     function finalizeGridRows(rows){
-      const out=[];
-      for(const r of rows){
-        const n=norm(r.name),s=norm(r.spec);
-        if(/^(名称|项目名称|日期|合计|总计|实收)$/.test(n)||/^(规格|规格型号)$/.test(s))continue;
-        // 排除标题、空表格格子、尾部统计，不擅自用前一行名称覆盖缺失品名。
-        if(!(r.spec||r.qty!==null||r.price!==null||r.amount!==null))continue;
-        out.push(r);
-      }
-      return out;
+      return rows.filter(r=>!(/^(名称|名稱|项目名称|項目名稱|日期|合计|合計|总计|總計|实收|實收)$/.test(norm(r.name))||/^(规格|規格|规格型号|規格型號)$/.test(norm(r.spec))))
+        .filter(r=>r.spec||r.qty!==null||r.price!==null||r.amount!==null);
     }
-    async function recognizeGridColumns(canvas,grid,worker){
-      const edges=grid.edges.map(x=>Math.round(x*canvas.width)),tokens=[];
-      for(let ci=0;ci<5;ci++){
-        const x0=edges[ci],x1=edges[ci+1],pad=Math.min(14,Math.round((x1-x0)*.028));
-        const width=Math.max(2,x1-x0-pad*2),height=canvas.height;
-        const cropped=document.createElement("canvas");cropped.width=width;cropped.height=height;
-        const c=cropped.getContext("2d");c.fillStyle="#fff";c.fillRect(0,0,width,height);c.drawImage(canvas,x0+pad,0,width,height,0,0,width,height);
-        // Remove horizontal borders before OCR, including the border through a
-        // neighbouring row when this column has a vertically merged cell.
-        const linePad=Math.max(2,Math.round(canvas.width/700));
-        const boundaries=new Set();
-        for(const [a,b] of grid.spans[ci]){boundaries.add(grid.bands[a][0]);boundaries.add(grid.bands[b][1])}
-        for(const y of boundaries)c.fillRect(0,Math.round(y*height)-linePad,width,linePad*2+1);
-        status(`正在逐列识别… ${ci+1}/5`);
-        // The system engine handles both Chinese text and numeric columns.
-        // Keep a readable size for short quantity-and-unit cells.
-        let input=cropped;
-        if(ci===2){input=document.createElement("canvas");input.width=Math.round(width*2.5);input.height=Math.round(height*2.5);input.getContext("2d").drawImage(cropped,0,0,input.width,input.height)}
-        const regions=ci===2?grid.spans[ci].map(([a,b])=>[grid.bands[a][0],grid.bands[b][1]]):null;
-        const res=await ocrCanvas(input,worker,`第 ${ci+1} 列`,6,regions,ci===2?"quantity":ci>=3?"number":"text");
-        for(const t of res.words)tokens.push({...t,x0:(x0+pad+t.x0*width)/canvas.width,x1:(x0+pad+t.x1*width)/canvas.width,cx:(x0+pad+t.cx*width)/canvas.width});
+    async function recognizeGridColumns(canvas,grid,worker,includeLedger=false){
+      const edges=grid.edges.map(x=>Math.round(x*canvas.width)),tokens=[],fields=gridFieldKeys(grid,includeLedger);
+      for(let ci=0;ci<fields.length;ci++){
+        if(fields[ci]==='ignore')continue;
+        const x0=edges[ci],x1=edges[ci+1],pad=Math.max(2,Math.min(10,Math.round((x1-x0)*.02))),width=Math.max(2,x1-x0-pad*2),height=canvas.height;
+        const cropped=document.createElement('canvas');cropped.width=width;cropped.height=height;
+        const ctx=cropped.getContext('2d');ctx.fillStyle='#fff';ctx.fillRect(0,0,width,height);ctx.drawImage(canvas,x0+pad,0,width,height,0,0,width,height);
+        const linePad=Math.max(1,Math.round(canvas.height<180?1:canvas.width/900));
+        const borders=new Set();for(const [a,b] of grid.spans[ci]){borders.add(grid.bands[a][0]);borders.add(grid.bands[b][1])}
+        for(const y of borders)ctx.fillRect(0,Math.round(y*height)-linePad,width,linePad*2+1);
+        // Give short, edge-cropped text white space. Keep a moderate character height.
+        const scale=ci===2&&height>180?2:1,padding=Math.max(12,Math.round(height<180?height*.15:12));
+        const input=document.createElement('canvas');input.width=Math.round(width*scale)+padding*2;input.height=Math.round(height*scale)+padding*2;
+        const c=input.getContext('2d');c.fillStyle='#fff';c.fillRect(0,0,input.width,input.height);c.drawImage(cropped,padding,padding,width*scale,height*scale);
+        const mode=['price','amount','amountTotal','receivedTotal'].includes(fields[ci])?'number':'text';
+        const res=await ocrCanvas(input,worker,`第 ${ci+1}/${fields.length} 欄`,6,null,mode);
+        for(const rawToken of res.words){
+          const t=mode==='number'?{...rawToken,text:rawToken.text.replace(/[\s|｜]/g,'')}:rawToken;
+          if(mode==='number'&&strictNumber(t.text)===null)continue;
+          const xx0=(t.x0*input.width-padding)/scale,xx1=(t.x1*input.width-padding)/scale,yy=(t.cy*input.height-padding)/scale;
+          tokens.push({...t,x0:(x0+pad+xx0)/canvas.width,x1:(x0+pad+xx1)/canvas.width,cx:(x0+pad+(xx0+xx1)/2)/canvas.width,cy:yy/height,h:t.h*input.height/scale/height});
+        }
       }
       return tokens;
     }
-    async function parseImage(file){
-      const canvas=await imageFileToCanvas(file),worker=await createOcrWorker();
-      let grid=detectGridGeometry(canvas);
+    async function readImageCanvas(canvas,includeLedger=false,sharedWorker=null){
+      const worker=sharedWorker||await createOcrWorker();let grid=detectGridGeometry(canvas),dateTokens=[];
       try{
         let rows=[],gridFailed=false;
-        // Six-column layouts can be date+details or details+subtotal.
-        if(grid?.dateProbe){
-          const [a,b]=grid.dateProbe,probe=document.createElement("canvas");
-          probe.width=Math.round((b-a)*canvas.width);probe.height=canvas.height;
-          probe.getContext("2d").drawImage(canvas,Math.round(a*canvas.width),0,probe.width,probe.height,0,0,probe.width,probe.height);
-          const first=await ocrCanvas(probe,worker,"首欄日期",6);
-          if(/日期|年[^\n]*月|\d{4}[-/.]\d{1,2}[-/.]\d{1,2}/.test(first.text))grid=detectGridGeometry(canvas,true);
-        }
         if(grid){
-          const tokens=await recognizeGridColumns(canvas,grid,worker);
-          rows=finalizeGridRows(parseGridImage(tokens,grid));
-          // Preserve raw OCR numbers; flag inconsistent arithmetic for review.
-          // OCR 将 ws+iwr 误识别成 wstiwr；只对这一个明确的规格组合纠错。
-          for(const r of rows)r.spec=r.spec.replace(/^(6\*36)wstiwr(?=-)/i,"$1ws+iwr");
+          const x0=Math.round(grid.edges[0]*canvas.width),x1=Math.round(grid.edges[1]*canvas.width),probe=document.createElement('canvas');
+          probe.width=Math.max(2,x1-x0);probe.height=canvas.height;probe.getContext('2d').drawImage(canvas,x0,0,probe.width,probe.height,0,0,probe.width,probe.height);
+          const first=await ocrCanvas(probe,worker,'首欄格式',6);
+          if(/日期|\d{4}\s*年[^\n]*月|\d{4}[-/.]\d{1,2}[-/.]\d{1,2}/.test(first.text)&&grid.edges.length>=7){
+            dateTokens=first.words;grid={...grid,edges:grid.edges.slice(1),spans:grid.spans.slice(1),dateSpans:grid.spans[0],offset:1};
+          }
+          if(/名称|名稱|品名|项目|項目|日期/.test(first.text))await recognizeGridHeaders(canvas,grid,worker);
+          await probeGridUnits(canvas,grid,worker);
+          const tokens=await recognizeGridColumns(canvas,grid,worker,includeLedger);
+          rows=finalizeGridRows(parseGridImage(tokens,grid,includeLedger));
+          await recoverGridUnits(canvas,grid,worker,rows);
+          if(includeLedger&&dateTokens.length)for(const row of rows){const span=grid.dateSpans.find(([a,b])=>row._band>=a&&row._band<=b)||[row._band,row._band];const b=[grid.bands[span[0]][0],grid.bands[span[1]][1]];const closest=dateTokens.filter(t=>t.cy>=b[0]&&t.cy<=b[1]).map(t=>t.text).join('');row.date=pasteDate(closest)||''}
           gridFailed=rows.length===0;
         }
         if(!grid||gridFailed){
-          const res=await ocrCanvas(canvas,worker,"整张图片");
-          const header=detectHeaderProfile(res.words);
-          if(header&&header.mode==="full")rows=rowsFromCells(cellsFromTokens(res.words,header.anchors,header.y),"图片").rows;
+          const res=await ocrCanvas(canvas,worker,'整張圖片');const header=detectHeaderProfile(res.words);
+          if(header&&header.mode==='full')rows=rowsFromCells(cellsFromTokens(res.words,header.anchors,header.y),'圖片').rows;
           if(!rows.length)rows=fallbackParseText(res.text);
         }
-        if(!rows.length)throw new Error("未能识别出商品明细。请尝试更清晰的图片，或导入 Excel 原表。");
+        if(!rows.length)throw new Error('未能識別商品明細。請保留名稱、規格、數量、單價及總價等完整欄位。');
         const missing=rows.filter(r=>!r.name||!r.spec||r.qty===null||r.price===null||r.amount===null).length;
-        const mismatched=rows.filter(r=>r.qty!==null&&r.price!==null&&r.amount!==null&&Math.abs(r.qty*r.price-r.amount)>.011).length;
-        return {dataRows:rows,sourceType:"image",usedOcr:true,warnings:[ocrEngineLabel(worker),...(mismatched?[`${mismatched} 行數量×單價與金額不一致，請核對`]:[]),grid&&!gridFailed?`按表格线识别 ${rows.length} 行`:"未可靠识别网格，已尝试文字识别",missing?`${missing} 行有缺失字段，请在预览中修改后再导出`:"请核对品名、规格、数量、单价与金额"]};
-      }finally{if(worker)await worker.terminate()}
+        const merges=[];
+        if(includeLedger&&grid&&!gridFailed){const fields=gridFieldKeys(grid,true);for(let ci=0;ci<fields.length;ci++)for(const [a,b] of grid.spans[ci]){const positions=rows.map((r,i)=>r._band>=a&&r._band<=b?i:-1).filter(i=>i>=0);if(positions.length>1)merges.push({kind:fields[ci],positions})}}
+        return {dataRows:rows,sourceType:'image',usedOcr:true,merges,warnings:[ocrEngineLabel(worker),grid&&!gridFailed?`按表格線識別 ${rows.length} 行`:'已嘗試文字識別',...(rows.some(r=>r._unitMissing)?[`${rows.filter(r=>r._unitMissing).length} 行單位未識別，已標示請補齊`]:[]),missing?`${missing} 行有缺失欄位，請核對補齊`:'請核對品名、規格與數字']};
+      }finally{if(!sharedWorker)await worker.terminate()}
+    }
+    async function parseImage(file,includeLedger=false){return readImageCanvas(await imageFileToCanvas(file),includeLedger)}
+    async function parseLedgerPdf(file){
+      if(typeof pdfjsLib==='undefined')throw new Error('PDF 元件載入失敗，請確認網路連線。');
+      pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+      const pdf=await pdfjsLib.getDocument({data:await file.arrayBuffer()}).promise,worker=await createOcrWorker(),rows=[],merges=[],warnings=[];
+      try{
+        for(let pageNumber=1;pageNumber<=Math.min(pdf.numPages,PDF_MAX_PAGES);pageNumber++){
+          status(`正在導入 PDF 第 ${pageNumber}/${pdf.numPages} 頁…`);
+          const page=await pdf.getPage(pageNumber),view=page.getViewport({scale:1.8}),canvas=document.createElement('canvas');canvas.width=Math.ceil(view.width);canvas.height=Math.ceil(view.height);
+          await page.render({canvasContext:canvas.getContext('2d'),viewport:view}).promise;
+          try{const result=await readImageCanvas(canvas,true,worker),offset=rows.length;rows.push(...result.dataRows);merges.push(...result.merges.map(m=>({...m,positions:m.positions.map(i=>i+offset)})))}
+          catch(error){throw new Error(`PDF 第 ${pageNumber} 頁導入失敗：${error.message}。尚未加入帳本。`)}
+        }
+        warnings.push(ocrEngineLabel(worker));if(pdf.numPages>PDF_MAX_PAGES)warnings.push(`僅處理前 ${PDF_MAX_PAGES} 頁`);
+        return {dataRows:rows,merges,sourceType:'pdf',usedOcr:true,warnings};
+      }finally{await worker.terminate();await pdf.destroy()}
     }
         async function extractPdfPages(pdf){const pages=[];let currentMode=null,currentAnchors=null;for(let p=1;p<=Math.min(pdf.numPages,PDF_MAX_PAGES);p++){status(`正在解析 PDF 表格结构… 第 ${p}/${Math.min(pdf.numPages,PDF_MAX_PAGES)} 页`);const page=await pdf.getPage(p),viewport=page.getViewport({scale:1.5}),content=await page.getTextContent({disableCombineTextItems:false}),tokens=[];for(const it of content.items){if(!it.str)continue;const tx=pdfjsLib.Util.transform(viewport.transform,it.transform),x0=Math.max(0,Math.min(1,tx[4]/viewport.width)),ww=Math.abs((it.width||0)*1.5)/viewport.width,x1=Math.max(x0,Math.min(1,x0+ww)),hh=Math.max(.0001,Math.abs(tx[3]||((it.height||0)*1.5))/viewport.height),cy=Math.max(0,Math.min(1,tx[5]/viewport.height));tokens.push(...splitPdfItem(it.str,x0,x1,cy,hh,p))}const header=detectHeaderProfile(tokens);if(header){currentMode=header.mode;currentAnchors=header.anchors}pages.push({page:p,mode:currentMode,anchors:currentAnchors?{...currentAnchors}:null,headerY:header?header.y:null,tokens,cells:currentAnchors?cellsFromTokens(tokens,currentAnchors,header?header.y:null):{}})}return pages}
     function pageRuns(pages){const runs=[];for(const p of pages){if(!p.mode)continue;let r=runs[runs.length-1];if(!r||r.mode!==p.mode){r={mode:p.mode,pages:[]};runs.push(r)}r.pages.push(p)}return runs}
-    async function parsePdf(file){if(typeof pdfjsLib==="undefined")throw new Error("PDF 组件加载失败，请确认当前电脑可以联网。");pdfjsLib.GlobalWorkerOptions.workerSrc="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";const ab=await file.arrayBuffer(),pdf=await pdfjsLib.getDocument({data:ab}).promise;if(pdf.numPages>PDF_MAX_PAGES)status(`PDF 共 ${pdf.numPages} 页，只处理前 ${PDF_MAX_PAGES} 页。`,"warn");const pages=await extractPdfPages(pdf),runs=pageRuns(pages),rows=[],warnings=[],structure=[];let skipped=0,combined=0,usedOcr=false;for(let i=0;i<runs.length;i++){const run=runs[i];if(run.mode==="full"){structure.push(`完整表 ${run.pages.length} 页`);for(const p of run.pages){const r=rowsFromCells(p.cells,`PDF第${p.page}页`);rows.push(...r.rows);skipped+=r.skipped;combined+=r.combined}continue}if(run.mode==="left4"&&runs[i+1]?.mode==="right5"){const right=runs[++i],n=Math.min(run.pages.length,right.pages.length);structure.push(`横向拆分页 ${run.pages.length}+${right.pages.length} 页`);if(run.pages.length!==right.pages.length)warnings.push("检测到一组横向拆分页页数不一致，已按可配对的页数处理。");for(let j=0;j<n;j++){const l=run.pages[j],rr=right.pages[j],cells={...l.cells,price:rr.cells.price||[],amount:rr.cells.amount||[]},r=rowsFromCells(cells,`PDF第${l.page}+${rr.page}页`);rows.push(...r.rows);skipped+=r.skipped;combined+=r.combined}continue}if(run.mode==="left5"&&runs[i+1]?.mode==="right2"){const right=runs[++i],n=Math.min(run.pages.length,right.pages.length);structure.push(`横向拆分页 ${run.pages.length}+${right.pages.length} 页`);if(run.pages.length!==right.pages.length)warnings.push("检测到一组横向拆分页页数不一致，已按可配对的页数处理。");for(let j=0;j<n;j++){const l=run.pages[j],rr=right.pages[j],cells={...l.cells,amount:rr.cells.amount||[]},r=rowsFromCells(cells,`PDF第${l.page}+${rr.page}页`);rows.push(...r.rows);skipped+=r.skipped;combined+=r.combined}continue}warnings.push(`有 ${run.pages.length} 页“${run.mode}”结构没有找到可配对页面，未自动写入。`)}if(!rows.length){usedOcr=true;const worker=await createOcrWorker();let allText="";try{for(let p=1;p<=Math.min(pdf.numPages,Math.min(PDF_MAX_PAGES,20));p++){status(`PDF 文字层无法识别表格，正在 OCR 第 ${p} 页…`);const page=await pdf.getPage(p),viewport=page.getViewport({scale:2}),canvas=document.createElement("canvas");canvas.width=Math.round(viewport.width);canvas.height=Math.round(viewport.height);await page.render({canvasContext:canvas.getContext("2d"),viewport}).promise;const o=await ocrCanvas(canvas,worker,` PDF 第 ${p} 页`);const header=detectHeaderProfile(o.words);if(header&&header.mode==="full"){const r=rowsFromCells(cellsFromTokens(o.words,header.anchors,header.y),`PDF第${p}页`);rows.push(...r.rows);skipped+=r.skipped;combined+=r.combined}allText+=o.text+"\n"}}finally{warnings.push(ocrEngineLabel(worker));if(worker)await worker.terminate()}if(!rows.length)rows.push(...fallbackParseText(allText));if(!rows.length)throw new Error("PDF 已完成文字提取 / OCR，但没有可靠识别出可转换的完整明细。")}
+    async function parsePdf(file){if(typeof pdfjsLib==="undefined")throw new Error("PDF 组件加载失败，请确认当前电脑可以联网。");pdfjsLib.GlobalWorkerOptions.workerSrc="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";const ab=await file.arrayBuffer(),pdf=await pdfjsLib.getDocument({data:ab}).promise;if(pdf.numPages>PDF_MAX_PAGES)status(`PDF 共 ${pdf.numPages} 页，只处理前 ${PDF_MAX_PAGES} 页。`,"warn");const pages=await extractPdfPages(pdf),runs=pageRuns(pages),rows=[],warnings=[],structure=[];let skipped=0,combined=0,usedOcr=false;for(let i=0;i<runs.length;i++){const run=runs[i];if(run.mode==="full"){structure.push(`完整表 ${run.pages.length} 页`);for(const p of run.pages){const r=rowsFromCells(p.cells,`PDF第${p.page}页`);rows.push(...r.rows);skipped+=r.skipped;combined+=r.combined}continue}if(run.mode==="left4"&&runs[i+1]?.mode==="right5"){const right=runs[++i],n=Math.min(run.pages.length,right.pages.length);structure.push(`横向拆分页 ${run.pages.length}+${right.pages.length} 页`);if(run.pages.length!==right.pages.length)warnings.push("检测到一组横向拆分页页数不一致，已按可配对的页数处理。");for(let j=0;j<n;j++){const l=run.pages[j],rr=right.pages[j],cells={...l.cells,price:rr.cells.price||[],amount:rr.cells.amount||[]},r=rowsFromCells(cells,`PDF第${l.page}+${rr.page}页`);rows.push(...r.rows);skipped+=r.skipped;combined+=r.combined}continue}if(run.mode==="left5"&&runs[i+1]?.mode==="right2"){const right=runs[++i],n=Math.min(run.pages.length,right.pages.length);structure.push(`横向拆分页 ${run.pages.length}+${right.pages.length} 页`);if(run.pages.length!==right.pages.length)warnings.push("检测到一组横向拆分页页数不一致，已按可配对的页数处理。");for(let j=0;j<n;j++){const l=run.pages[j],rr=right.pages[j],cells={...l.cells,amount:rr.cells.amount||[]},r=rowsFromCells(cells,`PDF第${l.page}+${rr.page}页`);rows.push(...r.rows);skipped+=r.skipped;combined+=r.combined}continue}warnings.push(`有 ${run.pages.length} 页“${run.mode}”结构没有找到可配对页面，未自动写入。`)}if(!rows.length){usedOcr=true;const worker=await createOcrWorker();let allText="";try{for(let p=1;p<=Math.min(pdf.numPages,Math.min(PDF_MAX_PAGES,20));p++){status(`PDF 文字层无法识别表格，正在 OCR 第 ${p} 页…`);const page=await pdf.getPage(p),viewport=page.getViewport({scale:2}),canvas=document.createElement("canvas");canvas.width=Math.round(viewport.width);canvas.height=Math.round(viewport.height);await page.render({canvasContext:canvas.getContext("2d"),viewport}).promise;const result=await readImageCanvas(canvas,false,worker);rows.push(...result.dataRows)}}finally{warnings.push(ocrEngineLabel(worker));if(worker)await worker.terminate()}if(!rows.length)rows.push(...fallbackParseText(allText));if(!rows.length)throw new Error("PDF 已完成文字提取 / OCR，但没有可靠识别出可转换的完整明细。")}
       if(skipped)warnings.push(`${skipped} 条原始行的“总价”不是数字（例如“退”）或缺少金额，已跳过。`);if(combined)warnings.push(`${combined} 处原表使用了跨多行的合并“总价”，已合并成单条项目，避免重复金额。`);return {dataRows:rows,sourceType:"pdf",usedOcr,warnings,structure:structure.join("；")}}
 
 
-    async function parseFile(file){if(isSpreadsheet(file))return parseSpreadsheet(file);if(isPdf(file))return parsePdf(file);if(isImage(file))return parseImage(file);throw new Error("暂不支持这个文件格式。请使用 Excel、PDF、JPG、PNG、WEBP 或 BMP。")}
+    async function parseFile(file,includeLedger=false){if(isSpreadsheet(file))return parseSpreadsheet(file);if(isPdf(file))return includeLedger?parseLedgerPdf(file):parsePdf(file);if(isImage(file))return parseImage(file,includeLedger);throw new Error("暂不支持这个文件格式。请使用 Excel、PDF、JPG、PNG、WEBP 或 BMP。")}
 
-    // 金额：读取文件时保留原有金额；仅在原金额缺失或修改数量/单价时计算。不会悄悄改写原表数字。
     function calculateAmount(row){
       const quantity=numeric(row.qty),unitPrice=numeric(row.price);
       return quantity===null||unitPrice===null?null:Math.round((quantity*unitPrice+Number.EPSILON)*100)/100;
     }
-    function fillMissingAmounts(rows){
-      for(const row of (rows||[]))if(numeric(row.amount)===null){const result=calculateAmount(row);if(result!==null)row.amount=result;}
+    function prepareImportedRows(rows,ledger=false,nameMode=null){
+      for(const row of rows||[]){
+        if(!row._importAmountChecked){row._sourceAmount=numeric(row.amount);row._importAmountChecked=true}
+        const computed=calculateAmount(row);if(computed!==null)row.amount=computed;
+        if(ledger){row._importNameSource??=safeText(row.name);row.name=(nameMode||ledgerImportNameMode())==='invoice'?normalizeItemName(row._importNameSource):row._importNameSource;pasteNormalizeRow(row)}
+      }
+      return rows;
     }
+    function ledgerImportNameMode(){return document.getElementById?.('ledgerImportNameMode')?.value||'preserve'}
+    function normalizeLedgerImportName(value){
+      const name=safeText(value),key=name.replace(/\s/g,'').replace(/鋼/g,'钢').replace(/鉤/g,'钩').replace(/單/g,'单').replace(/頭/g,'头').replace(/編/g,'编').replace(/繩/g,'绳');
+      if(key==='钢管钩')return '吊钩';
+      if(key==='单头插编钢绳'||key==='插编钢绳索具')return '钢绳索具';
+      return name;
+    }
+    function amountMismatch(row){
+      const source=numeric(row._sourceAmount),computed=calculateAmount(row);
+      return !!row._importAmountChecked&&source!==null&&computed!==null&&Math.round(source*100)!==Math.round(computed*100);
+    }
+    function amountCheckText(row){
+      const source=numeric(row._sourceAmount),computed=calculateAmount(row);
+      return amountMismatch(row)?`總價不符：來源 ${prettyMoney(source)}；數量 × 單價 = ${prettyMoney(computed)}；差額 ${prettyMoney(computed-source)}`:'';
+    }
+    function paintAmountCheck(row,element){
+      const mismatch=amountMismatch(row);element.classList.toggle('amount-mismatch',mismatch);element.title=amountCheckText(row);
+      return mismatch;
+    }
+    function fillMissingAmounts(rows){prepareImportedRows(rows)}
     function getAmountSummary(){
       let cents=0,missing=0;
       for(const row of (parsed?.dataRows||[])){
@@ -708,7 +837,7 @@
         ?`还有 ${missing} 行金额未填写，目前仅合计有金额的项目。输入数量和单价可自动计算。`
         :`已合计 ${parsed.dataRows.length} 条明细。修改数量/单价会自动更新该行金额，直接修改金额也会更新总数。`;
     }
-    function attachNameOptions(input,holder,row,afterPick=null){
+    function attachNameOptions(input,holder,row,afterPick=null,normalize=normalizeItemName){
       const menu=document.createElement("div");
       menu.className="name-suggestions";
       menu.hidden=true;
@@ -721,7 +850,7 @@
       function close(){menu.hidden=true;input.setAttribute("aria-expanded","false")}
       function pick(name){
         // 保留既有指定的自动品名归类规则，选用与自动识别的名称处理一致。
-        const fixed=normalizeItemName(name);
+        const fixed=normalize(name);
         row.name=fixed;input.value=fixed;
         close();if(afterPick)afterPick();else updateSummary();
       }
@@ -757,7 +886,7 @@
         if(e.key==="Enter"&&matches.length){e.preventDefault();pick(matches[active]);}
       });
       input.addEventListener("blur",()=>{
-        close();const fixed=normalizeItemName(input.value);
+        close();const fixed=normalize(input.value);
         if(fixed!==input.value.trim()){
           row.originalName ??= input.value.trim();
           row.name=fixed;input.value=fixed;
@@ -774,30 +903,32 @@
         const row=document.createElement("div");row.className="item-row";
         if(!r.name||!r.spec||numeric(r.qty)===null||numeric(r.price)===null||numeric(r.amount)===null)row.style.borderColor="#f59e0b";
         const head=document.createElement("div");head.className="item-head";
+        const checkNote=document.createElement("div");checkNote.className="amount-check-note";
+        const refreshCheck=()=>{const bad=paintAmountCheck(r,row);checkNote.textContent=amountCheckText(r);checkNote.hidden=!bad};refreshCheck();
         const idx=document.createElement("span");idx.className="item-index";idx.textContent=`第 ${i+1} 条${r.bookDate?` · ${r.bookDate}${r.bookCompany?" · "+r.bookCompany:""}`:""}`;
         const btn=document.createElement("button");btn.type="button";btn.className="danger-mini";btn.textContent="删除";
         btn.addEventListener("click",()=>{parsed.dataRows.splice(i,1);showPreview(parsed);syncReadyState()});
         head.append(idx,btn);row.appendChild(head);
-        const fields=document.createElement("div");fields.className="item-fields",inputMap={};
+        const fields=document.createElement("div"),inputMap={};fields.className="item-fields";
         for(const key of ["name","spec","qty","unit","price","amount"]){
           const box=document.createElement("div");box.className="item-field";
-          const label=document.createElement("label");label.textContent=labels[key];
+          const label=document.createElement("label");label.textContent=labels[key];if(key==="unit"&&r._unitMissing){box.classList.add("unit-review");label.textContent="单位（請補齊）"}
           const input=document.createElement("input");input.type="text";input.value=fmt(r[key]);input.dataset.index=i;input.dataset.key=key;
           inputMap[key]=input;
           input.addEventListener("input",()=>{
-            r[key]=input.value.trim();
+            r[key]=input.value.trim();if(key==="unit"){r._unitMissing=!r[key];box.classList.toggle("unit-review",r._unitMissing)}
             if(key==="qty"||key==="price"){
               const computed=calculateAmount(r);
               r.amount=computed;
               inputMap.amount.value=fmt(computed);
             }
-            if(key!=="name")updateSummary();
+            refreshCheck();if(key!=="name")updateSummary();
           });
           box.append(label,input);
           if(key==="name")attachNameOptions(input,box,r);
           fields.appendChild(box);
         }
-        row.appendChild(fields);previewBody.appendChild(row);
+        row.append(fields,checkNote);previewBody.appendChild(row);
       });
       previewArea.style.display="block";
       rowCountEl.style.display="inline-flex";
@@ -817,7 +948,13 @@
     function syncReadyState(){const count=parsed?.dataRows?.length||0;convertBtn.disabled=count===0;rowCountEl.textContent=`识别到 ${count} 条项目明细`}
     addRowBtn.addEventListener("click",()=>{if(!parsed)parsed={dataRows:[],sourceType:"manual",usedOcr:false};parsed.dataRows.push(emptyRow());showPreview(parsed);syncReadyState()});
 
-    async function selectFile(file){currentFile=file||null;parsed=null;convertBtn.disabled=true;fileNameEl.textContent=file?file.name:"尚未选择文件";totalSummaryEl.style.display="none";rowCountEl.style.display="none";previewArea.style.display="none";ocrNote.style.display="none";if(!file)return status("请选择文件。Excel 转换完全在浏览器本地完成；PDF / 圖片優先使用 Mac 系統辨識，本機不可用時自動改用瀏覽器 OCR（需聯網）。");try{status("正在读取文件…");parsed=await parseFile(file);const ruleChanges=applyNameRules(parsed.dataRows);showPreview(parsed);syncReadyState();if(!parsed.dataRows.length){status("没有识别到明细行。","warn");return}const sourceLabel=parsed.sourceType==="excel"?"Excel":parsed.sourceType==="pdf"?"PDF":"图片";status(`${sourceLabel} 读取成功，共识别 ${parsed.dataRows.length} 条明细${ruleChanges?`；已自動修正 ${ruleChanges} 筆品名`:""}${parsed.structure?"；"+parsed.structure:""}${parsed.warnings?.length?"；"+parsed.warnings.join("；"):""}${parsed.usedOcr?"；请检查并修正 OCR 结果":""}。`,(parsed.usedOcr||parsed.warnings?.length)?"warn":"ok")}catch(e){status(e.message||String(e),"err")}}
+    async function selectFile(file){const generation=++invoiceImportGeneration;currentFile=file||null;parsed=null;convertBtn.disabled=true;fileNameEl.textContent=file?file.name:"尚未选择文件";totalSummaryEl.style.display="none";rowCountEl.style.display="none";previewArea.style.display="none";ocrNote.style.display="none";if(!file)return status("请选择文件。Excel 转换完全在浏览器本地完成；PDF / 圖片優先使用 Mac 系統辨識，本機不可用時自動改用瀏覽器 OCR（需聯網）。");try{status("正在读取文件…");const result=await parseFile(file);if(generation!==invoiceImportGeneration)return;parsed=result;prepareImportedRows(parsed.dataRows);const ruleChanges=applyNameRules(parsed.dataRows);showPreview(parsed);syncReadyState();if(!parsed.dataRows.length){status("没有识别到明细行。","warn");return}const sourceLabel=parsed.sourceType==="excel"?"Excel":parsed.sourceType==="pdf"?"PDF":"图片";status(`${sourceLabel} 读取成功，共识别 ${parsed.dataRows.length} 条明细${ruleChanges?`；已自動修正 ${ruleChanges} 筆品名`:""}${parsed.structure?"；"+parsed.structure:""}${parsed.warnings?.length?"；"+parsed.warnings.join("；"):""}${parsed.usedOcr?"；请检查并修正 OCR 结果":""}。`,(parsed.usedOcr||parsed.warnings?.length)?"warn":"ok")}catch(e){if(generation===invoiceImportGeneration)status(e.message||String(e),"err")}}
+    function clearInvoice(){
+      invoiceImportGeneration++;currentFile=null;parsed=null;fileInput.value='';previewBody.replaceChildren();
+      fileNameEl.textContent='尚未选择文件';rowCountEl.textContent='';rowCountEl.style.display='none';previewArea.style.display='none';ocrNote.style.display='none';
+      totalSummaryEl.style.display='none';totalAmountEl.textContent='¥0.00';convertBtn.disabled=true;status('已清空開票明細，可重新導入文件。');
+    }
+    el('invoiceClearBtn').addEventListener('click',clearInvoice);
     chooseFileBtn.addEventListener("click",()=>fileInput.click());fileInput.addEventListener("change",e=>selectFile(e.target.files[0]));["dragenter","dragover"].forEach(evt=>dropZone.addEventListener(evt,e=>{e.preventDefault();dropZone.classList.add("drag")}));["dragleave","drop"].forEach(evt=>dropZone.addEventListener(evt,e=>{e.preventDefault();dropZone.classList.remove("drag")}));dropZone.addEventListener("drop",e=>{const f=e.dataTransfer.files&&e.dataTransfer.files[0];if(f)selectFile(f)});
 
     convertBtn.addEventListener("click",()=>{try{if(!parsed||!parsed.dataRows.length)throw new Error("请先导入并确认至少一条明细。");const exportCorrections=applyNameRules(parsed.dataRows);if(exportCorrections)showPreview(parsed);const defaultRate=taxRateValue(el("taxRate").value);if(defaultRate===null)throw new Error("请填写有效的默认税率，例如 0.13 或 13%。");const defaultUnit=safeText(el("unit").value),defaultCode=safeText(el("taxCode").value);const wb=XLSX.read(TEMPLATE_B64,{type:"base64",cellStyles:true,cellDates:false}),ws=wb.Sheets[TARGET_SHEET];if(!ws)throw new Error("内置目标模板缺少“1-明细模板”工作表。");deleteWorksheetRow(ws,0);if(wb.Workbook&&wb.Workbook.Views&&wb.Workbook.Views[0])wb.Workbook.Views[0].activeTab=Math.max(0,wb.SheetNames.indexOf(TARGET_SHEET));const incomplete=parsed.dataRows.filter(r=>!safeText(r.name)||!safeText(r.spec)||numeric(r.qty)===null||numeric(r.price)===null||numeric(r.amount)===null);if(incomplete.length)throw new Error(`有 ${incomplete.length} 行名称／规格／数量／单价／金额缺失，请先在预览中修正，再导出。`);const out=parsed.dataRows.map(r=>{let rate=taxRateValue(r.rateRaw);if(rate===null)rate=defaultRate;let policy=r.policy||"";if(typeof r.rateRaw==="string"&&r.rateRaw.trim()==="免税"){rate=0;if(!policy)policy="免税"}const qty=numeric(r.qty),price=numeric(r.price);let amount=numeric(r.amount);if(amount===null&&qty!==null&&price!==null)amount=Math.round(qty*price*100)/100;return [normalizeItemName(r.name),r.code||defaultCode,safeText(r.spec),r.unit||defaultUnit,qty,price,amount,rate,null,policy,null,null,null,null,null,null,null,null,null,null,null,null]});if(!out.length)throw new Error("没有可写入的明细，请检查“名称”列。");XLSX.utils.sheet_add_aoa(ws,out,{origin:{r:2,c:0}});for(let i=0;i<out.length;i++){const ref=XLSX.utils.encode_cell({r:i+2,c:1});if(ws[ref]&&ws[ref].v!==null&&ws[ref].v!==""){ws[ref].t="s";ws[ref].v=String(ws[ref].v);ws[ref].z="@"}}XLSX.writeFile(wb,OUTPUT_NAME,{bookType:"xlsx",compression:true,cellStyles:true});status(`转换完成：已生成 ${out.length} 条明细，总金额 ¥${prettyMoney(getAmountSummary().sum)}，并开始下载。`,"ok")}catch(e){status(e.message||String(e),"err")}});
@@ -864,7 +1001,7 @@
       if(key==="received")row.markColor=value;
     }
     function cleanLedgerEntry(data={}){
-      return {id:typeof data.id==="string"&&data.id?data.id:ledgerId(),date:typeof data.date==="string"&&/^\d{4}-\d{2}-\d{2}$/.test(data.date)?data.date:ledgerDate(),name:safeText(data.name).slice(0,300),spec:safeText(data.spec).slice(0,300),qty:data.qty??"",unit:safeText(data.unit).slice(0,100),price:data.price??"",amount:data.amount??"",received:data.received??"",amountTotal:data.amountTotal??"",receivedTotal:data.receivedTotal??"",importedTotals:!!data.importedTotals,party:safeText(data.party).slice(0,300),taxStatus:safeText(data.taxStatus).slice(0,100),delivery:safeText(data.delivery).slice(0,120),markColor:ledgerSafeColor(data.markColor),note:safeText(data.note).slice(0,5000),cellColors:ledgerSafeColors(data.cellColors)};
+      return {id:typeof data.id==="string"&&data.id?data.id:ledgerId(),date:typeof data.date==="string"&&/^\d{4}-\d{2}-\d{2}$/.test(data.date)?data.date:ledgerDate(),name:safeText(data.name).slice(0,300),spec:safeText(data.spec).slice(0,300),qty:data.qty??"",unit:safeText(data.unit).slice(0,100),price:data.price??"",amount:data.amount??"",received:data.received??"",amountTotal:data.amountTotal??"",receivedTotal:data.receivedTotal??"",_unitMissing:!!data._unitMissing,_sourceAmount:numeric(data._sourceAmount),_importAmountChecked:!!data._importAmountChecked,importedTotals:!!data.importedTotals,party:safeText(data.party).slice(0,300),taxStatus:safeText(data.taxStatus).slice(0,100),delivery:safeText(data.delivery).slice(0,120),markColor:ledgerSafeColor(data.markColor),note:safeText(data.note).slice(0,5000),cellColors:ledgerSafeColors(data.cellColors)};
     }
     function cleanLedgerMerges(merges){return Array.isArray(merges)?merges.slice(0,500).filter(m=>m&&typeof m==="object"&&["received","amount"].includes(m.kind)&&Array.isArray(m.dates)).map(m=>({id:typeof m.id==="string"?m.id:ledgerId(),kind:m.kind,dates:[...new Set(m.dates.filter(d=>typeof d==="string"&&/^\d{4}-\d{2}-\d{2}$/.test(d)))].slice(0,500),createdAt:Number(m.createdAt)||Date.now()})).filter(m=>m.dates.length>=2):[]}
     function cleanLedgerCellMerges(value){
@@ -912,81 +1049,107 @@ function ledgerCurrent(){return ledgerProjects.find(p=>p.id===activeLedgerId)||n
     }
     function ledgerLoad(){try{const raw=localStorage.getItem(LEDGER_STORAGE_KEY);if(raw){const obj=JSON.parse(raw);if(Array.isArray(obj))ledgerProjects=obj.filter(p=>p&&typeof p==="object").map(p=>({id:typeof p.id==="string"?p.id:ledgerId(),projectName:safeText(p.projectName??p.company).slice(0,300),createdAt:Number(p.createdAt)||Date.now(),editedAt:Number(p.editedAt)||Date.now(),rows:Array.isArray(p.rows)?p.rows.slice(0,20000).map(cleanLedgerEntry):[],merges:cleanLedgerMerges(p.merges),cellMerges:cleanLedgerCellMerges(p.cellMerges)})).map(p=>{ledgerMigrateSums(p);return p});}}catch(e){ledgerStorageOk=false;ledgerProjects=[];console.warn("记账数据读取失败",e)}}
     // Safari 本機服務備份：不依賴下載或瀏覽器直接寫檔權限。
-    let backupRevision=0, backedUpRevision=-1, backupTimer=null, backupBusy=false;
+    let backupRevision=0, backedUpRevision=-1, backupTimer=null, backupBusy=false,backupTask=null;
     const backupStatus=()=>document.getElementById("autoBackupStatus");
     function showBackupStatus(message,failed=false){const el=backupStatus();if(el){el.textContent="自動備份："+message;el.style.color=failed?"#b91c1c":"#64748b";}}
-    async function pushAutoBackup(force=false){
-      if(backupBusy||(!force&&backupRevision===backedUpRevision))return;
-      backupBusy=true;
-      const revision=backupRevision;
+    function pushAutoBackup(force=false,manual=false){
+      if(backupBusy)return manual?backupTask.then(()=>pushAutoBackup(true,true)):backupTask;
+      if(!force&&backupRevision===backedUpRevision)return Promise.resolve({ok:true,skipped:true});
+      backupBusy=true;const revision=backupRevision;
+      backupTask=(async()=>{
+        const controller=new AbortController(),timer=setTimeout(()=>controller.abort(),30000);
+        try{
+          const payload={format:'invoice-ledger-backup',version:4,exportedAt:new Date().toISOString(),projects:ledgerProjects,...(manual?{manual:true}:{})};
+          const response=await fetch('/api/backup',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload),signal:controller.signal}),result=await response.json();
+          if(!response.ok||!result.ok)throw new Error(result.error||'備份服務錯誤');
+          backedUpRevision=revision;showBackupStatus('已寫入 iCloud Drive 資料夾 · '+new Date().toLocaleTimeString('zh-CN',{hour:'2-digit',minute:'2-digit'}));
+          return result;
+        }catch(error){showBackupStatus('失敗（'+(error.message||error)+'）',true);return {ok:false,error:error.message||String(error)}}
+        finally{clearTimeout(timer);backupBusy=false;if(backupRevision!==backedUpRevision)scheduleAutoBackup()}
+      })();return backupTask;
+    }
+    async function ledgerManualCloudBackup(){
+      const button=ledgerEl('ledgerCloudBackupBtn'),label=ledgerEl('ledgerCloudBackupStatus');button.disabled=true;label.textContent='正在建立雲端備份…';label.className='ledger-cloud-status';
       try{
-        const payload={format:"invoice-ledger-backup",version:4,exportedAt:new Date().toISOString(),projects:ledgerProjects};
-        const response=await fetch("/api/backup",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(payload)});
-        const result=await response.json();
-        if(!response.ok||!result.ok)throw new Error(result.error||"備份服務錯誤");
-        backedUpRevision=revision;
-        showBackupStatus("已寫入 iCloud Drive 資料夾 · "+new Date().toLocaleTimeString("zh-CN",{hour:"2-digit",minute:"2-digit"}));
-      }catch(err){showBackupStatus("失敗（"+(err.message||err)+"）",true);}
-      finally{backupBusy=false;if(backupRevision!==backedUpRevision)scheduleAutoBackup();}
+        if(location.protocol!=='http:'||location.hostname!=='127.0.0.1')throw new Error('請透過「啟動記帳工具.command」開啟，並啟用 iCloud Drive。');
+        const result=await pushAutoBackup(true,true);if(!result?.ok)throw new Error(result?.error||'雲端備份未完成');
+        label.textContent=result.manual_path?'已建立手動備份，等待 iCloud 同步':'已寫入 iCloud Drive，等待同步';label.classList.add('ok');
+      }catch(error){label.textContent='雲端備份失敗：'+(error.message||error);label.classList.add('err')}
+      finally{button.disabled=false}
     }
     function scheduleAutoBackup(){
       backupRevision++;
       if(backupTimer)clearTimeout(backupTimer);
       backupTimer=setTimeout(()=>pushAutoBackup(),5000);
     }
+    ledgerEl('ledgerCloudBackupBtn').addEventListener('click',ledgerManualCloudBackup);
     setInterval(()=>pushAutoBackup(),5*60*1000);
     window.addEventListener("focus",()=>pushAutoBackup());
     // v1.0.4: Manual update controls + safe update client waits until local save + iCloud backup settle.
     window.__ledgerUpdateCanReload = () => ledgerStorageOk && !backupBusy && (backupRevision === 0 || backupRevision === backedUpRevision);
 
-    // v1.0.4: Manual updater. The server still verifies version.json + SHA-256 before installation.
-    const manualUpdateBtn=document.getElementById("manualUpdateBtn");
-    const manualUpdateStatus=document.getElementById("manualUpdateStatus");
-    function setManualUpdateStatus(message,state=""){
-      if(!manualUpdateStatus)return;
-      manualUpdateStatus.textContent=message||"";
-      manualUpdateStatus.className="ledger-update-status"+(state?" "+state:"");
+    const manualUpdateBtn=document.getElementById('manualUpdateBtn'),manualApplyBtn=document.getElementById('manualApplyBtn'),manualUpdateStatus=document.getElementById('manualUpdateStatus');
+    let updateChecking=false,updateApplying=false,updateReady=false,updateStatusBusy=false,updateReconnectUntil=0;
+    function setManualUpdateStatus(message,state=''){
+      manualUpdateStatus.textContent=message||'';manualUpdateStatus.className='ledger-update-status'+(state?' '+state:'');
+    }
+    function showUpdateState(body){
+      const u=body.update||{};
+      if(u.status==='ready')updateReady=true;
+      else if(u.status==='installed'||u.status==='current')updateReady=false;
+      manualApplyBtn.hidden=!(updateReady||updateApplying);manualApplyBtn.disabled=updateApplying||updateChecking;
+      manualApplyBtn.textContent=updateApplying?'更新中…':'手動更新';
+      if(updateApplying){setManualUpdateStatus('正在安裝更新，請稍候…','busy');return}
+      if(u.status==='current')setManualUpdateStatus(`已是最新版本 v${body.installed_version||u.version||''}`,'ok');
+      else if(u.status==='downloading')setManualUpdateStatus(`正在下載 ${u.file||'更新檔案'}…`,'busy');
+      else if(u.status==='ready')setManualUpdateStatus(`v${u.version} 已下載並驗證（${u.file_count??1} 個檔案），可手動更新`,'ok');
+      else if(u.status==='installed')setManualUpdateStatus(`已安裝 v${u.version}${u.restart_required?'，服務正在重新啟動':'，頁面會在安全時刷新'}`,'ok');
+      else if(u.status==='error')setManualUpdateStatus(`更新失敗：${u.message||'未知錯誤'}`,'err');
+      else if(u.status==='disabled')setManualUpdateStatus(u.message||'更新未啟用','err');
     }
     async function refreshManualUpdateStatus(){
+      if(updateStatusBusy)return null;updateStatusBusy=true;
       try{
-        const r=await fetch("/api/update/status",{cache:"no-store"});
-        if(!r.ok)throw new Error(`HTTP ${r.status}`);
-        const body=await r.json();
-        const u=body.update||{};
-        if(u.status==="current")setManualUpdateStatus(`已是最新版本 v${body.installed_version||u.version||""}`,"ok");
-        else if(u.status==="ready")setManualUpdateStatus(`v${u.version} 已下载并验证，正在安全安装…`,"busy");
-        else if(u.status==="installed")setManualUpdateStatus(`已安装 v${u.version}，页面会在安全时自动刷新`,"ok");
-        else if(u.status==="error")setManualUpdateStatus(`更新失败：${u.message||"未知错误"}`,"err");
-        else if(u.status==="disabled")setManualUpdateStatus(u.message||"更新未启用","err");
-        return body;
-      }catch(e){setManualUpdateStatus(`无法读取更新状态：${e.message||e}`,"err");return null;}
+        const r=await fetch('/api/update/status',{cache:'no-store'});if(!r.ok)throw new Error(`HTTP ${r.status}`);
+        const body=await r.json();showUpdateState(body);return body;
+      }catch(e){if(Date.now()<updateReconnectUntil)setManualUpdateStatus('更新服務重新啟動中，正在重新連線…','busy');else if(!updateChecking&&!updateApplying)setManualUpdateStatus(`無法讀取更新狀態：${e.message||e}`,'err');return null}
+      finally{updateStatusBusy=false}
     }
-    if(manualUpdateBtn){
-      manualUpdateBtn.addEventListener("click",async()=>{
-        manualUpdateBtn.disabled=true;
-        setManualUpdateStatus("正在检查 GitHub 更新…","busy");
-        try{
-          const r=await fetch("/api/update/check",{method:"POST",headers:{"Content-Type":"text/plain"},body:"check",cache:"no-store"});
-          const body=await r.json().catch(()=>({}));
-          if(!r.ok)throw new Error(body.error||`HTTP ${r.status}`);
-          await refreshManualUpdateStatus();
-        }catch(e){setManualUpdateStatus(`更新失败：${e.message||e}`,"err");}
-        finally{manualUpdateBtn.disabled=false;}
-      });
-      // Show current update state shortly after the page opens.
-      setTimeout(refreshManualUpdateStatus,700);
-    }
+    manualUpdateBtn.addEventListener('click',async()=>{
+      updateChecking=true;manualUpdateBtn.disabled=true;manualApplyBtn.disabled=true;setManualUpdateStatus('正在檢查並下載所需更新…','busy');
+      try{
+        const r=await fetch('/api/update/check',{method:'POST',headers:{'Content-Type':'text/plain'},body:'check',cache:'no-store'});
+        const body=await r.json();if(!r.ok)throw new Error(body.error||`HTTP ${r.status}`);showUpdateState(body);
+      }catch(e){setManualUpdateStatus(`檢查失敗：${e.message||e}`,'err')}
+      finally{updateChecking=false;manualUpdateBtn.disabled=false;manualApplyBtn.disabled=updateApplying}
+    });
+    manualApplyBtn.addEventListener('click',async()=>{
+      if(!updateReady||updateApplying)return;
+      updateApplying=true;manualUpdateBtn.disabled=true;manualApplyBtn.disabled=true;manualApplyBtn.textContent='更新中…';setManualUpdateStatus('正在安裝更新，請稍候…','busy');
+      let result=null;
+      try{
+        const r=await fetch('/api/update/apply',{method:'POST',headers:{'Content-Type':'text/plain'},body:'apply',cache:'no-store'});
+        result=await r.json();if(!r.ok)throw new Error(result.error||`HTTP ${r.status}`);
+        if(result.update?.restart_required)updateReconnectUntil=Date.now()+30000;
+      }catch(e){setManualUpdateStatus(`更新尚未確認完成：${e.message||e}，正在重新檢查狀態`,'err');updateReconnectUntil=Date.now()+30000}
+      finally{
+        updateApplying=false;manualUpdateBtn.disabled=false;manualApplyBtn.disabled=false;manualApplyBtn.textContent='手動更新';
+        if(result)showUpdateState(result);else await refreshManualUpdateStatus();
+      }
+    });
+    setTimeout(refreshManualUpdateStatus,700);
+    setInterval(()=>{if(!document.hidden&&!updateChecking&&!updateApplying)refreshManualUpdateStatus()},4000);
     function ledgerSave(){const p=ledgerCurrent();if(p)p.editedAt=Date.now();try{localStorage.setItem(LEDGER_STORAGE_KEY,JSON.stringify(ledgerProjects));ledgerStorageOk=true;scheduleAutoBackup();const saved=ledgerEl("ledgerSavedText");if(saved)saved.textContent="已自动保存 · "+new Date().toLocaleTimeString("zh-CN",{hour:"2-digit",minute:"2-digit"});}catch(e){ledgerStorageOk=false;ledgerNotice("本机储存失败，请立即备份数据或检查浏览器储存权限。",true);}}
     function ledgerNotice(s,error=false){const node=ledgerEl("ledgerToast");node.textContent=s;node.className="ledger-toast"+(error?" error":"");node.hidden=!s;}
-    function ledgerTab(which){const isLedger=which==="ledger";ledgerEl("ledgerPane").hidden=!isLedger;ledgerEl("invoicePane").hidden=isLedger;ledgerEl("tabLedger").setAttribute("aria-selected",String(isLedger));ledgerEl("tabInvoice").setAttribute("aria-selected",String(!isLedger));if(isLedger&&!activeLedgerId)ledgerRenderHome()}
+    function ledgerTab(which){const isLedger=which==="ledger";ledgerEl("ledgerPane").hidden=!isLedger;ledgerEl("invoicePane").hidden=isLedger;ledgerEl("tabLedger").setAttribute("aria-selected",String(isLedger));ledgerEl("tabInvoice").setAttribute("aria-selected",String(!isLedger));if(isLedger&&!activeLedgerId)ledgerRenderHome();ledgerRefreshScrollButtons()}
     ledgerEl("tabLedger").addEventListener("click",()=>ledgerTab("ledger"));
     ledgerEl("tabInvoice").addEventListener("click",()=>ledgerTab("invoice"));
     function ledgerRenderHome(){const q=norm(ledgerEl("ledgerSearch").value).toLowerCase();const list=ledgerEl("ledgerProjectList");list.replaceChildren();const projects=[...ledgerProjects].sort((a,b)=>b.editedAt-a.editedAt).filter(p=>!q||norm(p.projectName).toLowerCase().includes(q)||p.rows.some(r=>norm(r.name).toLowerCase().includes(q)||norm(r.spec).toLowerCase().includes(q)||norm(r.party).toLowerCase().includes(q)));ledgerEl("ledgerProjectCount").textContent=`共 ${projects.length} 个项目`;
       if(!projects.length){const empty=document.createElement("div");empty.className="ledger-empty";empty.textContent=ledgerProjects.length?"未找到符合搜索内容的项目":"还没有记账项目，点击「新建项目」开始。";list.appendChild(empty);return;}
-      for(const p of projects){const box=document.createElement("div");box.className="ledger-project";box.tabIndex=0;box.setAttribute("role","button");const title=document.createElement("strong");title.className="ledger-project-title";title.textContent=p.projectName||"未命名项目";const meta=document.createElement("span");meta.className="ledger-project-meta";const date=new Date(p.editedAt);meta.textContent=`${p.rows.length} 笔记录 · 最近编辑 ${Number.isFinite(date.getTime())?date.toLocaleString("zh-CN"):"刚刚"}`;const sum=document.createElement("div");sum.className="ledger-project-sum";sum.textContent="总价合计 "+ledgerMoney(ledgerTotals(p.rows).total);const del=document.createElement("button");del.type="button";del.textContent="删除";del.title="删除这个项目";del.className="ledger-project-delete";del.addEventListener("click",e=>{e.stopPropagation();if(!confirm(`确定删除「${p.projectName||"未命名项目"}」和其中 ${p.rows.length} 笔账吗？此操作无法撤销，建议先备份。`))return;ledgerProjects=ledgerProjects.filter(x=>x.id!==p.id);ledgerSave();ledgerRenderHome()});box.append(title,meta,sum,del);box.addEventListener("click",()=>ledgerOpen(p.id));box.addEventListener("keydown",e=>{if((e.key==="Enter"||e.key===" ")&&e.target===box){e.preventDefault();ledgerOpen(p.id)}});list.appendChild(box);}
+      for(const p of projects){const box=document.createElement("div");box.className="ledger-project";box.tabIndex=0;box.setAttribute("role","button");const title=document.createElement("strong");title.className="ledger-project-title";title.textContent=p.projectName||"未命名项目";const meta=document.createElement("span");meta.className="ledger-project-meta";const date=new Date(p.editedAt);meta.textContent=`${p.rows.length} 笔记录 · 最近编辑 ${Number.isFinite(date.getTime())?date.toLocaleString("zh-CN"):"刚刚"}`;const sum=document.createElement("div");sum.className="ledger-project-sum";sum.textContent=ledgerMoney(ledgerTotals(p.rows).total);const del=document.createElement("button");del.type="button";del.textContent="删除";del.title="删除这个项目";del.className="ledger-project-delete";del.addEventListener("click",e=>{e.stopPropagation();if(!confirm(`确定删除「${p.projectName||"未命名项目"}」和其中 ${p.rows.length} 笔账吗？此操作无法撤销，建议先备份。`))return;ledgerProjects=ledgerProjects.filter(x=>x.id!==p.id);ledgerSave();ledgerRenderHome()});box.append(title,meta,sum,del);box.addEventListener("click",()=>ledgerOpen(p.id));box.addEventListener("keydown",e=>{if((e.key==="Enter"||e.key===" ")&&e.target===box){e.preventDefault();ledgerOpen(p.id)}});list.appendChild(box);}
     }
-    function ledgerOpen(id){ledgerExitColorMode();activeLedgerId=id;ledgerSelectionMode=false;ledgerSelectedIds.clear();ledgerMergeMode=false;ledgerMergeDays.clear();ledgerCellMode=false;ledgerCellKind="";ledgerCellAnchor="";ledgerCellEnd="";ledgerCellPickedIds.clear();ledgerClosePopups();const p=ledgerCurrent();if(!p)return;ledgerEl("ledgerHome").hidden=true;ledgerEl("ledgerEditor").hidden=false;ledgerEl("ledgerCompany").value=p.projectName;ledgerEl("ledgerStartSelect").hidden=false;ledgerEl("ledgerSelectionBar").hidden=true;ledgerNotice("");ledgerEl("ledgerSavedText").textContent=ledgerStorageOk?"已自动保存":"请导出备份";ledgerRenderRows()}
-    function ledgerHome(){ledgerExitColorMode();ledgerSelectionMode=false;ledgerSelectedIds.clear();ledgerMergeMode=false;ledgerMergeDays.clear();ledgerCellMode=false;ledgerCellKind="";ledgerCellAnchor="";ledgerCellEnd="";ledgerCellPickedIds.clear();ledgerClosePopups();activeLedgerId=null;ledgerEl("ledgerEditor").hidden=true;ledgerEl("ledgerHome").hidden=false;ledgerRenderHome()}
+    function ledgerOpen(id){ledgerResetRowSearch();ledgerExitColorMode();activeLedgerId=id;ledgerSelectionMode=false;ledgerSelectedIds.clear();ledgerMergeMode=false;ledgerMergeDays.clear();ledgerCellMode=false;ledgerCellKind="";ledgerCellAnchor="";ledgerCellEnd="";ledgerCellPickedIds.clear();ledgerClosePopups();const p=ledgerCurrent();if(!p)return;ledgerEl("ledgerHome").hidden=true;ledgerEl("ledgerEditor").hidden=false;ledgerEl("ledgerCompany").value=p.projectName;ledgerEl("ledgerStartSelect").hidden=false;ledgerEl("ledgerSelectionBar").hidden=true;ledgerNotice("");ledgerEl("ledgerSavedText").textContent=ledgerStorageOk?"已自动保存":"请导出备份";ledgerRenderRows()}
+    function ledgerHome(){ledgerResetRowSearch();ledgerExitColorMode();ledgerSelectionMode=false;ledgerSelectedIds.clear();ledgerMergeMode=false;ledgerMergeDays.clear();ledgerCellMode=false;ledgerCellKind="";ledgerCellAnchor="";ledgerCellEnd="";ledgerCellPickedIds.clear();ledgerClosePopups();activeLedgerId=null;ledgerEl("ledgerEditor").hidden=true;ledgerEl("ledgerHome").hidden=false;ledgerRenderHome()}
     ledgerEl("ledgerBackBtn").addEventListener("click",ledgerHome);
     ledgerEl("ledgerNewBtn").addEventListener("click",()=>{const now=Date.now(),p={id:ledgerId(),projectName:"",createdAt:now,editedAt:now,rows:[cleanLedgerEntry()],merges:[],cellMerges:[]};ledgerProjects.push(p);ledgerSave();ledgerOpen(p.id);ledgerEl("ledgerCompany").focus()});
     ledgerEl("ledgerSearch").addEventListener("input",ledgerRenderHome);
@@ -1439,7 +1602,7 @@ function ledgerCurrent(){return ledgerProjects.find(p=>p.id===activeLedgerId)||n
       const cellPlans=ledgerCellPlans(rows,p);
        // 禁止默认按日期自动合并。每笔记录都有独立的「总价合计」「实收合计」格。
       for(let ri=0;ri<rows.length;ri++){
-        const r=rows[ri],tr=document.createElement("tr"),inputMap={};tr.dataset.rowId=r.id;
+        const r=rows[ri],tr=document.createElement("tr"),inputMap={};tr.dataset.rowId=r.id;paintAmountCheck(r,tr);
         for(const key of columns){
           const existing=(!ledgerSelectionMode)?cellPlans.covered.get(key)?.get(ri):null;
           if(existing){
@@ -1451,23 +1614,23 @@ function ledgerCurrent(){return ledgerProjects.find(p=>p.id===activeLedgerId)||n
             continue;
           }
           const td=document.createElement("td"),container=document.createElement("div");if(key==="date")container.className="ledger-datebox";
-          td.dataset.cellKey=key;td.dataset.cellRowId=r.id;ledgerApplyColor(td,ledgerRowColor(r,key));
+          td.dataset.cellKey=key;td.dataset.cellRowId=r.id;if(key==="unit"&&r._unitMissing)td.classList.add("unit-review");ledgerApplyColor(td,ledgerRowColor(r,key));
           if(key==="date"&&ledgerSelectionMode){const check=document.createElement("input");check.type="checkbox";check.checked=ledgerSelectedIds.has(r.id);check.setAttribute("aria-label",`选择第 ${ri+1} 笔 ${r.date||"无日期"} ${r.name||"未填名称"}`);check.addEventListener("change",()=>{if(check.checked)ledgerSelectedIds.add(r.id);else ledgerSelectedIds.delete(r.id);ledgerUpdateCount()});container.appendChild(check)}
           const inp=document.createElement("input");inp.type=key==="date"?"date":"text";inp.value=fmt(r[key]);inp.setAttribute("aria-label",`第 ${ri+1} 笔${{date:"日期",name:"名称",spec:"规格",qty:"数量",unit:"单位",price:"单价",amount:"总价",received:"实收",party:"公司或人名称",taxStatus:"开票状态",delivery:"送货方式"}[key]}`);inp.dataset.ledgerKey=key;inp.dataset.ledgerId=r.id;inp.autocomplete="off";
           if(key==="amount"){inp.classList.add("ledger-money");inp.title="数量与单价均填写后会自动计算，仍可手动调整"}
           if(ledgerRowColor(r,key))inp.style.setProperty("background-color",ledgerRowColor(r,key),"important");
           if(key==="date")inp.title="右击本笔可使用批注、标记、合并功能";
           inp.addEventListener("input",()=>{
-            r[key]=inp.value;
+            r[key]=inp.value;if(key==="unit"){r._unitMissing=!inp.value.trim();td.classList.toggle("unit-review",r._unitMissing)}
             if(key==="qty"||key==="price"){
               const amount=calculateAmount(r);r.amount=amount===null?"":amount;
               if(inputMap.amount)inputMap.amount.value=fmt(r.amount);
             }
-            ledgerSave();if(["qty","price","amount","received"].includes(key))ledgerRecalc();
+            paintAmountCheck(r,tr);ledgerSave();if(["qty","price","amount","received"].includes(key))ledgerRecalc();
           });
           if(key==="date")inp.addEventListener("change",()=>{ledgerMergeDays.clear();ledgerMergeMode=false;if(ledgerCellMode)ledgerExitCellMerge();ledgerRenderRows()});
           inputMap[key]=inp;container.appendChild(inp);
-          if(key==="name")attachNameOptions(inp,container,r,()=>{ledgerSave()});
+          if(key==="name")attachNameOptions(inp,container,r,()=>{ledgerSave()},safeText);
           if(key==="unit")attachLedgerOptions(inp,container,r,key,LEDGER_UNITS);
           if(key==="taxStatus")attachLedgerOptions(inp,container,r,key,LEDGER_TAX_STATES);
           if(key==="delivery")attachLedgerOptions(inp,container,r,key,LEDGER_DELIVERY);
@@ -1478,7 +1641,7 @@ function ledgerCurrent(){return ledgerProjects.find(p=>p.id===activeLedgerId)||n
         const op=document.createElement("td"),remove=document.createElement("button");remove.className="ledger-remove";remove.textContent="删除";remove.type="button";remove.setAttribute("aria-label",`删除第 ${ri+1} 笔`);remove.addEventListener("click",()=>{p.rows=p.rows.filter(item=>item.id!==r.id);ledgerSelectedIds.delete(r.id);ledgerSave();ledgerRenderRows()});op.appendChild(remove);tr.appendChild(op);tbody.appendChild(tr);
       }
       if(!p.rows.length){const tr=document.createElement("tr"),td=document.createElement("td");td.colSpan=14;td.className="ledger-empty";td.textContent="暂无明细，点击下方「添加一笔」开始记账";tr.appendChild(td);tbody.appendChild(tr)}
-      ledgerRecalc();ledgerUpdateCount();ledgerUpdateMergeBar();ledgerUpdateCellBar();ledgerUpdateColorBar();
+      ledgerRecalc();ledgerUpdateCount();ledgerUpdateMergeBar();ledgerUpdateCellBar();ledgerUpdateColorBar();ledgerRefreshRowSearch(false);ledgerRefreshScrollButtons();
     }
 
     // 貼上文字導入：永遠先預覽，不把猜測結果直接寫入帳本。
@@ -1534,7 +1697,6 @@ function ledgerCurrent(){return ledgerProjects.find(p=>p.id===activeLedgerId)||n
       if(/日期/.test(h))return 'date';
       if(/备注|備註|批注|批註/.test(h))return 'note';
       if(/公司|客户|客戶|人名/.test(h))return 'party';
-      if(/名称|名稱|品名|商品/.test(h))return 'name';
       if(/规格|規格|型号|型號/.test(h))return 'spec';
       if(/数量|數量/.test(h))return 'qty';
       if(/单位|單位/.test(h))return 'unit';
@@ -1545,6 +1707,7 @@ function ledgerCurrent(){return ledgerProjects.find(p=>p.id===activeLedgerId)||n
       if(/总价|總價|金额|金額/.test(h))return 'amount';
       if(/开票|開票|税|稅/.test(h))return 'taxStatus';
       if(/送货|送貨|配送/.test(h))return 'delivery';
+      if(/名称|名稱|品名|商品/.test(h))return 'name';
       return 'ignore';
     }
     function pasteCellColor(cell){
@@ -1729,29 +1892,59 @@ function ledgerCurrent(){return ledgerProjects.find(p=>p.id===activeLedgerId)||n
       return pasteExpandTextNotes(records);
     }
     function pasteRender(){
-      const tbody=pasteEl('ledgerPasteRows');tbody.replaceChildren();
+      prepareImportedRows(pasteDraft,true);const tbody=pasteEl('ledgerPasteRows');tbody.replaceChildren();
       pasteDraft.forEach((row,i)=>{
-        const tr=document.createElement('tr');for(const key of pasteKeys){const td=document.createElement('td'),inp=document.createElement('input');const color=ledgerRowColor(row,key);if(color)td.style.backgroundColor=color;inp.dataset.key=key;inp.value=row[key]??'';inp.title=row._note||'';inp.addEventListener('input',()=>{row[key]=inp.value});td.appendChild(inp);tr.appendChild(td)}
-        const fmt=document.createElement('td');fmt.textContent=[...(new Set(row._formatKeys||[]))].join('、')||'—';fmt.style.whiteSpace='nowrap';tr.appendChild(fmt);const td=document.createElement('td'),btn=document.createElement('button');btn.type='button';btn.className='ledger-remove';btn.textContent='移除';btn.addEventListener('click',()=>{pasteDraft.splice(i,1);pasteMergeDraft=pasteMergeDraft.map(m=>({...m,positions:m.positions.filter(x=>x!==i).map(x=>x>i?x-1:x)})).filter(m=>m.positions.length>=2);pasteRender()});td.appendChild(btn);tr.appendChild(td);tbody.appendChild(tr);
+        const tr=document.createElement('tr'),inputs={};paintAmountCheck(row,tr);
+        for(const key of pasteKeys){const td=document.createElement('td'),inp=document.createElement('input');const color=ledgerRowColor(row,key);if(color)td.style.backgroundColor=color;inp.dataset.key=key;inputs[key]=inp;if(key==='unit'&&row._unitMissing){td.classList.add('unit-review');inp.title='單位未識別，請核對原圖補齊'}inp.value=row[key]??'';inp.title=[row._note,amountCheckText(row),key==='unit'&&row._unitMissing?'單位未識別，請核對原圖補齊':''].filter(Boolean).join('；');inp.addEventListener('input',()=>{row[key]=inp.value;if(key==='name')row._importNameSource=inp.value;if(key==='unit'){row._unitMissing=!inp.value.trim();td.classList.toggle('unit-review',row._unitMissing)}if(key==='qty'||key==='price'){const amount=calculateAmount(row);row.amount=amount===null?'':amount;inputs.amount.value=row.amount}paintAmountCheck(row,tr);fmt.textContent=[...(new Set(row._formatKeys||[])),amountCheckText(row)].filter(Boolean).join('；')||'—'});td.appendChild(inp);tr.appendChild(td)}
+        const fmt=document.createElement('td');fmt.textContent=[...(new Set(row._formatKeys||[])),amountCheckText(row)].filter(Boolean).join('；')||'—';fmt.style.whiteSpace='nowrap';tr.appendChild(fmt);const td=document.createElement('td'),btn=document.createElement('button');btn.type='button';btn.className='ledger-remove';btn.textContent='移除';btn.addEventListener('click',()=>{pasteDraft.splice(i,1);pasteMergeDraft=pasteMergeDraft.map(m=>({...m,positions:m.positions.filter(x=>x!==i).map(x=>x>i?x-1:x)})).filter(m=>m.positions.length>=2);pasteRender()});td.appendChild(btn);tr.appendChild(td);tbody.appendChild(tr);
       });
       pasteEl('ledgerPasteTableWrap').hidden=!pasteDraft.length;
       pasteEl('ledgerPasteCommit').disabled=!pasteDraft.length;
       pasteEl('ledgerPasteCommit').textContent=`確認加入 ${pasteDraft.length} 筆`;
-      const uncertain=pasteDraft.filter(x=>x._note).length;
-      pasteEl('ledgerPasteAlert').textContent=pasteDraft.length?`辨識到 ${pasteDraft.length} 筆。${uncertain?'其中 '+uncertain+' 筆有不確定欄位，請核對來源及全部金額。':'請核對所有欄位，尤其兩個合計和客戶名稱。'} 原本沒有「實收」的表格會保留「實收」空白；原帳本不會被覆蓋。`:'未辨識到記錄。若為逐行文字，請確保數量形如「4條」；或從 WPS / Excel 複製帶有 Tab 的表格。';
+      const uncertain=pasteDraft.filter(x=>x._note).length,mismatches=pasteDraft.filter(amountMismatch).length,missingUnits=pasteDraft.filter(x=>x._unitMissing).length;
+      pasteEl('ledgerPasteAlert').textContent=pasteDraft.length?`辨識到 ${pasteDraft.length} 筆。${mismatches?mismatches+' 筆總價與來源不符，已標紅；總價已按數量 × 單價重算。':'總價已按數量 × 單價計算。'}${missingUnits?missingUnits+' 行單位待補，已標示黃色。':''}${uncertain?'其中 '+uncertain+' 筆有不確定欄位，請核對來源及全部金額。':'請核對所有欄位，尤其兩個合計和客戶名稱。'} 原本沒有「實收」的表格會保留「實收」空白；原帳本不會被覆蓋。`:'未辨識到記錄。若為逐行文字，請確保數量形如「4條」；或從 WPS / Excel 複製帶有 Tab 的表格。';
     }
-    pasteEl('ledgerPasteFile').addEventListener('change',async e=>{
+    pasteEl('ledgerPasteFile').addEventListener('change',async e=>{pasteMediaResult=null;
       const f=e.target.files?.[0];if(!f)return;
       const content=await f.text();
       if(/\.html?$/i.test(f.name)){pasteRich=content;pasteEl('ledgerPasteText').value='已載入帶格式 HTML 表格：'+f.name;}
       else{pasteRich=null;pasteEl('ledgerPasteText').value=content;}
       pasteEl('ledgerPasteFormatInfo').textContent='已選擇 '+f.name+'，請按「辨識並預覽」。';
     });
-    pasteEl('ledgerPasteText').addEventListener('paste',e=>{const html=e.clipboardData?.getData('text/html')||'';pasteRich=/<table[\s>]/i.test(html)?html:null;});
-    pasteEl('ledgerPasteText').addEventListener('input',e=>{if(!e.inputType?.startsWith('insertFromPaste'))pasteRich=null});
-    pasteEl('ledgerPasteBtn').addEventListener('click',()=>{pasteRich=null;pasteMergeDraft=[];pasteDraft=[];pasteEl('ledgerPasteDialog').hidden=false;pasteEl('ledgerPasteTableWrap').hidden=true;pasteEl('ledgerPasteCommit').disabled=true;pasteEl('ledgerPasteText').focus()});
-    pasteEl('ledgerPasteClose').addEventListener('click',()=>pasteEl('ledgerPasteDialog').hidden=true);
-    pasteEl('ledgerPastePreview').addEventListener('click',()=>{const rich=pasteParseRich(pasteRich);pasteDraft=rich?.rows?.length?rich.rows:pasteParse(pasteEl('ledgerPasteText').value);pasteMergeDraft=rich?.rows?.length?rich.merges:[];pasteEl('ledgerPasteFormatInfo').textContent=rich?.rows?.length?`偵測到帶格式表格：${rich.colors} 個有色儲存格、${rich.merges.length} 個縱向合併；確認後保留原色及合併。欄位：${rich.columns}`:'目前只辨識到純文字：原始顏色和合併無法從純文字還原；請直接從 WPS / Excel 的儲存格複製貼上。';pasteRender()});
+    pasteEl('ledgerPasteText').addEventListener('paste',e=>{pasteMediaResult=null;const html=e.clipboardData?.getData('text/html')||'';pasteRich=/<table[\s>]/i.test(html)?html:null;});
+    pasteEl('ledgerPasteText').addEventListener('input',e=>{pasteMediaResult=null;if(!e.inputType?.startsWith('insertFromPaste'))pasteRich=null});
+    let pasteMediaResult=null,pasteImportGeneration=0;
+    function openPasteDialog(){
+      pasteImportGeneration++;pasteMediaResult=null;pasteRich=null;pasteMergeDraft=[];pasteDraft=[];
+      pasteEl('ledgerPasteDialog').hidden=false;pasteEl('ledgerPasteTableWrap').hidden=true;pasteEl('ledgerPasteCommit').disabled=true;
+      pasteEl('ledgerPastePreview').disabled=false;pasteEl('ledgerPasteAlert').textContent='請貼上文字，或選擇圖片／PDF 導入。';pasteEl('ledgerPasteFormatInfo').textContent='';
+      pasteEl('ledgerPasteText').value='';pasteEl('ledgerPasteText').focus();
+    }
+    function previewPasteImport(){
+      if(pasteMediaResult){pasteDraft=pasteMediaResult.dataRows.map(r=>({...r}));pasteMergeDraft=pasteMediaResult.merges||[];pasteRender();return}
+      const rich=pasteParseRich(pasteRich);pasteDraft=rich?.rows?.length?rich.rows:pasteParse(pasteEl('ledgerPasteText').value);pasteMergeDraft=rich?.rows?.length?rich.merges:[];
+      prepareImportedRows(pasteDraft,true);
+      pasteEl('ledgerPasteFormatInfo').textContent=rich?.rows?.length?`偵測到帶格式表格：${rich.colors} 個有色儲存格、${rich.merges.length} 個縱向合併；確認後保留原色及合併。欄位：${rich.columns}`:'純文字不包含原始顏色與合併資訊；請核對各欄位。';
+      pasteRender();
+    }
+    pasteEl('ledgerMediaBtn').addEventListener('click',()=>pasteEl('ledgerMediaFile').click());
+    pasteEl('ledgerMediaFile').addEventListener('change',async event=>{
+      const file=event.target.files?.[0];if(!file)return;
+      openPasteDialog();const generation=pasteImportGeneration;
+      pasteEl('ledgerPastePreview').disabled=true;pasteEl('ledgerPasteAlert').textContent='正在識別 '+file.name+'…';
+      const ownSink=message=>{if(generation===pasteImportGeneration)pasteEl('ledgerPasteAlert').textContent=message};importProgressSink=ownSink;
+      try{
+        const result=await parseFile(file,true);if(generation!==pasteImportGeneration)return;
+        prepareImportedRows(result.dataRows,true);pasteMediaResult=result;pasteRich=null;pasteDraft=result.dataRows;pasteMergeDraft=result.merges||[];
+        pasteEl('ledgerPasteText').value='已導入 '+file.name+'，請在下方預覽核對後確認加入。';
+        pasteEl('ledgerPasteFormatInfo').textContent=[file.name,...(result.warnings||[])].join('；');pasteRender();
+      }catch(error){if(generation===pasteImportGeneration){pasteEl('ledgerPasteAlert').textContent='導入失敗：'+(error.message||error);pasteEl('ledgerPasteCommit').disabled=true}}
+      finally{if(importProgressSink===ownSink)importProgressSink=null;if(generation===pasteImportGeneration)pasteEl('ledgerPastePreview').disabled=false;event.target.value=''}
+    });
+    pasteEl('ledgerImportNameMode').addEventListener('change',()=>pasteRender());
+    pasteEl('ledgerPasteBtn').addEventListener('click',openPasteDialog);
+    pasteEl('ledgerPasteClose').addEventListener('click',()=>{pasteImportGeneration++;pasteEl('ledgerPasteDialog').hidden=true});
+    pasteEl('ledgerPastePreview').addEventListener('click',previewPasteImport);
     pasteEl('ledgerPasteCommit').addEventListener('click',()=>{
       const project=ledgerCurrent();if(!project||!pasteDraft.length)return;
       const mergedNames=new Set(pasteMergeDraft.filter(m=>m.kind==='name').flatMap(m=>m.positions));
@@ -1761,7 +1954,7 @@ function ledgerCurrent(){return ledgerProjects.find(p=>p.id===activeLedgerId)||n
       if(project.rows.length-(replaceStarter?1:0)+pasteDraft.length>20000){alert('匯入後超過單項目 20000 筆限制，請分開項目。');return}
       if(replaceStarter)project.rows=[];
       const before=project.rows.length;
-      const imported=pasteDraft.map(r=>cleanLedgerEntry(r));
+      prepareImportedRows(pasteDraft,true);const imported=pasteDraft.map(r=>cleanLedgerEntry(r));
       project.rows.push(...imported);
       project.cellMerges??=[];
       for(const m of pasteMergeDraft){
@@ -1785,7 +1978,7 @@ function ledgerCurrent(){return ledgerProjects.find(p=>p.id===activeLedgerId)||n
       const selected=p.rows.filter(r=>ledgerSelectedIds.has(r.id));
       if(!selected.length){ledgerNotice("请先勾选至少一笔明细。",true);return}
       // 按記帳明細 ID 選取而不是按日期；單日兩筆只勾一筆也只加入一筆。
-      const data=selected.map(r=>({name:normalizeItemName(r.name),spec:safeText(r.spec),qty:r.qty===""?null:r.qty,unit:safeText(r.unit),price:r.price===""?null:r.price,amount:r.amount===""?null:r.amount,rateRaw:null,code:"",policy:"",bookDate:r.date,bookCompany:p.projectName,bookEntryId:r.id}));
+      const data=selected.map(r=>({name:normalizeItemName(r.name),spec:safeText(r.spec),qty:r.qty===""?null:r.qty,unit:safeText(r.unit),price:r.price===""?null:r.price,amount:r.amount===""?null:r.amount,rateRaw:null,code:"",policy:"",_sourceAmount:r._sourceAmount,_importAmountChecked:r._importAmountChecked,bookDate:r.date,bookCompany:p.projectName,bookEntryId:r.id}));
       if(!parsed)parsed={dataRows:[],sourceType:"ledger",usedOcr:false};
       parsed.dataRows.push(...data);applyNameRules(parsed.dataRows);showPreview(parsed);syncReadyState();
       status(`已从「${p.projectName||"未命名项目"}」转入 ${selected.length} 笔记账明细（逐笔选择），目前开票区共 ${parsed.dataRows.length} 笔。请检查后下载。`,"ok");
@@ -1819,6 +2012,118 @@ function ledgerCurrent(){return ledgerProjects.find(p=>p.id===activeLedgerId)||n
         activeLedgerId=null;ledgerSave();ledgerHome();alert(`恢复成功：${ledgerProjects.length} 个项目`);
       }catch(err){alert("导入备份失败："+(err.message||err))}finally{e.target.value=""}
     });
+    let ledgerRowSearchIds=[],ledgerRowSearchIndex=-1,ledgerRowSearchQuery='',ledgerRowSearchTimer=null;
+    let ledgerTableZoom=1,ledgerPinchStart=null,ledgerTouchPinch=null;
+    function ledgerRefreshScrollButtons(){
+      const nav=ledgerEl('ledgerScrollNav'),wrap=ledgerEl('ledgerTableWrap');if(!nav)return;
+      nav.hidden=ledgerEl('ledgerPane').hidden;
+      ledgerEl('ledgerScrollTop').hidden=window.scrollY<40&&(ledgerEl('ledgerEditor').hidden||wrap.scrollTop<40);
+    }
+    function ledgerScrollToEdge(bottom){
+      const wrap=ledgerEl('ledgerTableWrap');
+      if(!ledgerEl('ledgerEditor').hidden)wrap.scrollTo({top:bottom?wrap.scrollHeight:0,behavior:'smooth'});
+      window.scrollTo({top:bottom?document.documentElement.scrollHeight:0,behavior:'smooth'});
+    }
+    function ledgerResetRowSearch(){
+      clearTimeout(ledgerRowSearchTimer);ledgerRowSearchIds=[];ledgerRowSearchIndex=-1;ledgerRowSearchQuery='';
+      const input=ledgerEl('ledgerRowSearch');if(input)input.value='';
+      const count=ledgerEl('ledgerRowSearchCount');if(count)count.textContent='';
+    }
+    function ledgerSearchText(row){
+      return ['date','name','spec','qty','unit','price','amount','received','amountTotal','receivedTotal','party','taxStatus','delivery','note']
+        .map(k=>String(row[k]??'')).join(' ').toLowerCase().replace(/[,，￥¥]/g,'');
+    }
+    function ledgerRefreshRowSearch(jump=false){
+      const p=ledgerCurrent(),input=ledgerEl('ledgerRowSearch');if(!p||!input)return;
+      const query=input.value.trim().toLowerCase(),priorId=ledgerRowSearchIds[ledgerRowSearchIndex],changed=query!==ledgerRowSearchQuery;
+      ledgerRowSearchQuery=query;const terms=query.split(/\s+/).filter(Boolean);
+      ledgerRowSearchIds=terms.length?ledgerVisibleRows(p).filter(row=>{const text=ledgerSearchText(row);return terms.every(t=>text.includes(t.replace(/[,，￥¥]/g,'')))}).map(r=>r.id):[];
+      ledgerRowSearchIndex=ledgerRowSearchIds.length?(changed?0:Math.max(0,ledgerRowSearchIds.indexOf(priorId))):-1;
+      const matches=new Set(ledgerRowSearchIds),active=ledgerRowSearchIds[ledgerRowSearchIndex];
+      for(const tr of ledgerEl('ledgerLines').querySelectorAll('tr[data-row-id]')){tr.classList.toggle('ledger-search-match',matches.has(tr.dataset.rowId));tr.classList.toggle('ledger-search-current',tr.dataset.rowId===active)}
+      ledgerEl('ledgerRowSearchCount').textContent=query?(ledgerRowSearchIds.length?`${ledgerRowSearchIndex+1} / ${ledgerRowSearchIds.length}`:'無符合明細'):'';
+      ledgerEl('ledgerRowSearchPrev').disabled=!ledgerRowSearchIds.length;ledgerEl('ledgerRowSearchNext').disabled=!ledgerRowSearchIds.length;
+      if(jump&&active)ledgerJumpToSearchRow(active);
+    }
+    function ledgerJumpToSearchRow(id){
+      const wrap=ledgerEl('ledgerTableWrap'),tr=[...ledgerEl('ledgerLines').querySelectorAll('tr[data-row-id]')].find(t=>t.dataset.rowId===id);if(!tr)return;
+      wrap.scrollIntoView({block:'nearest',inline:'nearest',behavior:'smooth'});
+      const header=wrap.querySelector('thead'),inset=header?header.getBoundingClientRect().height:0;
+      wrap.scrollTo({top:wrap.scrollTop+tr.getBoundingClientRect().top-wrap.getBoundingClientRect().top-inset-8,behavior:'smooth'});
+    }
+    function ledgerStepRowSearch(direction){
+      if(!ledgerRowSearchIds.length)return;
+      ledgerRowSearchIndex=(ledgerRowSearchIndex+direction+ledgerRowSearchIds.length)%ledgerRowSearchIds.length;
+      const id=ledgerRowSearchIds[ledgerRowSearchIndex];
+      for(const tr of ledgerEl('ledgerLines').querySelectorAll('tr[data-row-id]'))tr.classList.toggle('ledger-search-current',tr.dataset.rowId===id);
+      ledgerEl('ledgerRowSearchCount').textContent=`${ledgerRowSearchIndex+1} / ${ledgerRowSearchIds.length}`;ledgerJumpToSearchRow(id);
+    }
+    function ledgerSetTableZoom(value,clientX,clientY,persist=true){
+      const wrap=ledgerEl('ledgerTableWrap'),table=wrap.querySelector('table'),box=wrap.getBoundingClientRect(),previous=ledgerTableZoom;
+      const next=Math.max(.5,Math.min(2,Number(value)||1));
+      const x=Number.isFinite(clientX)?Math.max(0,Math.min(box.width,clientX-box.left)):box.width/2;
+      const y=Number.isFinite(clientY)?Math.max(0,Math.min(box.height,clientY-box.top)):box.height/2;
+      const contentX=(wrap.scrollLeft+x)/previous,contentY=(wrap.scrollTop+y)/previous;
+      ledgerTableZoom=next;table.style.zoom=String(next);
+      wrap.scrollLeft=contentX*next-x;wrap.scrollTop=contentY*next-y;
+      ledgerEl('ledgerZoomRange').value=String(Math.round(next*100));ledgerEl('ledgerZoomValue').textContent=Math.round(next*100)+'%';
+      if(persist)try{localStorage.setItem('ledger_table_zoom_v1',String(next))}catch(_e){}
+    }
+    function ledgerPanTable(dx,dy){
+      const wrap=ledgerEl('ledgerTableWrap'),oldX=wrap.scrollLeft,oldY=wrap.scrollTop;
+      wrap.scrollLeft+=dx;wrap.scrollTop+=dy;
+      const usedY=wrap.scrollTop-oldY;
+      // Carry only the vertical remainder to the page. Horizontal and vertical
+      // movement are applied in the same event, including at the table edges.
+      if(Math.abs(dy-usedY)>.5)window.scrollBy({top:dy-usedY,behavior:'instant'});
+      ledgerRefreshScrollButtons();return wrap.scrollLeft!==oldX||wrap.scrollTop!==oldY;
+    }
+    function ledgerInitNavigation(){
+      const wrap=ledgerEl('ledgerTableWrap'),search=ledgerEl('ledgerRowSearch');
+      ledgerEl('ledgerScrollTop').addEventListener('click',()=>ledgerScrollToEdge(false));ledgerEl('ledgerScrollBottom').addEventListener('click',()=>ledgerScrollToEdge(true));
+      document.addEventListener('scroll',ledgerRefreshScrollButtons,{capture:true,passive:true});window.addEventListener('resize',ledgerRefreshScrollButtons);
+      search.addEventListener('input',()=>{clearTimeout(ledgerRowSearchTimer);ledgerRowSearchTimer=setTimeout(()=>ledgerRefreshRowSearch(true),120)});
+      search.addEventListener('keydown',event=>{if(event.key==='Enter'){event.preventDefault();clearTimeout(ledgerRowSearchTimer);ledgerRefreshRowSearch(false);ledgerStepRowSearch(event.shiftKey?-1:1)}else if(event.key==='Escape'){event.preventDefault();search.value='';ledgerRefreshRowSearch(false)}});
+      ledgerEl('ledgerRowSearchClear').addEventListener('click',()=>{search.value='';ledgerRefreshRowSearch(false);search.focus()});
+      ledgerEl('ledgerRowSearchPrev').addEventListener('click',()=>ledgerStepRowSearch(-1));ledgerEl('ledgerRowSearchNext').addEventListener('click',()=>ledgerStepRowSearch(1));
+      ledgerEl('ledgerZoomRange').addEventListener('input',event=>ledgerSetTableZoom(Number(event.target.value)/100));ledgerEl('ledgerZoomReset').addEventListener('click',()=>ledgerSetTableZoom(1));
+      let saved=1;try{saved=Number(localStorage.getItem('ledger_table_zoom_v1'))||1}catch(_e){}ledgerSetTableZoom(saved,undefined,undefined,false);
+      wrap.addEventListener('wheel',event=>{
+        if(event.ctrlKey||event.metaKey){event.preventDefault();if(!ledgerPinchStart)ledgerSetTableZoom(ledgerTableZoom*Math.exp(-event.deltaY*.008),event.clientX,event.clientY);return}
+        // Suggestion lists and textareas keep their own vertical scrolling.
+        if(event.target.closest('.name-suggestions,.ledger-cell-display-value,textarea'))return;
+        const multiplier=event.deltaMode===1?18:event.deltaMode===2?wrap.clientHeight:1;
+        let dx=event.deltaX*multiplier,dy=event.deltaY*multiplier;if(event.shiftKey&&!dx){dx=dy;dy=0}
+        if(!dx&&!dy)return;event.preventDefault();ledgerPanTable(dx,dy);
+      },{passive:false});
+      wrap.addEventListener('gesturestart',event=>{event.preventDefault();ledgerPinchStart={zoom:ledgerTableZoom,x:event.clientX,y:event.clientY}},{passive:false});
+      wrap.addEventListener('gesturechange',event=>{event.preventDefault();if(ledgerPinchStart)ledgerSetTableZoom(ledgerPinchStart.zoom*event.scale,ledgerPinchStart.x,ledgerPinchStart.y)},{passive:false});
+      wrap.addEventListener('gestureend',event=>{event.preventDefault();ledgerPinchStart=null},{passive:false});
+      const pinch=touches=>{const a=touches[0],b=touches[1];return {distance:Math.hypot(a.clientX-b.clientX,a.clientY-b.clientY),x:(a.clientX+b.clientX)/2,y:(a.clientY+b.clientY)/2}};
+      wrap.addEventListener('touchstart',event=>{if(event.touches.length===2){event.preventDefault();ledgerTouchPinch={...pinch(event.touches),zoom:ledgerTableZoom}}},{passive:false});
+      wrap.addEventListener('touchmove',event=>{if(event.touches.length===2&&ledgerTouchPinch){event.preventDefault();const current=pinch(event.touches);if(ledgerTouchPinch.distance>0)ledgerSetTableZoom(ledgerTouchPinch.zoom*current.distance/ledgerTouchPinch.distance,current.x,current.y)}},{passive:false});
+      wrap.addEventListener('touchend',event=>{if(event.touches.length<2)ledgerTouchPinch=null},{passive:true});wrap.addEventListener('touchcancel',()=>ledgerTouchPinch=null,{passive:true});
+      ledgerRefreshScrollButtons();
+    }
+    ledgerInitNavigation();
+
+    const SETTINGS_LAYOUT_KEY='ledger_home_layout_v1';
+    function ledgerApplyHomeLayout(value){
+      const layout=value==='grid'?'grid':'list';
+      ledgerEl('ledgerHome').classList.toggle('home-grid',layout==='grid');
+      document.querySelectorAll('input[name="homeLayout"]').forEach(input=>input.checked=input.value===layout);
+    }
+    function ledgerInitSettings(){
+      let layout='list';try{layout=localStorage.getItem(SETTINGS_LAYOUT_KEY)||'list'}catch(_e){}ledgerApplyHomeLayout(layout);
+      const dialog=ledgerEl('settingsDialog');ledgerEl('settingsBtn').addEventListener('click',()=>dialog.showModal());
+      dialog.addEventListener('click',event=>{if(event.target===dialog){const b=dialog.getBoundingClientRect();if(event.clientX<b.left||event.clientX>b.right||event.clientY<b.top||event.clientY>b.bottom)dialog.close()}});
+      document.querySelectorAll('input[name="homeLayout"]').forEach(input=>input.addEventListener('change',()=>{
+        if(!input.checked)return;ledgerApplyHomeLayout(input.value);
+        try{localStorage.setItem(SETTINGS_LAYOUT_KEY,input.value);ledgerEl('settingsSaved').textContent='已保存，下次開啟也會使用此設定。'}catch(_e){ledgerEl('settingsSaved').textContent='已套用；瀏覽器無法保存設定，下次開啟會使用列表。'}
+      }));
+      window.addEventListener('storage',event=>{if(event.key===SETTINGS_LAYOUT_KEY)ledgerApplyHomeLayout(event.newValue)});
+    }
+    ledgerInitSettings();
     ledgerLoad();ledgerRenderHome();ledgerTab("ledger");
     if(ledgerProjects.length){backupRevision++;pushAutoBackup();}else showBackupStatus("尚無帳本；如從舊版搬移，請先導入 JSON 備份");
   })();
