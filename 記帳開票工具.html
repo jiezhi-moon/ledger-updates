@@ -293,7 +293,7 @@
     <section class="ledger-pane" id="ledgerPane" role="tabpanel" aria-labelledby="tabLedger">
       <div class="ledger-home" id="ledgerHome">
         <div class="ledger-head">
-          <div><div class="ledger-home-title"><h2>记账项目</h2><span class="ledger-version" aria-label="目前版本 1.0.8">v1.0.8</span><span class="ledger-update-controls"><button type="button" id="manualUpdateBtn" class="ledger-update-btn">檢查更新</button><button type="button" id="manualApplyBtn" class="ledger-update-btn" hidden>手動更新</button><span id="manualUpdateStatus" class="ledger-update-status" aria-live="polite"></span></span></div><p class="ledger-subtitle">搜索项目名称或明细内容，打开最近编辑的账本。</p></div>
+          <div><div class="ledger-home-title"><h2>记账项目</h2><span class="ledger-version" aria-label="目前版本 1.0.9">v1.0.9</span><span class="ledger-update-controls"><button type="button" id="manualUpdateBtn" class="ledger-update-btn">檢查更新</button><button type="button" id="manualApplyBtn" class="ledger-update-btn" hidden>手動更新</button><span id="manualUpdateStatus" class="ledger-update-status" aria-live="polite"></span></span></div><p class="ledger-subtitle">搜索项目名称或明细内容，打开最近编辑的账本。</p></div>
           <div class="ledger-backup"><span id="autoBackupStatus" style="font-size:12px;color:#64748b;align-self:center">自動備份：等待連線</span><button type="button" id="ledgerCloudBackupBtn" class="ledger-btn-primary">☁ 手動雲端備份</button><span id="ledgerCloudBackupStatus" class="ledger-cloud-status" role="status" aria-live="polite"></span><button type="button" id="ledgerBackupBtn" class="ledger-btn-light">备份记账资料</button><button type="button" id="ledgerRestoreBtn" class="ledger-btn-plain">导入备份</button></div>
         </div>
         <div class="ledger-tools"><input id="ledgerSearch" class="ledger-search" placeholder="搜索项目名称／公司或人／商品名称" aria-label="搜索记账项目"><button type="button" id="ledgerNewBtn" class="ledger-btn-primary">＋ 新建项目</button></div>
@@ -414,7 +414,7 @@
         <div class="actions"><button class="primary" id="convertBtn" disabled>转换并下载 XLSX</button></div>
       </section>
     </div>
-    <div class="foot">版本 1.0.8：2026-10-23。圖片及掃描 PDF 優先使用 Mac 系統文字辨識；本機不可用時自動改用瀏覽器 OCR（需聯網），請核對識別結果。输出文件名：<b>发票开具项目信息导入模板_自动修正后.xlsx</b>。目标模板原有工作表会保留；导出时会删除顶部“填表说明”整行，不再留下空白框。PDF 最多处理 200 页。遇到 Excel 横向打印成左右两组 PDF 页面时，会自动按行重新配对。</div>
+    <div class="foot">版本 1.0.9：2026-10-24。圖片及掃描 PDF 優先使用 Mac 系統文字辨識；本機不可用時自動改用瀏覽器 OCR（需聯網），請核對識別結果。输出文件名：<b>发票开具项目信息导入模板_自动修正后.xlsx</b>。目标模板原有工作表会保留；导出时会删除顶部“填表说明”整行，不再留下空白框。PDF 最多处理 200 页。遇到 Excel 横向打印成左右两组 PDF 页面时，会自动按行重新配对。</div>
     </section>
   </div>
 
@@ -613,17 +613,21 @@
       if(/单位|單位/.test(result.text)||units.length&&units.length>=lines.length*.6)grid.separateUnit=true;
     }
     async function recognizeGridHeaders(canvas,grid,worker){
-      const band=grid.bands[0],y=Math.round(band[0]*canvas.height),height=Math.max(2,Math.round((band[1]-band[0])*canvas.height)),crop=document.createElement('canvas');crop.width=canvas.width;crop.height=height;
-      crop.getContext('2d').drawImage(canvas,0,y,canvas.width,height,0,0,canvas.width,height);
-      const result=await ocrCanvas(crop,worker,'表頭欄位',6),fields=grid.edges.slice(0,-1).map((_,i)=>{
-        const text=result.words.filter(t=>t.cx>=grid.edges[i]&&t.cx<grid.edges[i+1]).sort((a,b)=>a.x0-b.x0).map(t=>t.text).join('');return pasteHeaderKey(text);
-      });
-      if(['name','spec','qty','price','amount'].every(k=>fields.includes(k)))grid.headerFields=fields;
+      // A table may begin with a company/title row above its actual headings.
+      for(let bi=0;bi<Math.min(4,grid.bands.length);bi++){
+        const band=grid.bands[bi],y=Math.round(band[0]*canvas.height),height=Math.max(2,Math.round((band[1]-band[0])*canvas.height)),crop=document.createElement('canvas');crop.width=canvas.width;crop.height=height;
+        crop.getContext('2d').drawImage(canvas,0,y,canvas.width,height,0,0,canvas.width,height);
+        const result=await ocrCanvas(crop,worker,`表頭欄位 ${bi+1}`,6),fields=grid.edges.slice(0,-1).map((_,i)=>{
+          const text=result.words.filter(t=>t.cx>=grid.edges[i]&&t.cx<grid.edges[i+1]).sort((a,b)=>a.x0-b.x0).map(t=>t.text).join('').trim();
+          return /^(合计|合計)$/.test(text)?'amountTotal':pasteHeaderKey(text);
+        });
+        if(['name','spec','qty','price','amount'].every(k=>fields.includes(k))){grid.headerFields=fields;grid.headerBand=bi;return}
+      }
     }
     async function recoverGridUnits(canvas,grid,worker,rows){
       const fields=gridFieldKeys(grid,true),qtyCol=fields.indexOf('qty'),unitCol=fields.indexOf('unit');if(qtyCol<0)return;
       for(const row of rows){
-        const known=normalizeDetectedUnit(row.unit);if(known){row.unit=known;row._unitMissing=false;continue}
+        const known=normalizeDetectedUnit(row.unit);if(known&&row.qty!==null){row.unit=known;row._unitMissing=false;continue}
         const ci=unitCol>=0?unitCol:qtyCol,span=grid.spans[ci].find(([a,b])=>row._band>=a&&row._band<=b)||[row._band,row._band];
         const left=Math.round(grid.edges[unitCol>=0?qtyCol:ci]*canvas.width)+2,right=Math.round(grid.edges[ci+1]*canvas.width)-2;
         const top=Math.round(grid.bands[span[0]][0]*canvas.height)+2,bottom=Math.round(grid.bands[span[1]][1]*canvas.height)-2;
@@ -633,12 +637,43 @@
           const ctx=crop.getContext('2d');ctx.fillStyle='#fff';ctx.fillRect(0,0,crop.width,crop.height);ctx.drawImage(canvas,left,top,width,height,pad,pad,width*factor,height*factor);
           if(unitCol>=0){const divider=pad+(grid.edges[unitCol]*canvas.width-left)*factor;ctx.fillStyle='#fff';ctx.fillRect(divider-3*factor,pad,6*factor,height*factor)}
           const result=await ocrCanvas(crop,worker,`第 ${row._band+1} 行單位重試`,7,null,'quantity');
-          const raw=result.text.replace(/\s/g,''),q=parseQtyRaw(raw),unit=normalizeDetectedUnit(q.unit)||normalizeDetectedUnit(raw);
+          const raw=result.text.replace(/\s/g,''),q=parseQtyRaw(raw),unit=known||normalizeDetectedUnit(q.unit)||normalizeDetectedUnit(raw)||normalizeDetectedUnit(raw.slice(-2))||normalizeDetectedUnit(raw.slice(-1));
+          if(row.qty===null&&q.qty===null&&unit&&/^[\u4e00-\u9fff]$/.test(unit)){const recovered=await recoverQuantityDigits(crop,worker,`第 ${row._band+1} 行`);if(recovered!==null)q.qty=recovered}
           if(!unit||row.qty!==null&&q.qty!==null&&Math.abs(row.qty-q.qty)>1e-8)continue;
-          row.unit=unit;if(row.qty===null&&q.qty!==null)row.qty=q.qty;break;
+          row.unit=unit;if(row.qty===null){if(q.qty===null)continue;row.qty=q.qty}break;
         }
         row._unitMissing=!normalizeDetectedUnit(row.unit);
       }
+    }
+    async function recoverQuantityDigits(crop,worker,label){
+      // Some fonts make "4条" look like Chinese text to Vision. Re-read only
+      // the numeric prefix at two conservative cuts; require both to agree.
+      const w=crop.width,h=crop.height,data=crop.getContext('2d',{willReadFrequently:true}).getImageData(0,0,w,h).data;
+      const rowCounts=new Array(h).fill(0),colCounts=new Array(w).fill(0);
+      for(let y=4;y<h-4;y++)for(let x=4;x<w-4;x++){const k=(y*w+x)*4;if(data[k]<160&&data[k+1]<160&&data[k+2]<160){rowCounts[y]++;colCounts[x]++}}
+      const ruledRows=new Set(),ruledCols=new Set();
+      rowCounts.forEach((n,y)=>{if(n>w*.65)for(let d=-2;d<=2;d++)ruledRows.add(y+d)});
+      colCounts.forEach((n,x)=>{if(n>h*.75)for(let d=-2;d<=2;d++)ruledCols.add(x+d)});
+      let left=w,right=0,top=h,bottom=0;
+      for(let y=4;y<h-4;y++)for(let x=4;x<w-4;x++){
+        const k=(y*w+x)*4;if(!ruledRows.has(y)&&!ruledCols.has(x)&&data[k]<160&&data[k+1]<160&&data[k+2]<160){left=Math.min(left,x);right=Math.max(right,x);top=Math.min(top,y);bottom=Math.max(bottom,y)}
+      }
+      if(right<=left||bottom<=top)return null;
+      const values=[];
+      for(const factor of [.85,.95]){
+        const cut=Math.round(right-(bottom-top+1)*factor),width=cut-left+1;
+        if(width<5)continue;
+        const digit=document.createElement('canvas'),scale=2,pad=18,textHeight=(bottom-top+1)*scale;
+        const sentinelWidth=Math.ceil(textHeight*1.9);digit.width=width*scale+pad*2+sentinelWidth*2;digit.height=textHeight+pad*2;
+        const ctx=digit.getContext('2d');ctx.fillStyle='#fff';ctx.fillRect(0,0,digit.width,digit.height);
+        ctx.drawImage(crop,left,top,width,bottom-top+1,pad+sentinelWidth,pad,width*scale,textHeight);
+        // Vision often ignores an isolated digit. Known guard digits provide
+        // context; accept only a result retaining both exact guards.
+        ctx.fillStyle='#000';ctx.font=`${textHeight}px serif`;ctx.textBaseline='top';ctx.fillText('123',pad,pad-3);ctx.fillText('789',pad+sentinelWidth+width*scale+8,pad-3);
+        const result=await ocrCanvas(digit,worker,label+' 數字重試',7,null,'number'),match=result.text.replace(/\s/g,'').match(/^123(\d+(?:\.\d+)?)789$/),number=match?Number(match[1]):null;
+        if(number===null)return null;values.push(number);
+      }
+      return values.length===2&&values[0]===values[1]?values[0]:null;
     }
     function detectGridGeometry(canvas){
       const w=canvas.width,h=canvas.height,data=canvas.getContext('2d',{willReadFrequently:true}).getImageData(0,0,w,h).data;
@@ -704,7 +739,7 @@
     }
     function finalizeGridRows(rows){
       return rows.filter(r=>!(/^(名称|名稱|项目名称|項目名稱|日期|合计|合計|总计|總計|实收|實收)$/.test(norm(r.name))||/^(规格|規格|规格型号|規格型號)$/.test(norm(r.spec))))
-        .filter(r=>r.spec||r.qty!==null||r.price!==null||r.amount!==null);
+        .filter(r=>r.name||r.spec||r.qty!==null||r.price!==null);
     }
     async function recognizeGridColumns(canvas,grid,worker,includeLedger=false){
       const edges=grid.edges.map(x=>Math.round(x*canvas.width)),tokens=[],fields=gridFieldKeys(grid,includeLedger);
@@ -716,17 +751,30 @@
         const linePad=Math.max(1,Math.round(canvas.height<180?1:canvas.width/900));
         const borders=new Set();for(const [a,b] of grid.spans[ci]){borders.add(grid.bands[a][0]);borders.add(grid.bands[b][1])}
         for(const y of borders)ctx.fillRect(0,Math.round(y*height)-linePad,width,linePad*2+1);
-        // Give short, edge-cropped text white space. Keep a moderate character height.
-        const scale=ci===2&&height>180?2:1,padding=Math.max(12,Math.round(height<180?height*.15:12));
-        const input=document.createElement('canvas');input.width=Math.round(width*scale)+padding*2;input.height=Math.round(height*scale)+padding*2;
-        const c=input.getContext('2d');c.fillStyle='#fff';c.fillRect(0,0,input.width,input.height);c.drawImage(cropped,padding,padding,width*scale,height*scale);
+        // Tall narrow columns can produce an empty Vision result. Split only at
+        // actual cell boundaries so merged names/totals remain in a single tile.
+        const tiles=[];let start=0,previous=0;
+        for(const [,b] of grid.spans[ci]){
+          const end=Math.round(grid.bands[b][1]*height);
+          if(end-start>900&&previous>start){tiles.push([start,previous]);start=previous}
+          previous=end;
+        }
+        tiles.push([start,height]);
+        const scale=fields[ci]==='qty'&&height>180?2:1,padding=Math.max(12,Math.round(height<180?height*.15:12));
         const mode=['price','amount','amountTotal','receivedTotal'].includes(fields[ci])?'number':'text';
-        const res=await ocrCanvas(input,worker,`第 ${ci+1}/${fields.length} 欄`,6,null,mode);
-        for(const rawToken of res.words){
-          const t=mode==='number'?{...rawToken,text:rawToken.text.replace(/[\s|｜]/g,'')}:rawToken;
-          if(mode==='number'&&strictNumber(t.text)===null)continue;
-          const xx0=(t.x0*input.width-padding)/scale,xx1=(t.x1*input.width-padding)/scale,yy=(t.cy*input.height-padding)/scale;
-          tokens.push({...t,x0:(x0+pad+xx0)/canvas.width,x1:(x0+pad+xx1)/canvas.width,cx:(x0+pad+(xx0+xx1)/2)/canvas.width,cy:yy/height,h:t.h*input.height/scale/height});
+        for(let ti=0;ti<tiles.length;ti++){
+          const [top,bottom]=tiles[ti],tileHeight=bottom-top;if(tileHeight<=0)continue;
+          const input=document.createElement('canvas');input.width=Math.round(width*scale)+padding*2;input.height=Math.round(tileHeight*scale)+padding*2;
+          const c=input.getContext('2d');c.fillStyle='#fff';c.fillRect(0,0,input.width,input.height);c.drawImage(cropped,0,top,width,tileHeight,padding,padding,width*scale,tileHeight*scale);
+          const res=await ocrCanvas(input,worker,`第 ${ci+1}/${fields.length} 欄${tiles.length>1?`（${ti+1}/${tiles.length} 段）`:''}`,6,null,mode);
+          const typicalHeight=median(res.words.map(t=>t.h));
+          for(const rawToken of res.words){
+            if(rawToken.h<typicalHeight*.45)continue; // Tiny comment triangles are not cell text.
+            const t=mode==='number'?{...rawToken,text:rawToken.text.replace(/[\s|｜]/g,'')}:rawToken;
+            if(mode==='number'&&strictNumber(t.text)===null)continue;
+            const xx0=(t.x0*input.width-padding)/scale,xx1=(t.x1*input.width-padding)/scale,yy=top+(t.cy*input.height-padding)/scale;
+            tokens.push({...t,x0:(x0+pad+xx0)/canvas.width,x1:(x0+pad+xx1)/canvas.width,cx:(x0+pad+(xx0+xx1)/2)/canvas.width,cy:yy/height,h:t.h*input.height/scale/height});
+          }
         }
       }
       return tokens;
@@ -745,7 +793,7 @@
           if(/名称|名稱|品名|项目|項目|日期/.test(first.text))await recognizeGridHeaders(canvas,grid,worker);
           await probeGridUnits(canvas,grid,worker);
           const tokens=await recognizeGridColumns(canvas,grid,worker,includeLedger);
-          rows=finalizeGridRows(parseGridImage(tokens,grid,includeLedger));
+          rows=finalizeGridRows(parseGridImage(tokens,grid,includeLedger).filter(r=>grid.headerBand===undefined||r._band>grid.headerBand));
           await recoverGridUnits(canvas,grid,worker,rows);
           if(includeLedger&&dateTokens.length)for(const row of rows){const span=grid.dateSpans.find(([a,b])=>row._band>=a&&row._band<=b)||[row._band,row._band];const b=[grid.bands[span[0]][0],grid.bands[span[1]][1]];const closest=dateTokens.filter(t=>t.cy>=b[0]&&t.cy<=b[1]).map(t=>t.text).join('');row.date=pasteDate(closest)||''}
           gridFailed=rows.length===0;
