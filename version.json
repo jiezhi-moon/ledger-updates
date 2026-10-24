@@ -48,7 +48,7 @@
     },
     {
       "path": "使用說明.txt",
-      "version": "1.0.8",
+      "version": "1.0.9",
       "url": "https://raw.githubusercontent.com/jiezhi-moon/ledger-updates/main/%E4%BD%BF%E7%94%A8%E8%AA%AA%E6%98%8E.txt",
       "sha256": "b02e8758b2b195105bd7e6c9a2fede070632266200d6fded3e6028f50b28cec6",
       "executable": false
