@@ -1,48 +1,48 @@
 {
-  "version": "1.0.9",
+  "version": "1.0.10",
   "schema_version": 2,
-  "url": "https://raw.githubusercontent.com/jiezhi-moon/ledger-updates/main/app.html",
-  "sha256": "b204c745c9c97fa781f2297c52955e496e6ec70c4fd55b53bde1e0e6dc9d5d24",
+  "url": "https://api.github.com/repos/jiezhi-moon/ledger-updates/contents/app.html?ref=main",
+  "sha256": "0060c39e07542e1b67ebd89e2991d70a661c1d7f49ec159f64716cb9385b2575",
   "files": [
     {
       "path": "記帳開票工具.html",
-      "version": "1.0.9",
-      "url": "https://raw.githubusercontent.com/jiezhi-moon/ledger-updates/main/app.html",
-      "sha256": "b204c745c9c97fa781f2297c52955e496e6ec70c4fd55b53bde1e0e6dc9d5d24",
+      "version": "1.0.10",
+      "url": "https://api.github.com/repos/jiezhi-moon/ledger-updates/contents/app.html?ref=main",
+      "sha256": "0060c39e07542e1b67ebd89e2991d70a661c1d7f49ec159f64716cb9385b2575",
       "executable": false
     },
     {
       "path": "系統檔案/backup_server.py",
-      "version": "1.0.8",
-      "url": "https://raw.githubusercontent.com/jiezhi-moon/ledger-updates/main/backup_server.py",
-      "sha256": "80e08c597fbfbc1306f70f91409e81918b34f5e527c8a35ef332a3e44653cb76",
+      "version": "1.0.10",
+      "url": "https://api.github.com/repos/jiezhi-moon/ledger-updates/contents/backup_server.py?ref=main",
+      "sha256": "4e7bd3176c4b0fc52f2f9206a63f8546d7d912e200f74421c88889779c6be143",
       "executable": false
     },
     {
       "path": "系統檔案/macos_ocr.swift",
       "version": "1.0.7",
-      "url": "https://raw.githubusercontent.com/jiezhi-moon/ledger-updates/main/macos_ocr.swift",
+      "url": "https://api.github.com/repos/jiezhi-moon/ledger-updates/contents/macos_ocr.swift?ref=main",
       "sha256": "6930d80e1bce565e7061327eb698ef1ade2a3d5a3ab4e288ad8da477bef3ee08",
       "executable": false
     },
     {
       "path": "系統檔案/macos_ocr",
       "version": "1.0.7",
-      "url": "https://raw.githubusercontent.com/jiezhi-moon/ledger-updates/main/macos_ocr",
+      "url": "https://api.github.com/repos/jiezhi-moon/ledger-updates/contents/macos_ocr?ref=main",
       "sha256": "7976e5cb42cacf44b92669d285c1b6db668eac544f760a4838f333bc19e217f8",
       "executable": true
     },
     {
       "path": "系統檔案/update_config.json",
-      "version": "1.0.7",
-      "url": "https://raw.githubusercontent.com/jiezhi-moon/ledger-updates/main/update_config.json",
-      "sha256": "bc23c5faee1f96557546e85dcc7a5b32a5f41c2faf0294524bd0cf6b4375efe9",
+      "version": "1.0.10",
+      "url": "https://api.github.com/repos/jiezhi-moon/ledger-updates/contents/update_config.json?ref=main",
+      "sha256": "75533e4ff4e94990e84320a1497d65552461b057e12d101cb9b3828d38e5a25e",
       "executable": false
     },
     {
       "path": "啟動記帳工具.command",
       "version": "1.0.7",
-      "url": "https://raw.githubusercontent.com/jiezhi-moon/ledger-updates/main/%E5%95%9F%E5%8B%95%E8%A8%98%E5%B8%B3%E5%B7%A5%E5%85%B7.command",
+      "url": "https://api.github.com/repos/jiezhi-moon/ledger-updates/contents/%E5%95%9F%E5%8B%95%E8%A8%98%E5%B8%B3%E5%B7%A5%E5%85%B7.command?ref=main",
       "sha256": "0ae4d52e4937cb7108f4fcfae7f1aff47c594a8b08131ad00821c0ef79231f86",
       "executable": true
     }

@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Local-only Safari ledger backup + per-file versioned GitHub updater (stdlib only)."""
 import ast
+import base64
 import hashlib
 import json
 import os
@@ -15,7 +16,7 @@ import webbrowser
 from datetime import datetime
 from http.server import ThreadingHTTPServer, BaseHTTPRequestHandler
 from pathlib import Path
-from urllib.parse import urlsplit
+from urllib.parse import urlsplit, quote, unquote
 
 HOST = '127.0.0.1'
 PORT = 8765
@@ -143,28 +144,83 @@ def read_state():
         return json.load(f)
 
 
-def fetch(url, max_size):
+def github_api_url(url):
+    """Translate older release URLs locally; all network requests use the API."""
+    if not isinstance(url, str):
+        raise ValueError('缺少更新下載網址')
     parsed = urlsplit(url)
-    if parsed.scheme != 'https' or parsed.hostname not in ('raw.githubusercontent.com', 'github.com'):
-        raise ValueError('更新網址必須是 GitHub HTTPS 網址')
-    req = urllib.request.Request(url, headers={'User-Agent': 'AuroraLedgerUpdater/1.0', 'Cache-Control': 'no-cache'})
-    with urllib.request.urlopen(req, timeout=15) as response:
-        final = urlsplit(response.geturl())
-        if final.scheme != 'https' or final.hostname not in ('raw.githubusercontent.com', 'github.com'):
-            raise ValueError('更新下載重導向到不允許的網址')
-        data = response.read(max_size + 1)
-        if len(data) > max_size:
-            raise ValueError('更新檔案超過大小限制')
-        return data
+    if parsed.scheme != 'https' or parsed.username or parsed.password or parsed.port not in (None, 443):
+        raise ValueError('更新網址必須是 GitHub API HTTPS 網址')
+    parts = parsed.path.strip('/').split('/')
+    if parsed.hostname == 'api.github.com':
+        if len(parts) < 5 or parts[0] != 'repos' or parts[3] != 'contents' or not all(parts):
+            raise ValueError('更新網址必須使用 GitHub Contents API')
+        return url
+    if parsed.hostname == 'raw.githubusercontent.com' and len(parts) >= 4:
+        owner, repo, ref, *path = parts
+    elif parsed.hostname == 'github.com' and len(parts) >= 5 and parts[2] in ('blob', 'raw'):
+        owner, repo, _, ref, *path = parts
+    else:
+        raise ValueError('更新網址必須使用 api.github.com')
+    return 'https://api.github.com/repos/' + owner + '/' + repo + '/contents/' + '/'.join(path) + '?ref=' + quote(unquote(ref), safe='')
+
+
+class ApiRateLimitError(ValueError):
+    def __init__(self, reset):
+        try:
+            self.retry_at = max(int(time.time()) + 30, int(reset))
+        except (ValueError, TypeError):
+            self.retry_at = int(time.time()) + 60
+        clock = datetime.fromtimestamp(self.retry_at).strftime('%H:%M')
+        super().__init__(f'GitHub API 查詢額度已用完，將於 {clock} 後自動重試')
+
+
+class ApiOnlyRedirect(urllib.request.HTTPRedirectHandler):
+    def redirect_request(self, req, fp, code, msg, headers, newurl):
+        normalized = github_api_url(newurl)
+        if urlsplit(newurl).hostname != 'api.github.com':
+            raise ValueError('GitHub API 下載不可轉向其他網站')
+        return super().redirect_request(req, fp, code, msg, headers, normalized)
+
+
+def fetch(url, max_size):
+    url = github_api_url(url)
+    req = urllib.request.Request(url, headers={
+        'User-Agent': 'BookkeepingUpdater/1.0.10',
+        'Accept': 'application/vnd.github.raw+json',
+        'X-GitHub-Api-Version': '2022-11-28',
+        'Cache-Control': 'no-cache',
+    })
+    try:
+        with urllib.request.build_opener(ApiOnlyRedirect()).open(req, timeout=25) as response:
+            if urlsplit(response.geturl()).hostname != 'api.github.com':
+                raise ValueError('更新下載未使用 GitHub API')
+            # The API can return a base64 JSON envelope, depending on its media
+            # type/cache. Decode it locally; never follow its download_url.
+            limit = max_size * 4 // 3 + 512 * 1024
+            data = response.read(limit + 1)
+            if len(data) > limit:
+                raise ValueError('更新檔案超過大小限制')
+            if response.headers.get_content_type() == 'application/json' or data.lstrip().startswith(b'{'):
+                try:
+                    body = json.loads(data)
+                except (ValueError, UnicodeDecodeError):
+                    body = None
+                if isinstance(body, dict) and body.get('type') == 'file' and body.get('encoding') == 'base64':
+                    data = base64.b64decode(''.join(body.get('content', '').split()), validate=True)
+            if len(data) > max_size:
+                raise ValueError('更新檔案超過大小限制')
+            return data
+    except urllib.error.HTTPError as exc:
+        if exc.code in (403, 429) and exc.headers.get('X-RateLimit-Remaining') == '0':
+            raise ApiRateLimitError(exc.headers.get('X-RateLimit-Reset')) from exc
+        if exc.code == 404:
+            raise ValueError(f'GitHub 找不到更新檔案（404）：{url}') from exc
+        raise ValueError(f'GitHub API 下載失敗（HTTP {exc.code}）：{url}') from exc
 
 
 def validate_update_url(url):
-    if not isinstance(url, str):
-        raise ValueError('缺少檔案下載網址')
-    parsed = urlsplit(url)
-    if parsed.scheme != 'https' or parsed.hostname not in ('raw.githubusercontent.com', 'github.com') or parsed.username or parsed.password:
-        raise ValueError('更新網址必須是 GitHub HTTPS 網址')
-    return url
+    return github_api_url(url)
 
 
 def update_target(name):
@@ -205,6 +261,8 @@ def validate_manifest(m):
         if not isinstance(item, dict):
             raise ValueError('檔案資訊格式不正確')
         name, version, digest = item.get('path'), item.get('version'), item.get('sha256')
+        if name == '使用說明.txt':
+            continue
         update_target(name)
         if name.casefold() in seen:
             raise ValueError('更新清單有重複檔案')
@@ -294,7 +352,7 @@ def update_once():
             print(f'[更新] v{version} 已驗證，需更新 {len(pending)} 個檔案', flush=True)
         except Exception as exc:
             staged_release = None
-            update_status = {'status': 'error', 'message': str(exc)}
+            update_status = {'status': 'rate_limited', 'message': str(exc), 'retry_at': exc.retry_at} if isinstance(exc, ApiRateLimitError) else {'status': 'error', 'message': str(exc)}
             print('[更新] 檢查失敗，原版不受影響：', exc, flush=True)
 
 
@@ -405,7 +463,7 @@ def updater_loop():
     while not RESTART_EVENT.is_set():
         if time.monotonic() >= next_check:
             update_once()
-            next_check = time.monotonic() + CHECK_INTERVAL
+            next_check = time.monotonic() + (max(30, update_status.get('retry_at', time.time()) - time.time() + 2) if update_status.get('status') == 'rate_limited' else CHECK_INTERVAL)
         promote_when_idle()
         RESTART_EVENT.wait(5)
 

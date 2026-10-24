@@ -293,7 +293,7 @@
     <section class="ledger-pane" id="ledgerPane" role="tabpanel" aria-labelledby="tabLedger">
       <div class="ledger-home" id="ledgerHome">
         <div class="ledger-head">
-          <div><div class="ledger-home-title"><h2>记账项目</h2><span class="ledger-version" aria-label="目前版本 1.0.9">v1.0.9</span><span class="ledger-update-controls"><button type="button" id="manualUpdateBtn" class="ledger-update-btn">檢查更新</button><button type="button" id="manualApplyBtn" class="ledger-update-btn" hidden>手動更新</button><span id="manualUpdateStatus" class="ledger-update-status" aria-live="polite"></span></span></div><p class="ledger-subtitle">搜索项目名称或明细内容，打开最近编辑的账本。</p></div>
+          <div><div class="ledger-home-title"><h2>记账项目</h2><span class="ledger-version" aria-label="目前版本 1.0.10">v1.0.10</span><span class="ledger-update-controls"><button type="button" id="manualUpdateBtn" class="ledger-update-btn">檢查更新</button><button type="button" id="manualApplyBtn" class="ledger-update-btn" hidden>手動更新</button><span id="manualUpdateStatus" class="ledger-update-status" aria-live="polite"></span></span></div><p class="ledger-subtitle">搜索项目名称或明细内容，打开最近编辑的账本。</p></div>
           <div class="ledger-backup"><span id="autoBackupStatus" style="font-size:12px;color:#64748b;align-self:center">自動備份：等待連線</span><button type="button" id="ledgerCloudBackupBtn" class="ledger-btn-primary">☁ 手動雲端備份</button><span id="ledgerCloudBackupStatus" class="ledger-cloud-status" role="status" aria-live="polite"></span><button type="button" id="ledgerBackupBtn" class="ledger-btn-light">备份记账资料</button><button type="button" id="ledgerRestoreBtn" class="ledger-btn-plain">导入备份</button></div>
         </div>
         <div class="ledger-tools"><input id="ledgerSearch" class="ledger-search" placeholder="搜索项目名称／公司或人／商品名称" aria-label="搜索记账项目"><button type="button" id="ledgerNewBtn" class="ledger-btn-primary">＋ 新建项目</button></div>
@@ -414,7 +414,7 @@
         <div class="actions"><button class="primary" id="convertBtn" disabled>转换并下载 XLSX</button></div>
       </section>
     </div>
-    <div class="foot">版本 1.0.9：2026-10-24。圖片及掃描 PDF 優先使用 Mac 系統文字辨識；本機不可用時自動改用瀏覽器 OCR（需聯網），請核對識別結果。输出文件名：<b>发票开具项目信息导入模板_自动修正后.xlsx</b>。目标模板原有工作表会保留；导出时会删除顶部“填表说明”整行，不再留下空白框。PDF 最多处理 200 页。遇到 Excel 横向打印成左右两组 PDF 页面时，会自动按行重新配对。</div>
+    <div class="foot">版本 1.0.10：2026-10-24。圖片及掃描 PDF 優先使用 Mac 系統文字辨識；本機不可用時自動改用瀏覽器 OCR（需聯網），請核對識別結果。输出文件名：<b>发票开具项目信息导入模板_自动修正后.xlsx</b>。目标模板原有工作表会保留；导出时会删除顶部“填表说明”整行，不再留下空白框。PDF 最多处理 200 页。遇到 Excel 横向打印成左右两组 PDF 页面时，会自动按行重新配对。</div>
     </section>
   </div>
 
@@ -1152,6 +1152,7 @@ function ledgerCurrent(){return ledgerProjects.find(p=>p.id===activeLedgerId)||n
       else if(u.status==='downloading')setManualUpdateStatus(`正在下載 ${u.file||'更新檔案'}…`,'busy');
       else if(u.status==='ready')setManualUpdateStatus(`v${u.version} 已下載並驗證（${u.file_count??1} 個檔案），可手動更新`,'ok');
       else if(u.status==='installed')setManualUpdateStatus(`已安裝 v${u.version}${u.restart_required?'，服務正在重新啟動':'，頁面會在安全時刷新'}`,'ok');
+      else if(u.status==='rate_limited')setManualUpdateStatus(u.message||'GitHub API 額度暫時用完，稍後自動重試','err');
       else if(u.status==='error')setManualUpdateStatus(`更新失敗：${u.message||'未知錯誤'}`,'err');
       else if(u.status==='disabled')setManualUpdateStatus(u.message||'更新未啟用','err');
     }
