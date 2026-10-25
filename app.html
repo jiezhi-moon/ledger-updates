@@ -300,7 +300,7 @@
     <section class="ledger-pane" id="ledgerPane" role="tabpanel" aria-labelledby="tabLedger">
       <div class="ledger-home" id="ledgerHome">
         <div class="ledger-head">
-          <div><div class="ledger-home-title"><h2>记账项目</h2><span class="ledger-version" aria-label="目前版本 1.0.11">v1.0.11</span><span class="ledger-update-controls"><button type="button" id="manualUpdateBtn" class="ledger-update-btn">檢查更新</button><button type="button" id="manualApplyBtn" class="ledger-update-btn" hidden>手動更新</button><span id="manualUpdateStatus" class="ledger-update-status" aria-live="polite"></span></span></div><p class="ledger-subtitle">搜索项目名称或明细内容，打开最近编辑的账本。</p></div>
+          <div><div class="ledger-home-title"><h2>记账项目</h2><span class="ledger-version" aria-label="目前版本 1.0.12">v1.0.12</span><span class="ledger-update-controls"><button type="button" id="manualUpdateBtn" class="ledger-update-btn">檢查更新</button><button type="button" id="manualApplyBtn" class="ledger-update-btn" hidden>手動更新</button><span id="manualUpdateStatus" class="ledger-update-status" aria-live="polite"></span></span></div><p class="ledger-subtitle">搜索项目名称或明细内容，打开最近编辑的账本。</p></div>
           <div class="ledger-backup"><span id="autoBackupStatus" style="font-size:12px;color:#64748b;align-self:center">自動備份：等待連線</span><button type="button" id="ledgerCloudBackupBtn" class="ledger-btn-primary">☁ 手動雲端備份</button><span id="ledgerCloudBackupStatus" class="ledger-cloud-status" role="status" aria-live="polite"></span><button type="button" id="ledgerBackupBtn" class="ledger-btn-light">备份记账资料</button><button type="button" id="ledgerRestoreBtn" class="ledger-btn-plain">导入备份</button></div>
         </div>
         <div class="ledger-tools"><input id="ledgerSearch" class="ledger-search" placeholder="搜索项目名称／公司或人／商品名称" aria-label="搜索记账项目"><button type="button" id="ledgerNewBtn" class="ledger-btn-primary">＋ 新建项目</button></div>
@@ -418,7 +418,7 @@
         <div class="actions"><button class="primary" id="convertBtn" disabled>转换并下载 XLSX</button></div>
       </section>
     </div>
-    <div class="foot">版本 1.0.11：2026-10-25。圖片及掃描 PDF 優先使用 Mac 系統文字辨識；本機不可用時自動改用瀏覽器 OCR（需聯網），請核對識別結果。输出文件名：<b>发票开具项目信息导入模板_自动修正后.xlsx</b>。目标模板原有工作表会保留；导出时会删除顶部“填表说明”整行，不再留下空白框。PDF 最多处理 200 页。遇到 Excel 横向打印成左右两组 PDF 页面时，会自动按行重新配对。</div>
+    <div class="foot">版本 1.0.12：2026-10-25。圖片及掃描 PDF 優先使用 Mac 系統文字辨識；本機不可用時自動改用瀏覽器 OCR（需聯網），請核對識別結果。输出文件名：<b>发票开具项目信息导入模板_自动修正后.xlsx</b>。目标模板原有工作表会保留；导出时会删除顶部“填表说明”整行，不再留下空白框。PDF 最多处理 200 页。遇到 Excel 横向打印成左右两组 PDF 页面时，会自动按行重新配对。</div>
     </section>
   </div>
 
@@ -444,13 +444,28 @@
     function taxRateValue(v){if(v==null||String(v).trim()==="")return null;if(typeof v==="string"&&v.trim().endsWith("%")){const n=Number(v.trim().slice(0,-1));return Number.isFinite(n)?n/100:null}const n=Number(String(v).trim());return Number.isFinite(n)?(n>1?n/100:n):null}
     // 品名自動分類：識別後、手動修改後、以及匯出前均使用相同規則。
     const NAME_NORMALIZATION_RULES = [
-      {target:"索具", keywords:["强力环","強力環","铝套","鋁套","不锈钢卡头","不銹鋼卡頭","不鏽鋼卡頭","不锈钢花兰","不銹鋼花蘭","不鏽鋼花蘭"]},
+      // Text.txt 的指定對照優先於舊有分類。
+      {target:"光面钢丝绳", keywords:["涂塑钢丝绳"]},
+      {target:"花兰", keywords:["开体花兰", "模锻花兰"]},
+      {target:"卸扣", keywords:["重型卸扣", "大开口卸扣", "模锻卸扣", "G209", "G210", "G2130", "G2150", "不锈钢卸扣", "宏安卸扣", "弘安卸扣"]},
+      {target:"吊带", keywords:["扁平吊带"]},
+      {target:"吊钩", keywords:["钢管钩", "J型钩", "转脖钩", "J形钩", "宽嘴钩"]},
+      {target:"卡头", keywords:["不锈钢卡头"]},
+      {target:"索具", keywords:["不锈钢滑轮", "网套", "WT套环", "欧姆环", "铝套", "8字铝套", "双链油桶吊", "D型环"]},
+      {target:"链条", keywords:["镀锌链条", "G80级链条"]},
+      {target:"链条吊具", keywords:["双腿链条吊具", "四腿链条吊具"]},
+      {target:"钢绳索具", keywords:["单头钢绳索具"]},
+      {target:"索具", keywords:["强力环","強力環","铝套","鋁套","不锈钢花兰","不銹鋼花蘭","不鏽鋼花蘭"]},
       {target:"双环扣", keywords:["蝴蝶扣","蝴蝶釦"]},
       {target:"吊钩", keywords:["大开口钩","大開口鉤","环眼钩","環眼鉤","货柜钩","貨櫃鉤","细筋钩","細筋鉤"]},
       {target:"吊带", keywords:["彩带","彩帶"]}
     ];
     // 品名纠错依据真实 OCR 结果：汉字“绳”容易误识成“强”。
     // 只纠正明确的产品名，不能因误认把“不锈钢钢丝绳”归到索具。
+    function invoiceNameKey(value){
+      const variants={鋼:'钢',絲:'丝',糸:'丝',繩:'绳',縄:'绳',鏽:'锈',銹:'锈',塗:'涂',體:'体',蘭:'兰',鍛:'锻',帶:'带',鉤:'钩',鈎:'钩',頭:'头',網:'网',歐:'欧',鋁:'铝',雙:'双',鏈:'链',環:'环',轉:'转',鍍:'镀',鋅:'锌',級:'级',寬:'宽',單:'单',條:'条'};
+      return norm(value).replace(/[鋼絲糸繩縄鏽銹塗體蘭鍛帶鉤鈎頭網歐鋁雙鏈環轉鍍鋅級寬單條]/g,ch=>variants[ch]).replace(/[　·•,，。:：;；_—-]/g,'').toLowerCase();
+    }
     function normalizeItemName(value){
       const original=normalizeLedgerImportName(value);
       const compact=original.replace(/[\s　·•,，。:：;；_—-]/g,"")
@@ -460,13 +475,13 @@
       if(/^(?:不锈钢|不秀钢)钢丝(?:绳|强|強)$/.test(compact))return "不锈钢钢丝绳";
       if(/^(?:法尔胜|法尓胜|法尔生)钢丝(?:绳|强|強)$/.test(compact))return "光面钢丝绳";
       if(/^光面钢丝(?:绳|强|強)(?:强|強)?$/.test(compact))return "光面钢丝绳";
-      const cmp=norm(original).toLowerCase();
+      const cmp=invoiceNameKey(original);
       for(const rule of NAME_NORMALIZATION_RULES){
-        if(rule.keywords.some(k=>cmp.includes(norm(k).toLowerCase())))return rule.target;
+        if(rule.keywords.some(k=>{const key=invoiceNameKey(k);return /^g\d+$/.test(key)?new RegExp('(?:^|[^a-z0-9])'+key+'(?![a-z0-9])').test(cmp):cmp.includes(key)}))return rule.target;
       }
       // 部分 OCR 会把“鏽/銹”转成“锈”，但保留“不锈钢”材质判断。
       const simplified=norm(compact).toLowerCase();
-      if(/不锈钢(?:卡头|卡頭|花兰|花蘭)/.test(simplified))return "索具";
+      if(/不锈钢(?:花兰|花蘭)/.test(simplified))return "索具";
       return original;
     }
         function applyNameRules(rows){
