@@ -300,7 +300,7 @@
     <section class="ledger-pane" id="ledgerPane" role="tabpanel" aria-labelledby="tabLedger">
       <div class="ledger-home" id="ledgerHome">
         <div class="ledger-head">
-          <div><div class="ledger-home-title"><h2>记账项目</h2><span class="ledger-version" aria-label="目前版本 1.0.12">v1.0.12</span><span class="ledger-update-controls"><button type="button" id="manualUpdateBtn" class="ledger-update-btn">檢查更新</button><button type="button" id="manualApplyBtn" class="ledger-update-btn" hidden>手動更新</button><span id="manualUpdateStatus" class="ledger-update-status" aria-live="polite"></span></span></div><p class="ledger-subtitle">搜索项目名称或明细内容，打开最近编辑的账本。</p></div>
+          <div><div class="ledger-home-title"><h2>记账项目</h2><span class="ledger-version" aria-label="目前版本 1.0.13">v1.0.13</span><span class="ledger-update-controls"><button type="button" id="manualUpdateBtn" class="ledger-update-btn">檢查更新</button><button type="button" id="manualApplyBtn" class="ledger-update-btn" hidden>手動更新</button><span id="manualUpdateStatus" class="ledger-update-status" aria-live="polite"></span></span></div><p class="ledger-subtitle">搜索项目名称或明细内容，打开最近编辑的账本。</p></div>
           <div class="ledger-backup"><span id="autoBackupStatus" style="font-size:12px;color:#64748b;align-self:center">自動備份：等待連線</span><button type="button" id="ledgerCloudBackupBtn" class="ledger-btn-primary">☁ 手動雲端備份</button><span id="ledgerCloudBackupStatus" class="ledger-cloud-status" role="status" aria-live="polite"></span><button type="button" id="ledgerBackupBtn" class="ledger-btn-light">备份记账资料</button><button type="button" id="ledgerRestoreBtn" class="ledger-btn-plain">导入备份</button></div>
         </div>
         <div class="ledger-tools"><input id="ledgerSearch" class="ledger-search" placeholder="搜索项目名称／公司或人／商品名称" aria-label="搜索记账项目"><button type="button" id="ledgerNewBtn" class="ledger-btn-primary">＋ 新建项目</button></div>
@@ -413,12 +413,12 @@
         <div class="field"><label for="taxRate">默认税率（必填）</label><input id="taxRate" value="0.13" placeholder="例如：0.13 或 13%" /><div class="help">0.13 只是初始值，请按实际开票税率修改；导入文件本身存在“税率”时会优先使用文件值。</div></div>
         <div class="field"><label for="unit">默认单位（可空）</label><input id="unit" value="" placeholder="例如：个、件、箱" /></div>
         <div class="field"><label for="taxCode">默认商品和服务税收分类编码（可空）</label><input id="taxCode" value="" inputmode="numeric" placeholder="未维护项目信息时可填写" /><div class="help">编码会按文本写入，避免 19 位编码被 Excel 改成科学计数法。</div></div>
-        <div class="ignored"><b>品名自动修正（预览与导出一致）：</b>強力環／鋁套／不鏽鋼卡頭／不鏽鋼花蘭 → 索具；蝴蝶扣 → 双环扣；大開口鉤／環眼鉤／貨櫃鉤／細筋鉤 → 吊钩；彩帶 → 吊带；法尔胜钢丝绳（含 OCR 误读“钢丝强”）→ 光面钢丝绳；不锈钢钢丝绳保持原名；光面钢丝绳不附加“强”字。钢管钩 → 吊钩；单头插编钢绳／插编钢绳索具 → 钢绳索具。總價優先按數量 × 單價計算，與來源不同的行標紅。</div><div class="ignored">PDF / 图片最好包含清晰的表头，例如“名称、规格、数量、单价、总价/金额”。拍照时尽量正对表格，避免倾斜、阴影和模糊。</div>
+        <div class="ignored"><b>品名自动修正（预览与导出一致）：</b>強力環／鋁套／不鏽鋼花蘭 → 索具；不鏽鋼卡頭 → 卡头；蝴蝶扣 → 双环扣；大開口鉤／環眼鉤／貨櫃鉤／細筋鉤 → 吊钩；彩帶 → 吊带；法尔胜钢丝绳（含 OCR 误读“钢丝强”）→ 光面钢丝绳；不锈钢钢丝绳保持原名；光面钢丝绳不附加“强”字。钢管钩 → 吊钩；单头插编钢绳／插编钢绳索具 → 钢绳索具。双腿涂塑索具 → 钢绳索具；加大环／卸扣横销／卸扣螺母 → 索具；铝压涂塑索具 → 铝压索具。總價優先按數量 × 單價計算，與來源不同的行標紅。</div><div class="ignored">PDF / 图片最好包含清晰的表头，例如“名称、规格、数量、单价、总价/金额”。拍照时尽量正对表格，避免倾斜、阴影和模糊。</div>
         <div class="status" id="status">请选择文件。Excel 转换完全在浏览器本地完成；PDF / 圖片優先使用 Mac 系統辨識，本機不可用時自動改用瀏覽器 OCR（需聯網）。</div>
         <div class="actions"><button class="primary" id="convertBtn" disabled>转换并下载 XLSX</button></div>
       </section>
     </div>
-    <div class="foot">版本 1.0.12：2026-10-25。圖片及掃描 PDF 優先使用 Mac 系統文字辨識；本機不可用時自動改用瀏覽器 OCR（需聯網），請核對識別結果。输出文件名：<b>发票开具项目信息导入模板_自动修正后.xlsx</b>。目标模板原有工作表会保留；导出时会删除顶部“填表说明”整行，不再留下空白框。PDF 最多处理 200 页。遇到 Excel 横向打印成左右两组 PDF 页面时，会自动按行重新配对。</div>
+    <div class="foot">版本 1.0.13：2026-10-26。圖片及掃描 PDF 優先使用 Mac 系統文字辨識；本機不可用時自動改用瀏覽器 OCR（需聯網），請核對識別結果。输出文件名：<b>发票开具项目信息导入模板_自动修正后.xlsx</b>。目标模板原有工作表会保留；导出时会删除顶部“填表说明”整行，不再留下空白框。PDF 最多处理 200 页。遇到 Excel 横向打印成左右两组 PDF 页面时，会自动按行重新配对。</div>
     </section>
   </div>
 
@@ -444,6 +444,9 @@
     function taxRateValue(v){if(v==null||String(v).trim()==="")return null;if(typeof v==="string"&&v.trim().endsWith("%")){const n=Number(v.trim().slice(0,-1));return Number.isFinite(n)?n/100:null}const n=Number(String(v).trim());return Number.isFinite(n)?(n>1?n/100:n):null}
     // 品名自動分類：識別後、手動修改後、以及匯出前均使用相同規則。
     const NAME_NORMALIZATION_RULES = [
+      {target:"钢绳索具", keywords:["双腿涂塑索具"]},
+      {target:"索具", keywords:["加大环","卸扣横销","卸扣螺母"]},
+      {target:"铝压索具", keywords:["铝压涂塑索具"]},
       // Text.txt 的指定對照優先於舊有分類。
       {target:"光面钢丝绳", keywords:["涂塑钢丝绳"]},
       {target:"花兰", keywords:["开体花兰", "模锻花兰"]},
@@ -463,8 +466,8 @@
     // 品名纠错依据真实 OCR 结果：汉字“绳”容易误识成“强”。
     // 只纠正明确的产品名，不能因误认把“不锈钢钢丝绳”归到索具。
     function invoiceNameKey(value){
-      const variants={鋼:'钢',絲:'丝',糸:'丝',繩:'绳',縄:'绳',鏽:'锈',銹:'锈',塗:'涂',體:'体',蘭:'兰',鍛:'锻',帶:'带',鉤:'钩',鈎:'钩',頭:'头',網:'网',歐:'欧',鋁:'铝',雙:'双',鏈:'链',環:'环',轉:'转',鍍:'镀',鋅:'锌',級:'级',寬:'宽',單:'单',條:'条'};
-      return norm(value).replace(/[鋼絲糸繩縄鏽銹塗體蘭鍛帶鉤鈎頭網歐鋁雙鏈環轉鍍鋅級寬單條]/g,ch=>variants[ch]).replace(/[　·•,，。:：;；_—-]/g,'').toLowerCase();
+      const variants={鋼:'钢',絲:'丝',糸:'丝',繩:'绳',縄:'绳',鏽:'锈',銹:'锈',塗:'涂',體:'体',蘭:'兰',鍛:'锻',帶:'带',鉤:'钩',鈎:'钩',頭:'头',網:'网',歐:'欧',鋁:'铝',雙:'双',鏈:'链',環:'环',轉:'转',鍍:'镀',鋅:'锌',級:'级',寬:'宽',單:'单',條:'条',壓:'压',橫:'横',銷:'销'};
+      return norm(value).replace(/[鋼絲糸繩縄鏽銹塗體蘭鍛帶鉤鈎頭網歐鋁雙鏈環轉鍍鋅級寬單條壓橫銷]/g,ch=>variants[ch]).replace(/[　·•,，。:：;；_—-]/g,'').toLowerCase();
     }
     function normalizeItemName(value){
       const original=normalizeLedgerImportName(value);
@@ -694,6 +697,40 @@
       }
       return values.length===2&&values[0]===values[1]?values[0]:null;
     }
+    async function recognizeGridNumberCell(canvas,grid,worker,row,column,label){
+      const span=grid.spans[column].find(([a,b])=>row._band>=a&&row._band<=b)||[row._band,row._band];
+      const left=Math.round(grid.edges[column]*canvas.width)+3,right=Math.round(grid.edges[column+1]*canvas.width)-3;
+      const top=Math.round(grid.bands[span[0]][0]*canvas.height)+3,bottom=Math.round(grid.bands[span[1]][1]*canvas.height)-3;
+      const w=Math.max(2,right-left),h=Math.max(2,bottom-top),cell=document.createElement('canvas');cell.width=w;cell.height=h;cell.getContext('2d').drawImage(canvas,left,top,w,h,0,0,w,h);
+      const pixels=cell.getContext('2d',{willReadFrequently:true}).getImageData(0,0,w,h).data,rows=new Array(h).fill(0),cols=new Array(w).fill(0);
+      const ink=(x,y)=>{const k=(y*w+x)*4;return pixels[k+3]>100&&pixels[k]<170&&pixels[k+1]<170&&pixels[k+2]<170};
+      for(let y=2;y<h-2;y++)for(let x=2;x<w-2;x++)if(ink(x,y)){rows[y]++;cols[x]++}
+      const ruledRows=new Set(),ruledCols=new Set();rows.forEach((n,y)=>{if(n>w*.7)for(let d=-2;d<=2;d++)ruledRows.add(y+d)});cols.forEach((n,x)=>{if(n>h*.85)for(let d=-2;d<=2;d++)ruledCols.add(x+d)});
+      let x0=w,x1=-1,y0=h,y1=-1;
+      for(let y=2;y<h-2;y++)for(let x=2;x<w-2;x++)if(!ruledRows.has(y)&&!ruledCols.has(x)&&ink(x,y)){x0=Math.min(x0,x);x1=Math.max(x1,x);y0=Math.min(y0,y);y1=Math.max(y1,y)}
+      if(x1<x0||y1<y0)return null;
+      const values=[];
+      for(const scale of [1.5,2,1]){
+        const width=Math.round((x1-x0+1)*scale),height=Math.round((y1-y0+1)*scale),pad=20,guard=Math.ceil(height*1.9),input=document.createElement('canvas');input.width=width+guard*2+pad*2;input.height=height+pad*2;
+        const ctx=input.getContext('2d');ctx.fillStyle='#fff';ctx.fillRect(0,0,input.width,input.height);ctx.drawImage(cell,x0,y0,x1-x0+1,y1-y0+1,pad+guard,pad,width,height);
+        // Vision can ignore a column consisting only of isolated digits. Guard
+        // digits provide text context; discard them only when both survive OCR.
+        ctx.fillStyle='#000';ctx.font=`${height}px serif`;ctx.textBaseline='top';ctx.fillText('123',pad,pad-3);ctx.fillText('789',pad+guard+width+8,pad-3);
+        const result=await ocrCanvas(input,worker,label,7,null,'number'),match=result.text.replace(/[,，\s]/g,'').match(/^123(-?\d+(?:\.\d+)?)789$/);
+        if(!match)continue;const value=Number(match[1]);if(!Number.isFinite(value))continue;
+        if(values.length&&Math.abs(values[0]-value)>1e-10)return null;values.push(value);if(values.length===2)return value;
+      }
+      return null;
+    }
+    async function recoverGridNumericFields(canvas,grid,worker,rows){
+      const fields=gridFieldKeys(grid,true);
+      for(const [key,label] of [['price','單價'],['amount','總價']]){
+        const column=fields.indexOf(key);if(column<0)continue;
+        for(let i=0;i<rows.length;i++)if(numeric(rows[i][key])===null){
+          const value=await recognizeGridNumberCell(canvas,grid,worker,rows[i],column,`第 ${i+1} 行${label}重試`);if(value!==null)rows[i][key]=value;
+        }
+      }
+    }
     function detectGridGeometry(canvas){
       const w=canvas.width,h=canvas.height,data=canvas.getContext('2d',{willReadFrequently:true}).getImageData(0,0,w,h).data;
       const ink=(x,y)=>{const k=(Math.max(0,Math.min(h-1,Math.round(y)))*w+Math.max(0,Math.min(w-1,Math.round(x))))*4;const r=data[k],g=data[k+1],b=data[k+2];return data[k+3]>100&&Math.max(r,g,b)-Math.min(r,g,b)<25&&(r+g+b)/3<243};
@@ -814,6 +851,7 @@
           const tokens=await recognizeGridColumns(canvas,grid,worker,includeLedger);
           rows=finalizeGridRows(parseGridImage(tokens,grid,includeLedger).filter(r=>grid.headerBand===undefined||r._band>grid.headerBand));
           await recoverGridUnits(canvas,grid,worker,rows);
+          await recoverGridNumericFields(canvas,grid,worker,rows);
           if(includeLedger&&dateTokens.length)for(const row of rows){const span=grid.dateSpans.find(([a,b])=>row._band>=a&&row._band<=b)||[row._band,row._band];const b=[grid.bands[span[0]][0],grid.bands[span[1]][1]];const closest=dateTokens.filter(t=>t.cy>=b[0]&&t.cy<=b[1]).map(t=>t.text).join('');row.date=pasteDate(closest)||''}
           gridFailed=rows.length===0;
         }
