@@ -301,7 +301,7 @@
     <section class="ledger-pane" id="ledgerPane" role="tabpanel" aria-labelledby="tabLedger">
       <div class="ledger-home" id="ledgerHome">
         <div class="ledger-head">
-          <div><div class="ledger-home-title"><h2>记账项目</h2><span class="ledger-version" aria-label="目前版本 1.0.14">v1.0.14</span><span class="ledger-update-controls"><button type="button" id="manualUpdateBtn" class="ledger-update-btn">檢查更新</button><button type="button" id="manualApplyBtn" class="ledger-update-btn" hidden>手動更新</button><span id="manualUpdateStatus" class="ledger-update-status" aria-live="polite"></span></span></div><p class="ledger-subtitle">搜索项目名称或明细内容，打开最近编辑的账本。</p></div>
+          <div><div class="ledger-home-title"><h2>记账项目</h2><span class="ledger-version" aria-label="目前版本 1.0.15">v1.0.15</span><span class="ledger-update-controls"><button type="button" id="manualUpdateBtn" class="ledger-update-btn">檢查更新</button><button type="button" id="manualApplyBtn" class="ledger-update-btn" hidden>手動更新</button><span id="manualUpdateStatus" class="ledger-update-status" aria-live="polite"></span></span></div><p class="ledger-subtitle">搜索项目名称或明细内容，打开最近编辑的账本。</p></div>
           <div class="ledger-backup"><span id="autoBackupStatus" style="font-size:12px;color:#64748b;align-self:center">自動備份：等待連線</span><button type="button" id="ledgerCloudBackupBtn" class="ledger-btn-primary">☁ 手動雲端備份</button><span id="ledgerCloudBackupStatus" class="ledger-cloud-status" role="status" aria-live="polite"></span><button type="button" id="ledgerBackupBtn" class="ledger-btn-light">备份记账资料</button><button type="button" id="ledgerRestoreBtn" class="ledger-btn-plain">导入备份</button></div>
         </div>
         <div class="ledger-tools"><input id="ledgerSearch" class="ledger-search" placeholder="搜索项目名称／公司或人／商品名称" aria-label="搜索记账项目"><button type="button" id="ledgerNewBtn" class="ledger-btn-primary">＋ 新建项目</button></div>
@@ -403,9 +403,7 @@
         <div class="filename" id="fileName">尚未选择文件</div>
         <div class="pill" id="rowCount" style="display:none"></div>
         <h2 class="invoice-settings-title">转换设置</h2>
-        <div class="field"><label for="taxRate">默认税率（必填）</label><input id="taxRate" value="0.13" placeholder="例如：0.13 或 13%" /><div class="help">0.13 只是初始值，请按实际开票税率修改；导入文件本身存在“税率”时会优先使用文件值。</div></div>
-        <div class="field"><label for="unit">默认单位（可空）</label><input id="unit" value="" placeholder="例如：个、件、箱" /></div>
-        <div class="field"><label for="taxCode">默认商品和服务税收分类编码（可空）</label><input id="taxCode" value="" inputmode="numeric" placeholder="未维护项目信息时可填写" /><div class="help">编码会按文本写入，避免 19 位编码被 Excel 改成科学计数法。</div></div>
+        <div class="field"><label for="taxRate">默认税率（必填）</label><input id="taxRate" value="0.13" placeholder="例如：0.13 或 13%" /></div>
 
         <div class="status" id="status">请选择文件。Excel 转换完全在浏览器本地完成；PDF / 圖片優先使用 Mac 系統辨識，本機不可用時自動改用瀏覽器 OCR（需聯網）。</div>
         <div class="total-summary" id="totalSummary" style="display:none" aria-live="polite">
@@ -416,7 +414,7 @@
         <div class="actions"><button class="primary" id="convertBtn" disabled>转换并下载 XLSX</button></div>
       </section>
     </div>
-    <div class="foot">版本 1.0.14：2026-10-26。圖片及掃描 PDF 優先使用 Mac 系統文字辨識；本機不可用時自動改用瀏覽器 OCR（需聯網），請核對識別結果。输出文件名：<b>发票开具项目信息导入模板_自动修正后.xlsx</b>。目标模板原有工作表会保留；导出时会删除顶部“填表说明”整行，不再留下空白框。PDF 最多处理 200 页。遇到 Excel 横向打印成左右两组 PDF 页面时，会自动按行重新配对。</div>
+    <div class="foot">版本 1.0.15：2026-10-26。圖片及掃描 PDF 優先使用 Mac 系統文字辨識；本機不可用時自動改用瀏覽器 OCR（需聯網），請核對識別結果。输出文件名：<b>发票开具项目信息导入模板_自动修正后.xlsx</b>。目标模板原有工作表会保留；导出时会删除顶部“填表说明”整行，不再留下空白框。PDF 最多处理 200 页。遇到 Excel 横向打印成左右两组 PDF 页面时，会自动按行重新配对。</div>
     </section>
   </div>
 
@@ -442,7 +440,7 @@
     function taxRateValue(v){if(v==null||String(v).trim()==="")return null;if(typeof v==="string"&&v.trim().endsWith("%")){const n=Number(v.trim().slice(0,-1));return Number.isFinite(n)?n/100:null}const n=Number(String(v).trim());return Number.isFinite(n)?(n>1?n/100:n):null}
     // 品名自動分類：識別後、手動修改後、以及匯出前均使用相同規則。
     const NAME_NORMALIZATION_RULES = [
-      {target:"索具", keywords:["法尔胜单头索具","套环"]},
+      {target:"索具", keywords:["法尔胜单头索具","套环","编头"]},
       {target:"钢绳索具", keywords:["法尔胜钢绳索具","先编再压索具"]},
       {target:"钢绳索具", keywords:["双腿涂塑索具"]},
       {target:"索具", keywords:["加大环","卸扣横销","卸扣螺母"]},
@@ -1138,7 +1136,7 @@
     el('invoiceClearBtn').addEventListener('click',clearInvoice);
     chooseFileBtn.addEventListener('click',()=>fileInput.click());fileInput.addEventListener('change',event=>selectFile(event.target.files[0]));
 
-    convertBtn.addEventListener("click",()=>{try{if(!parsed||!parsed.dataRows.length)throw new Error("请先导入并确认至少一条明细。");const exportCorrections=applyNameRules(parsed.dataRows);if(exportCorrections)showPreview(parsed);const defaultRate=taxRateValue(el("taxRate").value);if(defaultRate===null)throw new Error("请填写有效的默认税率，例如 0.13 或 13%。");const defaultUnit=safeText(el("unit").value),defaultCode=safeText(el("taxCode").value);const wb=XLSX.read(TEMPLATE_B64,{type:"base64",cellStyles:true,cellDates:false}),ws=wb.Sheets[TARGET_SHEET];if(!ws)throw new Error("内置目标模板缺少“1-明细模板”工作表。");deleteWorksheetRow(ws,0);if(wb.Workbook&&wb.Workbook.Views&&wb.Workbook.Views[0])wb.Workbook.Views[0].activeTab=Math.max(0,wb.SheetNames.indexOf(TARGET_SHEET));const incomplete=parsed.dataRows.filter(r=>!safeText(r.name)||!safeText(r.spec)||numeric(r.qty)===null||numeric(r.price)===null||numeric(r.amount)===null);if(incomplete.length)throw new Error(`有 ${incomplete.length} 行名称／规格／数量／单价／金额缺失，请先在预览中修正，再导出。`);const out=parsed.dataRows.map(r=>{let rate=taxRateValue(r.rateRaw);if(rate===null)rate=defaultRate;let policy=r.policy||"";if(typeof r.rateRaw==="string"&&r.rateRaw.trim()==="免税"){rate=0;if(!policy)policy="免税"}const qty=numeric(r.qty),price=numeric(r.price);let amount=numeric(r.amount);if(amount===null&&qty!==null&&price!==null)amount=Math.round(qty*price*100)/100;return [normalizeItemName(r.name),r.code||defaultCode,safeText(r.spec),r.unit||defaultUnit,qty,price,amount,rate,null,policy,null,null,null,null,null,null,null,null,null,null,null,null]});if(!out.length)throw new Error("没有可写入的明细，请检查“名称”列。");XLSX.utils.sheet_add_aoa(ws,out,{origin:{r:4,c:0}});for(let i=0;i<out.length;i++){const ref=XLSX.utils.encode_cell({r:i+4,c:1});if(ws[ref]&&ws[ref].v!==null&&ws[ref].v!==""){ws[ref].t="s";ws[ref].v=String(ws[ref].v);ws[ref].z="@"}}XLSX.writeFile(wb,OUTPUT_NAME,{bookType:"xlsx",compression:true,cellStyles:true});status(`转换完成：第 3、4 行已留空，明細從第 5 行開始；已生成 ${out.length} 条明细，总金额 ¥${prettyMoney(getAmountSummary().sum)}，并开始下载。`,"ok")}catch(e){status(e.message||String(e),"err")}});
+    convertBtn.addEventListener("click",()=>{try{if(!parsed||!parsed.dataRows.length)throw new Error("请先导入并确认至少一条明细。");const exportCorrections=applyNameRules(parsed.dataRows);if(exportCorrections)showPreview(parsed);const defaultRate=taxRateValue(el("taxRate").value);if(defaultRate===null)throw new Error("请填写有效的默认税率，例如 0.13 或 13%。");const defaultUnit="",defaultCode="";const wb=XLSX.read(TEMPLATE_B64,{type:"base64",cellStyles:true,cellDates:false}),ws=wb.Sheets[TARGET_SHEET];if(!ws)throw new Error("内置目标模板缺少“1-明细模板”工作表。");deleteWorksheetRow(ws,0);if(wb.Workbook&&wb.Workbook.Views&&wb.Workbook.Views[0])wb.Workbook.Views[0].activeTab=Math.max(0,wb.SheetNames.indexOf(TARGET_SHEET));const incomplete=parsed.dataRows.filter(r=>!safeText(r.name)||!safeText(r.spec)||numeric(r.qty)===null||numeric(r.price)===null||numeric(r.amount)===null);if(incomplete.length)throw new Error(`有 ${incomplete.length} 行名称／规格／数量／单价／金额缺失，请先在预览中修正，再导出。`);const out=parsed.dataRows.map(r=>{let rate=taxRateValue(r.rateRaw);if(rate===null)rate=defaultRate;let policy=r.policy||"";if(typeof r.rateRaw==="string"&&r.rateRaw.trim()==="免税"){rate=0;if(!policy)policy="免税"}const qty=numeric(r.qty),price=numeric(r.price);let amount=numeric(r.amount);if(amount===null&&qty!==null&&price!==null)amount=Math.round(qty*price*100)/100;return [normalizeItemName(r.name),r.code||defaultCode,safeText(r.spec),r.unit||defaultUnit,qty,price,amount,rate,null,policy,null,null,null,null,null,null,null,null,null,null,null,null]});if(!out.length)throw new Error("没有可写入的明细，请检查“名称”列。");XLSX.utils.sheet_add_aoa(ws,out,{origin:{r:4,c:0}});for(let i=0;i<out.length;i++){const ref=XLSX.utils.encode_cell({r:i+4,c:1});if(ws[ref]&&ws[ref].v!==null&&ws[ref].v!==""){ws[ref].t="s";ws[ref].v=String(ws[ref].v);ws[ref].z="@"}}XLSX.writeFile(wb,OUTPUT_NAME,{bookType:"xlsx",compression:true,cellStyles:true});status(`转换完成：第 3、4 行已留空，明細從第 5 行開始；已生成 ${out.length} 条明细，总金额 ¥${prettyMoney(getAmountSummary().sum)}，并开始下载。`,"ok")}catch(e){status(e.message||String(e),"err")}});
 
     // ===============================================================
     // 記帳：每筆帳獨立 id 和獨立勾選；同一天的多筆帳可以只匯出其中一筆。
