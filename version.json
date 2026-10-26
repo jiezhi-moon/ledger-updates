@@ -1,14 +1,14 @@
 {
-  "version": "1.0.13",
+  "version": "1.0.14",
   "schema_version": 2,
   "url": "https://api.github.com/repos/jiezhi-moon/ledger-updates/contents/app.html?ref=main",
-  "sha256": "c1e288231d884689176a95235cb3fc1d739e81c6ee93609fa8cc854222a5864f",
+  "sha256": "1743a86ff9d7e3ad4d9556ce1c2df09ababebc63a67da223a848470b1340233f",
   "files": [
     {
       "path": "記帳開票工具.html",
-      "version": "1.0.13",
+      "version": "1.0.14",
       "url": "https://api.github.com/repos/jiezhi-moon/ledger-updates/contents/app.html?ref=main",
-      "sha256": "c1e288231d884689176a95235cb3fc1d739e81c6ee93609fa8cc854222a5864f",
+      "sha256": "1743a86ff9d7e3ad4d9556ce1c2df09ababebc63a67da223a848470b1340233f",
       "executable": false
     },
     {

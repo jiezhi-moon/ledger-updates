@@ -300,7 +300,7 @@
     <section class="ledger-pane" id="ledgerPane" role="tabpanel" aria-labelledby="tabLedger">
       <div class="ledger-home" id="ledgerHome">
         <div class="ledger-head">
-          <div><div class="ledger-home-title"><h2>记账项目</h2><span class="ledger-version" aria-label="目前版本 1.0.13">v1.0.13</span><span class="ledger-update-controls"><button type="button" id="manualUpdateBtn" class="ledger-update-btn">檢查更新</button><button type="button" id="manualApplyBtn" class="ledger-update-btn" hidden>手動更新</button><span id="manualUpdateStatus" class="ledger-update-status" aria-live="polite"></span></span></div><p class="ledger-subtitle">搜索项目名称或明细内容，打开最近编辑的账本。</p></div>
+          <div><div class="ledger-home-title"><h2>记账项目</h2><span class="ledger-version" aria-label="目前版本 1.0.14">v1.0.14</span><span class="ledger-update-controls"><button type="button" id="manualUpdateBtn" class="ledger-update-btn">檢查更新</button><button type="button" id="manualApplyBtn" class="ledger-update-btn" hidden>手動更新</button><span id="manualUpdateStatus" class="ledger-update-status" aria-live="polite"></span></span></div><p class="ledger-subtitle">搜索项目名称或明细内容，打开最近编辑的账本。</p></div>
           <div class="ledger-backup"><span id="autoBackupStatus" style="font-size:12px;color:#64748b;align-self:center">自動備份：等待連線</span><button type="button" id="ledgerCloudBackupBtn" class="ledger-btn-primary">☁ 手動雲端備份</button><span id="ledgerCloudBackupStatus" class="ledger-cloud-status" role="status" aria-live="polite"></span><button type="button" id="ledgerBackupBtn" class="ledger-btn-light">备份记账资料</button><button type="button" id="ledgerRestoreBtn" class="ledger-btn-plain">导入备份</button></div>
         </div>
         <div class="ledger-tools"><input id="ledgerSearch" class="ledger-search" placeholder="搜索项目名称／公司或人／商品名称" aria-label="搜索记账项目"><button type="button" id="ledgerNewBtn" class="ledger-btn-primary">＋ 新建项目</button></div>
@@ -413,12 +413,12 @@
         <div class="field"><label for="taxRate">默认税率（必填）</label><input id="taxRate" value="0.13" placeholder="例如：0.13 或 13%" /><div class="help">0.13 只是初始值，请按实际开票税率修改；导入文件本身存在“税率”时会优先使用文件值。</div></div>
         <div class="field"><label for="unit">默认单位（可空）</label><input id="unit" value="" placeholder="例如：个、件、箱" /></div>
         <div class="field"><label for="taxCode">默认商品和服务税收分类编码（可空）</label><input id="taxCode" value="" inputmode="numeric" placeholder="未维护项目信息时可填写" /><div class="help">编码会按文本写入，避免 19 位编码被 Excel 改成科学计数法。</div></div>
-        <div class="ignored"><b>品名自动修正（预览与导出一致）：</b>強力環／鋁套／不鏽鋼花蘭 → 索具；不鏽鋼卡頭 → 卡头；蝴蝶扣 → 双环扣；大開口鉤／環眼鉤／貨櫃鉤／細筋鉤 → 吊钩；彩帶 → 吊带；法尔胜钢丝绳（含 OCR 误读“钢丝强”）→ 光面钢丝绳；不锈钢钢丝绳保持原名；光面钢丝绳不附加“强”字。钢管钩 → 吊钩；单头插编钢绳／插编钢绳索具 → 钢绳索具。双腿涂塑索具 → 钢绳索具；加大环／卸扣横销／卸扣螺母 → 索具；铝压涂塑索具 → 铝压索具。總價優先按數量 × 單價計算，與來源不同的行標紅。</div><div class="ignored">PDF / 图片最好包含清晰的表头，例如“名称、规格、数量、单价、总价/金额”。拍照时尽量正对表格，避免倾斜、阴影和模糊。</div>
+
         <div class="status" id="status">请选择文件。Excel 转换完全在浏览器本地完成；PDF / 圖片優先使用 Mac 系統辨識，本機不可用時自動改用瀏覽器 OCR（需聯網）。</div>
         <div class="actions"><button class="primary" id="convertBtn" disabled>转换并下载 XLSX</button></div>
       </section>
     </div>
-    <div class="foot">版本 1.0.13：2026-10-26。圖片及掃描 PDF 優先使用 Mac 系統文字辨識；本機不可用時自動改用瀏覽器 OCR（需聯網），請核對識別結果。输出文件名：<b>发票开具项目信息导入模板_自动修正后.xlsx</b>。目标模板原有工作表会保留；导出时会删除顶部“填表说明”整行，不再留下空白框。PDF 最多处理 200 页。遇到 Excel 横向打印成左右两组 PDF 页面时，会自动按行重新配对。</div>
+    <div class="foot">版本 1.0.14：2026-10-26。圖片及掃描 PDF 優先使用 Mac 系統文字辨識；本機不可用時自動改用瀏覽器 OCR（需聯網），請核對識別結果。输出文件名：<b>发票开具项目信息导入模板_自动修正后.xlsx</b>。目标模板原有工作表会保留；导出时会删除顶部“填表说明”整行，不再留下空白框。PDF 最多处理 200 页。遇到 Excel 横向打印成左右两组 PDF 页面时，会自动按行重新配对。</div>
     </section>
   </div>
 
@@ -444,9 +444,16 @@
     function taxRateValue(v){if(v==null||String(v).trim()==="")return null;if(typeof v==="string"&&v.trim().endsWith("%")){const n=Number(v.trim().slice(0,-1));return Number.isFinite(n)?n/100:null}const n=Number(String(v).trim());return Number.isFinite(n)?(n>1?n/100:n):null}
     // 品名自動分類：識別後、手動修改後、以及匯出前均使用相同規則。
     const NAME_NORMALIZATION_RULES = [
+      {target:"索具", keywords:["法尔胜单头索具"]},
+      {target:"钢绳索具", keywords:["法尔胜钢绳索具"]},
       {target:"钢绳索具", keywords:["双腿涂塑索具"]},
       {target:"索具", keywords:["加大环","卸扣横销","卸扣螺母"]},
       {target:"铝压索具", keywords:["铝压涂塑索具"]},
+      {target:"吊钩", keywords:["旋转吊钩","吊钩320a","抓钩","羊角吊钩"]},
+      {target:"索具", keywords:["涂塑套环索具"]},
+      {target:"钢绳索具", keywords:["涂塑索具"]},
+      {target:"链条", keywords:["G80起重链条"]},
+      {target:"卸扣", keywords:["弓形卸扣"]},
       // Text.txt 的指定對照優先於舊有分類。
       {target:"光面钢丝绳", keywords:["涂塑钢丝绳"]},
       {target:"花兰", keywords:["开体花兰", "模锻花兰"]},
@@ -466,8 +473,8 @@
     // 品名纠错依据真实 OCR 结果：汉字“绳”容易误识成“强”。
     // 只纠正明确的产品名，不能因误认把“不锈钢钢丝绳”归到索具。
     function invoiceNameKey(value){
-      const variants={鋼:'钢',絲:'丝',糸:'丝',繩:'绳',縄:'绳',鏽:'锈',銹:'锈',塗:'涂',體:'体',蘭:'兰',鍛:'锻',帶:'带',鉤:'钩',鈎:'钩',頭:'头',網:'网',歐:'欧',鋁:'铝',雙:'双',鏈:'链',環:'环',轉:'转',鍍:'镀',鋅:'锌',級:'级',寬:'宽',單:'单',條:'条',壓:'压',橫:'横',銷:'销'};
-      return norm(value).replace(/[鋼絲糸繩縄鏽銹塗體蘭鍛帶鉤鈎頭網歐鋁雙鏈環轉鍍鋅級寬單條壓橫銷]/g,ch=>variants[ch]).replace(/[　·•,，。:：;；_—-]/g,'').toLowerCase();
+      const variants={鋼:'钢',絲:'丝',糸:'丝',繩:'绳',縄:'绳',鏽:'锈',銹:'锈',塗:'涂',體:'体',蘭:'兰',鍛:'锻',帶:'带',鉤:'钩',鈎:'钩',頭:'头',網:'网',歐:'欧',鋁:'铝',雙:'双',鏈:'链',環:'环',轉:'转',鍍:'镀',鋅:'锌',級:'级',寬:'宽',單:'单',條:'条',壓:'压',橫:'横',銷:'销',爾:'尔',勝:'胜'};
+      return norm(value).replace(/[鋼絲糸繩縄鏽銹塗體蘭鍛帶鉤鈎頭網歐鋁雙鏈環轉鍍鋅級寬單條壓橫銷爾勝]/g,ch=>variants[ch]).replace(/[　·•,，。:：;；_—-]/g,'').toLowerCase();
     }
     function normalizeItemName(value){
       const original=normalizeLedgerImportName(value);
@@ -479,6 +486,10 @@
       if(/^(?:法尔胜|法尓胜|法尔生)钢丝(?:绳|强|強)$/.test(compact))return "光面钢丝绳";
       if(/^光面钢丝(?:绳|强|強)(?:强|強)?$/.test(compact))return "光面钢丝绳";
       const cmp=invoiceNameKey(original);
+      // Generic product rules also cover newly encountered brands/models.
+      if(cmp.includes('单板吊钩'))return original;
+      if(cmp.includes('吊钩'))return '吊钩';
+      if(cmp.includes('卸扣'))return '卸扣';
       for(const rule of NAME_NORMALIZATION_RULES){
         if(rule.keywords.some(k=>{const key=invoiceNameKey(k);return /^g\d+$/.test(key)?new RegExp('(?:^|[^a-z0-9])'+key+'(?![a-z0-9])').test(cmp):cmp.includes(key)}))return rule.target;
       }
@@ -660,12 +671,32 @@
           if(unitCol>=0){const divider=pad+(grid.edges[unitCol]*canvas.width-left)*factor;ctx.fillStyle='#fff';ctx.fillRect(divider-3*factor,pad,6*factor,height*factor)}
           const result=await ocrCanvas(crop,worker,`第 ${row._band+1} 行單位重試`,7,null,'quantity');
           const raw=result.text.replace(/\s/g,''),q=parseQtyRaw(raw),unit=known||normalizeDetectedUnit(q.unit)||normalizeDetectedUnit(raw)||normalizeDetectedUnit(raw.slice(-2))||normalizeDetectedUnit(raw.slice(-1));
-          if(row.qty===null&&q.qty===null&&unit&&/^[\u4e00-\u9fff]$/.test(unit)){const recovered=await recoverQuantityDigits(crop,worker,`第 ${row._band+1} 行`);if(recovered!==null)q.qty=recovered}
-          if(!unit||row.qty!==null&&q.qty!==null&&Math.abs(row.qty-q.qty)>1e-8)continue;
-          row.unit=unit;if(row.qty===null){if(q.qty===null)continue;row.qty=q.qty}break;
+          if(unitCol<0&&(row.qty===null||!known)){const recovered=await recoverQuantityDigits(crop,worker,`第 ${row._band+1} 行`);if(recovered!==null){q.qty=recovered;row.qty=recovered}}
+          if(row.qty!==null&&q.qty!==null&&Math.abs(row.qty-q.qty)>1e-8)continue;
+          if(row.qty===null&&q.qty!==null)row.qty=q.qty;
+          if(unit)row.unit=unit;
+          if(!normalizeDetectedUnit(row.unit)){const recoveredUnit=await recoverQuantityUnit(crop,worker,`第 ${row._band+1} 行`);if(recoveredUnit)row.unit=recoveredUnit}
+          if(row.qty!==null&&normalizeDetectedUnit(row.unit))break;
         }
         row._unitMissing=!normalizeDetectedUnit(row.unit);
       }
+    }
+    async function recoverQuantityUnit(crop,worker,label){
+      const w=crop.width,h=crop.height,pixels=crop.getContext('2d',{willReadFrequently:true}).getImageData(0,0,w,h).data;
+      const ink=(x,y)=>{const k=(y*w+x)*4;return pixels[k]<160&&pixels[k+1]<160&&pixels[k+2]<160};
+      const rowCounts=Array(h).fill(0),colCounts=Array(w).fill(0);
+      for(let y=4;y<h-4;y++)for(let x=4;x<w-4;x++)if(ink(x,y)){rowCounts[y]++;colCounts[x]++}
+      let left=w,right=-1,top=h,bottom=-1;
+      for(let y=4;y<h-4;y++)for(let x=4;x<w-4;x++)if(rowCounts[y]<w*.65&&colCounts[x]<h*.75&&ink(x,y)){left=Math.min(left,x);right=Math.max(right,x);top=Math.min(top,y);bottom=Math.max(bottom,y)}
+      if(right<=left||bottom<=top)return '';
+      const found=[];
+      for(const ratio of [1.1,1.25]){
+        const x=Math.max(left,Math.round(right-(bottom-top+1)*ratio)),width=right-x+1,height=bottom-top+1,scale=3,pad=24,input=document.createElement('canvas');input.width=width*scale+pad*2;input.height=height*scale+pad*2;
+        const ctx=input.getContext('2d');ctx.fillStyle='#fff';ctx.fillRect(0,0,input.width,input.height);ctx.drawImage(crop,x,top,width,height,pad,pad,width*scale,height*scale);
+        const result=await ocrCanvas(input,worker,label+' 單位獨立重讀',7,null,'quantity'),raw=result.text.replace(/\s/g,''),unit=normalizeDetectedUnit(raw)||normalizeDetectedUnit(parseQtyRaw(raw).unit);
+        if(unit)found.push(unit);
+      }
+      return found.length===2&&found[0]===found[1]?found[0]:'';
     }
     async function recoverQuantityDigits(crop,worker,label){
       // Some fonts make "4条" look like Chinese text to Vision. Re-read only
@@ -681,11 +712,21 @@
         const k=(y*w+x)*4;if(!ruledRows.has(y)&&!ruledCols.has(x)&&data[k]<160&&data[k+1]<160&&data[k+2]<160){left=Math.min(left,x);right=Math.max(right,x);top=Math.min(top,y);bottom=Math.max(bottom,y)}
       }
       if(right<=left||bottom<=top)return null;
-      const values=[];
-      for(const factor of [.85,.95]){
-        const cut=Math.round(right-(bottom-top+1)*factor),width=cut-left+1;
+      const values=[],textHeight=bottom-top+1,expectedCut=right-textHeight*.9,gaps=[];
+      // Find the actual space between the numeric prefix and its unit. Cutting
+      // by character width can leave part of 条/只, which OCR reads as ':' or ';'.
+      let gapStart=null;
+      for(let x=left;x<=right;x++){
+        let count=0;for(let y=top;y<=bottom;y++){const k=(y*w+x)*4;if(!ruledRows.has(y)&&!ruledCols.has(x)&&data[k]<160&&data[k+1]<160&&data[k+2]<160)count++}
+        if(!count&&gapStart===null)gapStart=x;
+        if(count&&gapStart!==null){if(x-gapStart>=Math.max(2,textHeight*.08)&&gapStart>left&&Math.abs((gapStart+x)/2-expectedCut)<textHeight*.6)gaps.push([gapStart,x]);gapStart=null}
+      }
+      gaps.sort((a,b)=>Math.abs((a[0]+a[1])/2-expectedCut)-Math.abs((b[0]+b[1])/2-expectedCut));
+      const cuts=[...(gaps.length?[gaps[0][0]-1,gaps[0][1]-1]:[]),...[1.05,1.15,.95,.85].map(f=>Math.round(right-textHeight*f))];
+      for(const cut of cuts){
+        const width=cut-left+1;
         if(width<5)continue;
-        const digit=document.createElement('canvas'),scale=2,pad=18,textHeight=(bottom-top+1)*scale;
+        const digit=document.createElement('canvas'),scale=values.length?2.5:2,pad=18,textHeight=(bottom-top+1)*scale;
         const sentinelWidth=Math.ceil(textHeight*1.9);digit.width=width*scale+pad*2+sentinelWidth*2;digit.height=textHeight+pad*2;
         const ctx=digit.getContext('2d');ctx.fillStyle='#fff';ctx.fillRect(0,0,digit.width,digit.height);
         ctx.drawImage(crop,left,top,width,bottom-top+1,pad+sentinelWidth,pad,width*scale,textHeight);
@@ -693,9 +734,9 @@
         // context; accept only a result retaining both exact guards.
         ctx.fillStyle='#000';ctx.font=`${textHeight}px serif`;ctx.textBaseline='top';ctx.fillText('123',pad,pad-3);ctx.fillText('789',pad+sentinelWidth+width*scale+8,pad-3);
         const result=await ocrCanvas(digit,worker,label+' 數字重試',7,null,'number'),match=result.text.replace(/[,，\s]/g,'').match(/^123(\d+(?:\.\d+)?)789$/),number=match?Number(match[1]):null;
-        if(number===null)return null;values.push(number);
+        if(number===null)continue;if(values.length&&values[0]!==number)return null;values.push(number);if(values.length===2)return number;
       }
-      return values.length===2&&values[0]===values[1]?values[0]:null;
+      return null;
     }
     async function recognizeGridNumberCell(canvas,grid,worker,row,column,label){
       const span=grid.spans[column].find(([a,b])=>row._band>=a&&row._band<=b)||[row._band,row._band];
@@ -728,6 +769,23 @@
         const column=fields.indexOf(key);if(column<0)continue;
         for(let i=0;i<rows.length;i++)if(numeric(rows[i][key])===null){
           const value=await recognizeGridNumberCell(canvas,grid,worker,rows[i],column,`第 ${i+1} 行${label}重試`);if(value!==null)rows[i][key]=value;
+        }
+      }
+    }
+    async function recoverGridSpecs(canvas,grid,worker,rows){
+      const column=gridFieldKeys(grid,true).indexOf('spec');if(column<0)return;
+      const compact=text=>safeText(text).toLowerCase().replace(/[\s\-－—–]/g,'');
+      for(let i=0;i<rows.length;i++){
+        const row=rows[i];if(!/\d(?:mm|m)\s+\d/i.test(row.spec))continue;
+        const span=grid.spans[column].find(([a,b])=>row._band>=a&&row._band<=b)||[row._band,row._band];
+        const left=Math.round(grid.edges[column]*canvas.width)+3,right=Math.round(grid.edges[column+1]*canvas.width)-3,top=Math.round(grid.bands[span[0]][0]*canvas.height)+3,bottom=Math.round(grid.bands[span[1]][1]*canvas.height)-3;
+        const width=Math.max(2,right-left),height=Math.max(2,bottom-top),pad=20;
+        for(const [scale,mode] of [[2,'number'],[2,'text'],[1.5,'number'],[1.5,'text']]){
+          const input=document.createElement('canvas');input.width=Math.round(width*scale)+pad*2;input.height=Math.round(height*scale)+pad*2;const ctx=input.getContext('2d');ctx.fillStyle='#fff';ctx.fillRect(0,0,input.width,input.height);ctx.drawImage(canvas,left,top,width,height,pad,pad,width*scale,height*scale);
+          const result=await ocrCanvas(input,worker,`第 ${i+1} 行規格重試`,7,null,mode),candidate=result.text.trim().replace(/[－—–]/g,'-');
+          // Restore a separator only when the image independently yields it and
+          // all letters/digits still match. Never invent or infer dimensions.
+          if(candidate.includes('-')&&compact(candidate)===compact(row.spec)){row.spec=candidate;break}
         }
       }
     }
@@ -850,6 +908,7 @@
           await probeGridUnits(canvas,grid,worker);
           const tokens=await recognizeGridColumns(canvas,grid,worker,includeLedger);
           rows=finalizeGridRows(parseGridImage(tokens,grid,includeLedger).filter(r=>grid.headerBand===undefined||r._band>grid.headerBand));
+          await recoverGridSpecs(canvas,grid,worker,rows);
           await recoverGridUnits(canvas,grid,worker,rows);
           await recoverGridNumericFields(canvas,grid,worker,rows);
           if(includeLedger&&dateTokens.length)for(const row of rows){const span=grid.dateSpans.find(([a,b])=>row._band>=a&&row._band<=b)||[row._band,row._band];const b=[grid.bands[span[0]][0],grid.bands[span[1]][1]];const closest=dateTokens.filter(t=>t.cy>=b[0]&&t.cy<=b[1]).map(t=>t.text).join('');row.date=pasteDate(closest)||''}
@@ -940,8 +999,11 @@
       const {sum,missing}=getAmountSummary();
       totalSummaryEl.style.display="flex";
       totalAmountEl.textContent="¥"+prettyMoney(sum);
+      const mismatches=parsed.dataRows.filter(amountMismatch),sourceRows=parsed.dataRows.filter(r=>r._importAmountChecked&&numeric(r._sourceAmount)!==null);
+      const sourceSum=sourceRows.reduce((n,r)=>n+Math.round(numeric(r._sourceAmount)*100),0)/100;
       totalTipEl.textContent=missing
         ?`还有 ${missing} 行金额未填写，目前仅合计有金额的项目。输入数量和单价可自动计算。`
+        :mismatches.length?`已合计 ${parsed.dataRows.length} 条明细，${mismatches.length} 行与来源不符，已标红。${sourceRows.length===parsed.dataRows.length?`来源合计 ¥${prettyMoney(sourceSum)}；计算后 ¥${prettyMoney(sum)}。`:''}总价按数量 × 单价计算，来源金额仍保留供核对。`
         :`已合计 ${parsed.dataRows.length} 条明细。修改数量/单价会自动更新该行金额，直接修改金额也会更新总数。`;
     }
     function attachNameOptions(input,holder,row,afterPick=null,normalize=normalizeItemName){
