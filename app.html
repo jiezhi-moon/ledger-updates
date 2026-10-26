@@ -15,7 +15,7 @@
     .mapping{display:grid;grid-template-columns:1fr auto 1fr;gap:8px 10px;align-items:center;font-size:13px;background:#f8fafc;border-radius:12px;padding:12px}.mapping .arrow{color:#94a3b8}.ignored{font-size:12px;color:var(--muted);margin-top:10px;line-height:1.6}
     .status{margin-top:16px;border-radius:12px;padding:12px 14px;font-size:13px;line-height:1.55;background:#f8fafc;color:#475569;border:1px solid #e8edf3}.status.ok{background:#f0fdfa;color:var(--ok);border-color:#ccfbf1}.status.warn{background:#fffbeb;color:var(--warn);border-color:#fde68a}.status.err{background:#fef2f2;color:var(--err);border-color:#fecaca}
     .actions{display:flex;gap:10px;margin-top:16px}button{border:0;border-radius:11px;height:44px;padding:0 18px;font:inherit;font-weight:700;cursor:pointer;transition:.16s ease}.primary{background:var(--primary);color:#fff;flex:1}.primary:hover{background:var(--primary2)}.primary:disabled{background:#aeb9cb;cursor:not-allowed}.secondary{background:#eef2ff;color:#3730a3;height:36px;padding:0 12px}.danger-mini{height:30px;padding:0 9px;background:#fff1f2;color:#be123c;border:1px solid #ffe4e6}
-    .preview-title{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:16px}.preview-title b{font-size:13px}.pill{display:inline-flex;align-items:center;padding:4px 8px;border-radius:999px;background:#eef2ff;color:#3730a3;font-size:12px;font-weight:650;margin-top:12px}.preview-wrap{margin-top:10px;max-height:calc(100vh - 315px);min-height:180px;overflow-y:auto;overflow-x:hidden;border:1px solid var(--line);border-radius:12px;background:#f8fafc;padding:10px}.item-list{display:flex;flex-direction:column;gap:10px}.item-row{background:#fff;border:1px solid #e6eaf0;border-radius:12px;padding:12px}.item-head{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:10px}.item-index{font-size:12px;font-weight:750;color:#64748b}.item-fields{display:grid;grid-template-columns:1.4fr 1fr .72fr .72fr .9fr .95fr;gap:9px}.item-field label{display:block;font-size:11px;color:#64748b;margin-bottom:4px}.item-field input{width:100%;height:36px;border:1px solid #d6dbe4;border-radius:9px;padding:0 9px;font:inherit;font-size:12px;background:#fff;outline:none}.item-field input:focus{border-color:#7aa2f7;box-shadow:0 0 0 3px rgba(37,99,235,.10)}.ocr-note{margin-top:9px;padding:9px 11px;border-radius:10px;background:#fff7ed;color:#9a3412;font-size:12px;line-height:1.55;display:none}.foot{margin-top:16px;color:#8a94a4;font-size:12px;line-height:1.6}
+    .preview-title{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:16px}.preview-title b{font-size:13px}.pill{display:inline-flex;align-items:center;padding:4px 8px;border-radius:999px;background:#eef2ff;color:#3730a3;font-size:12px;font-weight:650;margin-top:12px}.preview-wrap{margin-top:10px;max-height:calc(100vh - 215px);min-height:300px;overflow-y:auto;overflow-x:hidden;border:1px solid var(--line);border-radius:12px;background:#f8fafc;padding:10px}.item-list{display:flex;flex-direction:column;gap:10px}.item-row{background:#fff;border:1px solid #e6eaf0;border-radius:12px;padding:12px}.item-head{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:10px}.item-index{font-size:12px;font-weight:750;color:#64748b}.item-fields{display:grid;grid-template-columns:1.4fr 1fr .72fr .72fr .9fr .95fr;gap:9px}.item-field label{display:block;font-size:11px;color:#64748b;margin-bottom:4px}.item-field input{width:100%;height:36px;border:1px solid #d6dbe4;border-radius:9px;padding:0 9px;font:inherit;font-size:12px;background:#fff;outline:none}.item-field input:focus{border-color:#7aa2f7;box-shadow:0 0 0 3px rgba(37,99,235,.10)}.ocr-note{margin-top:9px;padding:9px 11px;border-radius:10px;background:#fff7ed;color:#9a3412;font-size:12px;line-height:1.55;display:none}.foot{margin-top:16px;color:#8a94a4;font-size:12px;line-height:1.6}
 
     /* 实时金额汇总 & 录入品名联想：菜单保持在输入框下方，避免被预览滚动区遮挡 */
     .total-summary{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:5px 10px;margin-top:9px;padding:8px 11px;border-radius:9px;background:#eff6ff;border:1px solid #bfdbfe}
@@ -278,6 +278,7 @@
     #ledgerHome.home-grid .ledger-project:hover{border-color:#93b4f5;background:#f8fbff}#ledgerHome.home-grid .ledger-project-title{padding-right:48px;font-size:16px}#ledgerHome.home-grid .ledger-project-meta{line-height:1.6}#ledgerHome.home-grid .ledger-project-sum{margin-top:auto;font-size:18px;color:#1d4ed8;font-weight:700}#ledgerHome.home-grid .ledger-project-delete{position:absolute;right:12px;top:12px}
     @media(max-width:540px){.app-bar{gap:10px;flex-wrap:wrap}.app-actions{margin-left:auto;gap:7px}.settings-button{padding:9px}.app-tabs button{padding-left:16px;padding-right:16px}}
 
+    .invoice-results-card .preview-title{margin-top:0}.invoice-settings-title{margin-top:22px!important}.invoice-results-card{min-height:360px}
     .invoice-import-hint{font-size:12px;color:#64748b;margin:10px 0}.invoice-import-actions .import-btn{margin:0}
     body.file-drag-over::after{content:'放開檔案以導入目前頁面';position:fixed;inset:14px;z-index:1000;border:3px dashed #2563eb;border-radius:18px;background:#eff6ffdf;display:grid;place-items:center;color:#1d4ed8;font-size:24px;font-weight:700;pointer-events:none}
     #ledgerSelectionRect{position:fixed;z-index:100;pointer-events:none;border:1.5px solid #2563eb;background:#3b82f624;border-radius:2px}#ledgerSelectionRect[hidden]{display:none}
@@ -385,23 +386,9 @@
     <div id="ledgerSelectionRect" hidden aria-hidden="true"></div>
     <section id="invoicePane" role="tabpanel" aria-labelledby="tabInvoice" hidden>
     <div class="grid">
-      <section class="card">
-        <h2>1. 导入文件</h2>
-        <div class="invoice-import-actions"><button class="import-btn" id="chooseFileBtn" type="button">选择导入文件</button><button class="danger-mini" id="invoiceClearBtn" type="button">清空</button></div>
-        <p class="invoice-import-hint">可將 Excel、圖片或 PDF 拖入頁面，自動導入目前的記帳／開票頁面。</p>
-        <input id="fileInput" type="file" accept=".xls,.xlsx,.xlsm,.pdf,image/jpeg,image/png,image/webp,image/bmp" />
-        <div class="filename" id="fileName">尚未选择文件</div>
-        <div class="pill" id="rowCount" style="display:none"></div>
-        <div class="total-summary" id="totalSummary" style="display:none" aria-live="polite">
-          <span class="sum-title">当前明细总金额（自动合计）</span>
-          <strong class="sum-value" id="totalAmount">¥0.00</strong>
-          <span class="sum-tip" id="totalTip">按每条明细的金额累计；修改数量、单价时自动重算该行金额。</span>
-        </div>
-        <div class="ocr-note" id="ocrNote">PDF / 圖片優先使用 Mac 系統辨識，本機不可用時自動改用瀏覽器 OCR；仍可能出現錯字或數字誤識別。下面的预览可以直接点击单元格修改，确认后再下载。</div>
-
+      <section class="card invoice-results-card">
         <div id="previewArea" style="display:none">
           <div class="preview-title"><b>识别结果（可编辑）</b><button class="secondary" id="addRowBtn" type="button">＋ 添加一行</button></div>
-          <div class="name-choose-note">總價已按數量 × 單價計算；紅色行與來源總價不同，可查看該行的來源金額與差額。點擊名稱可選擇品名。</div>
           <div class="preview-wrap">
             <div class="item-list" id="previewBody"></div>
           </div>
@@ -409,12 +396,23 @@
       </section>
 
       <section class="card settings-card">
-        <h2>2. 转换设置</h2>
+        <h2>导入文件</h2>
+        <div class="invoice-import-actions"><button class="import-btn" id="chooseFileBtn" type="button">选择导入文件</button><button class="danger-mini" id="invoiceClearBtn" type="button">清空</button></div>
+        <p class="invoice-import-hint">可將 Excel、圖片或 PDF 拖入頁面，自動導入目前的記帳／開票頁面。</p>
+        <input id="fileInput" type="file" accept=".xls,.xlsx,.xlsm,.pdf,image/jpeg,image/png,image/webp,image/bmp" />
+        <div class="filename" id="fileName">尚未选择文件</div>
+        <div class="pill" id="rowCount" style="display:none"></div>
+        <h2 class="invoice-settings-title">转换设置</h2>
         <div class="field"><label for="taxRate">默认税率（必填）</label><input id="taxRate" value="0.13" placeholder="例如：0.13 或 13%" /><div class="help">0.13 只是初始值，请按实际开票税率修改；导入文件本身存在“税率”时会优先使用文件值。</div></div>
         <div class="field"><label for="unit">默认单位（可空）</label><input id="unit" value="" placeholder="例如：个、件、箱" /></div>
         <div class="field"><label for="taxCode">默认商品和服务税收分类编码（可空）</label><input id="taxCode" value="" inputmode="numeric" placeholder="未维护项目信息时可填写" /><div class="help">编码会按文本写入，避免 19 位编码被 Excel 改成科学计数法。</div></div>
 
         <div class="status" id="status">请选择文件。Excel 转换完全在浏览器本地完成；PDF / 圖片優先使用 Mac 系統辨識，本機不可用時自動改用瀏覽器 OCR（需聯網）。</div>
+        <div class="total-summary" id="totalSummary" style="display:none" aria-live="polite">
+          <span class="sum-title">当前明细总金额（自动合计）</span>
+          <strong class="sum-value" id="totalAmount">¥0.00</strong>
+          <span class="sum-tip" id="totalTip">按每条明细的金额累计；修改数量、单价时自动重算该行金额。</span>
+        </div>
         <div class="actions"><button class="primary" id="convertBtn" disabled>转换并下载 XLSX</button></div>
       </section>
     </div>
@@ -431,7 +429,7 @@
     const OUTPUT_NAME = "发票开具项目信息导入模板_自动修正后.xlsx";
     const PDF_MAX_PAGES = 200;
     const el = id => document.getElementById(id);
-    const fileInput=el("fileInput"),dropZone=el("dropZone"),chooseFileBtn=el("chooseFileBtn"),convertBtn=el("convertBtn"),statusEl=el("status"),fileNameEl=el("fileName"),rowCountEl=el("rowCount"),previewArea=el("previewArea"),previewBody=el("previewBody"),ocrNote=el("ocrNote"),addRowBtn=el("addRowBtn");
+    const fileInput=el("fileInput"),dropZone=el("dropZone"),chooseFileBtn=el("chooseFileBtn"),convertBtn=el("convertBtn"),statusEl=el("status"),fileNameEl=el("fileName"),rowCountEl=el("rowCount"),previewArea=el("previewArea"),previewBody=el("previewBody"),addRowBtn=el("addRowBtn");
     let currentFile=null, parsed=null,invoiceImportGeneration=0,importProgressSink=null;
     const PROJECT_NAME_OPTIONS = Object.freeze(["铝压索具", "索具", "钢绳索具", "镀锌索具", "铝压钢绳索具", "铝压钢绳", "压套", "先编后压索具", "吊钩", "子母环", "无接头绳圈", "四股钢绳索具", "不锈钢卡头", "不锈钢花兰", "链条调节器", "铝套", "不锈钢绳", "铝压镀锌索具", "货柜钩", "耳板", "轴+帽", "单板吊钩", "不锈钢钢丝绳", "滑车", "花篮螺栓", "模锻花兰", "花蓝螺栓", "环型尼龙绳", "D型焊接环", "蝶蝶扣", "钢绳插编", "镀塑钢丝绳索具", "花兰", "双环扣", "吊绳", "链条", "链条吊具", "卸扣", "钢板起重钳", "卡头", "光面钢丝绳", "镀锌钢丝绳", "吊带"]);
     const totalSummaryEl=el("totalSummary"),totalAmountEl=el("totalAmount"),totalTipEl=el("totalTip");
@@ -444,8 +442,8 @@
     function taxRateValue(v){if(v==null||String(v).trim()==="")return null;if(typeof v==="string"&&v.trim().endsWith("%")){const n=Number(v.trim().slice(0,-1));return Number.isFinite(n)?n/100:null}const n=Number(String(v).trim());return Number.isFinite(n)?(n>1?n/100:n):null}
     // 品名自動分類：識別後、手動修改後、以及匯出前均使用相同規則。
     const NAME_NORMALIZATION_RULES = [
-      {target:"索具", keywords:["法尔胜单头索具"]},
-      {target:"钢绳索具", keywords:["法尔胜钢绳索具"]},
+      {target:"索具", keywords:["法尔胜单头索具","套环"]},
+      {target:"钢绳索具", keywords:["法尔胜钢绳索具","先编再压索具"]},
       {target:"钢绳索具", keywords:["双腿涂塑索具"]},
       {target:"索具", keywords:["加大环","卸扣横销","卸扣螺母"]},
       {target:"铝压索具", keywords:["铝压涂塑索具"]},
@@ -473,8 +471,8 @@
     // 品名纠错依据真实 OCR 结果：汉字“绳”容易误识成“强”。
     // 只纠正明确的产品名，不能因误认把“不锈钢钢丝绳”归到索具。
     function invoiceNameKey(value){
-      const variants={鋼:'钢',絲:'丝',糸:'丝',繩:'绳',縄:'绳',鏽:'锈',銹:'锈',塗:'涂',體:'体',蘭:'兰',鍛:'锻',帶:'带',鉤:'钩',鈎:'钩',頭:'头',網:'网',歐:'欧',鋁:'铝',雙:'双',鏈:'链',環:'环',轉:'转',鍍:'镀',鋅:'锌',級:'级',寬:'宽',單:'单',條:'条',壓:'压',橫:'横',銷:'销',爾:'尔',勝:'胜'};
-      return norm(value).replace(/[鋼絲糸繩縄鏽銹塗體蘭鍛帶鉤鈎頭網歐鋁雙鏈環轉鍍鋅級寬單條壓橫銷爾勝]/g,ch=>variants[ch]).replace(/[　·•,，。:：;；_—-]/g,'').toLowerCase();
+      const variants={鋼:'钢',絲:'丝',糸:'丝',繩:'绳',縄:'绳',鏽:'锈',銹:'锈',塗:'涂',體:'体',蘭:'兰',鍛:'锻',帶:'带',鉤:'钩',鈎:'钩',頭:'头',網:'网',歐:'欧',鋁:'铝',雙:'双',鏈:'链',環:'环',轉:'转',鍍:'镀',鋅:'锌',級:'级',寬:'宽',單:'单',條:'条',壓:'压',橫:'横',銷:'销',爾:'尔',勝:'胜',編:'编'};
+      return norm(value).replace(/[鋼絲糸繩縄鏽銹塗體蘭鍛帶鉤鈎頭網歐鋁雙鏈環轉鍍鋅級寬單條壓橫銷爾勝編]/g,ch=>variants[ch]).replace(/[　·•,，。:：;；_—-]/g,'').toLowerCase();
     }
     function normalizeItemName(value){
       const original=normalizeLedgerImportName(value);
@@ -776,7 +774,8 @@
       const column=gridFieldKeys(grid,true).indexOf('spec');if(column<0)return;
       const compact=text=>safeText(text).toLowerCase().replace(/[\s\-－—–]/g,'');
       for(let i=0;i<rows.length;i++){
-        const row=rows[i];if(!/\d(?:mm|m)\s+\d/i.test(row.spec))continue;
+        const row=rows[i],missingSpec=!safeText(row.spec);if(!missingSpec&&!/\d(?:mm|m)\s+\d/i.test(row.spec))continue;
+        const readings=[];
         const span=grid.spans[column].find(([a,b])=>row._band>=a&&row._band<=b)||[row._band,row._band];
         const left=Math.round(grid.edges[column]*canvas.width)+3,right=Math.round(grid.edges[column+1]*canvas.width)-3,top=Math.round(grid.bands[span[0]][0]*canvas.height)+3,bottom=Math.round(grid.bands[span[1]][1]*canvas.height)-3;
         const width=Math.max(2,right-left),height=Math.max(2,bottom-top),pad=20;
@@ -785,7 +784,10 @@
           const result=await ocrCanvas(input,worker,`第 ${i+1} 行規格重試`,7,null,mode),candidate=result.text.trim().replace(/[－—–]/g,'-');
           // Restore a separator only when the image independently yields it and
           // all letters/digits still match. Never invent or infer dimensions.
-          if(candidate.includes('-')&&compact(candidate)===compact(row.spec)){row.spec=candidate;break}
+          if(missingSpec){
+            if(!candidate||!/[0-9]/.test(candidate))continue;
+            const key=compact(candidate);if(readings.some(t=>t.mode!==mode&&compact(t.text)===key)){row.spec=candidate;break}readings.push({text:candidate,mode});
+          }else if(candidate.includes('-')&&compact(candidate)===compact(row.spec)){row.spec=candidate;break}
         }
       }
     }
@@ -893,6 +895,17 @@
       }
       return tokens;
     }
+    function gridBandHasColumns(canvas,grid,band){
+      const ctx=canvas.getContext('2d',{willReadFrequently:true}),top=Math.round(grid.bands[band][0]*canvas.height)+3,bottom=Math.round(grid.bands[band][1]*canvas.height)-3;
+      if(bottom<=top)return true;
+      let borders=0;
+      for(const edge of grid.edges.slice(1,-1)){
+        const x=Math.max(0,Math.min(canvas.width-3,Math.round(edge*canvas.width)-1)),pixels=ctx.getImageData(x,top,3,bottom-top).data;let dark=0;
+        for(let y=0;y<bottom-top;y++){let line=false;for(let dx=0;dx<3;dx++){const k=(y*3+dx)*4;if(pixels[k]<180&&pixels[k+1]<180&&pixels[k+2]<180)line=true}if(line)dark++}
+        if(dark/(bottom-top)>.6)borders++;
+      }
+      return borders>=2;
+    }
     async function readImageCanvas(canvas,includeLedger=false,sharedWorker=null){
       const worker=sharedWorker||await createOcrWorker();let grid=detectGridGeometry(canvas),dateTokens=[];
       try{
@@ -907,7 +920,7 @@
           if(/名称|名稱|品名|项目|項目|日期/.test(first.text))await recognizeGridHeaders(canvas,grid,worker);
           await probeGridUnits(canvas,grid,worker);
           const tokens=await recognizeGridColumns(canvas,grid,worker,includeLedger);
-          rows=finalizeGridRows(parseGridImage(tokens,grid,includeLedger).filter(r=>grid.headerBand===undefined||r._band>grid.headerBand));
+          rows=finalizeGridRows(parseGridImage(tokens,grid,includeLedger).filter(r=>(grid.headerBand===undefined||r._band>grid.headerBand)&&!(!r.name&&r.qty===null&&r.price===null&&r.amount===null&&!gridBandHasColumns(canvas,grid,r._band))));
           await recoverGridSpecs(canvas,grid,worker,rows);
           await recoverGridUnits(canvas,grid,worker,rows);
           await recoverGridNumericFields(canvas,grid,worker,rows);
@@ -1102,7 +1115,6 @@
       previewArea.style.display="block";
       rowCountEl.style.display="inline-flex";
       rowCountEl.textContent=`识别到 ${result.dataRows.length} 条项目明细`;
-      ocrNote.style.display=result.usedOcr?"block":"none";
       updateSummary();
     }
 
@@ -1117,10 +1129,10 @@
     function syncReadyState(){const count=parsed?.dataRows?.length||0;convertBtn.disabled=count===0;rowCountEl.textContent=`识别到 ${count} 条项目明细`}
     addRowBtn.addEventListener("click",()=>{if(!parsed)parsed={dataRows:[],sourceType:"manual",usedOcr:false};parsed.dataRows.push(emptyRow());showPreview(parsed);syncReadyState()});
 
-    async function selectFile(file){const generation=++invoiceImportGeneration;currentFile=file||null;parsed=null;convertBtn.disabled=true;fileNameEl.textContent=file?file.name:"尚未选择文件";totalSummaryEl.style.display="none";rowCountEl.style.display="none";previewArea.style.display="none";ocrNote.style.display="none";if(!file)return status("请选择文件。Excel 转换完全在浏览器本地完成；PDF / 圖片優先使用 Mac 系統辨識，本機不可用時自動改用瀏覽器 OCR（需聯網）。");try{status("正在读取文件…");const result=await parseFile(file);if(generation!==invoiceImportGeneration)return;parsed=result;prepareImportedRows(parsed.dataRows);const ruleChanges=applyNameRules(parsed.dataRows);showPreview(parsed);syncReadyState();if(!parsed.dataRows.length){status("没有识别到明细行。","warn");return}const sourceLabel=parsed.sourceType==="excel"?"Excel":parsed.sourceType==="pdf"?"PDF":"图片";status(`${sourceLabel} 读取成功，共识别 ${parsed.dataRows.length} 条明细${ruleChanges?`；已自動修正 ${ruleChanges} 筆品名`:""}${parsed.structure?"；"+parsed.structure:""}${parsed.warnings?.length?"；"+parsed.warnings.join("；"):""}${parsed.usedOcr?"；请检查并修正 OCR 结果":""}。`,(parsed.usedOcr||parsed.warnings?.length)?"warn":"ok")}catch(e){if(generation===invoiceImportGeneration)status(e.message||String(e),"err")}}
+    async function selectFile(file){const generation=++invoiceImportGeneration;currentFile=file||null;parsed=null;convertBtn.disabled=true;fileNameEl.textContent=file?file.name:"尚未选择文件";totalSummaryEl.style.display="none";rowCountEl.style.display="none";previewArea.style.display="none";if(!file)return status("请选择文件。Excel 转换完全在浏览器本地完成；PDF / 圖片優先使用 Mac 系統辨識，本機不可用時自動改用瀏覽器 OCR（需聯網）。");try{status("正在读取文件…");const result=await parseFile(file);if(generation!==invoiceImportGeneration)return;parsed=result;prepareImportedRows(parsed.dataRows);const ruleChanges=applyNameRules(parsed.dataRows);showPreview(parsed);syncReadyState();if(!parsed.dataRows.length){status("没有识别到明细行。","warn");return}const sourceLabel=parsed.sourceType==="excel"?"Excel":parsed.sourceType==="pdf"?"PDF":"图片";status(`${sourceLabel} 读取成功，共识别 ${parsed.dataRows.length} 条明细${ruleChanges?`；已自動修正 ${ruleChanges} 筆品名`:""}${parsed.structure?"；"+parsed.structure:""}${parsed.warnings?.length?"；"+parsed.warnings.join("；"):""}${parsed.usedOcr?"；请检查并修正 OCR 结果":""}。`,(parsed.usedOcr||parsed.warnings?.length)?"warn":"ok")}catch(e){if(generation===invoiceImportGeneration)status(e.message||String(e),"err")}}
     function clearInvoice(){
       invoiceImportGeneration++;currentFile=null;parsed=null;fileInput.value='';previewBody.replaceChildren();
-      fileNameEl.textContent='尚未选择文件';rowCountEl.textContent='';rowCountEl.style.display='none';previewArea.style.display='none';ocrNote.style.display='none';
+      fileNameEl.textContent='尚未选择文件';rowCountEl.textContent='';rowCountEl.style.display='none';previewArea.style.display='none';
       totalSummaryEl.style.display='none';totalAmountEl.textContent='¥0.00';convertBtn.disabled=true;status('已清空開票明細，可重新導入文件。');
     }
     el('invoiceClearBtn').addEventListener('click',clearInvoice);
