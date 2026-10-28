@@ -2,6 +2,7 @@
 """Local-only Safari ledger backup + per-file versioned GitHub updater (stdlib only)."""
 import ast
 import base64
+import errno
 import hashlib
 import json
 import os
@@ -511,6 +512,9 @@ class Handler(BaseHTTPRequestHandler):
 
     def do_GET(self):
         path = urlsplit(self.path).path
+        if path == '/api/health':
+            self.respond(200, {'ok': True, 'service': 'bookkeeping-local', 'version': read_state().get('version', '1.0.0')})
+            return
         if path == '/api/update/status':
             with LOCK:
                 n = len(SESSIONS)
@@ -636,24 +640,178 @@ class Handler(BaseHTTPRequestHandler):
             self.respond(400, {'ok': False, 'error': str(exc)})
 
 
-if __name__ == '__main__':
-    server = ThreadingHTTPServer((HOST, PORT), Handler)
-    server.daemon_threads = False  # Finish responses before replacing the running Python process.
+def service_is_running():
+    """Identify this app without opening anything or starting another server."""
+    address = f'http://{HOST}:{PORT}'
+    # macOS system proxies may intercept loopback even with no proxy env vars.
+    # Health checks must connect directly; GitHub update requests keep using
+    # the user's normal proxy settings.
+    local_opener = urllib.request.build_opener(urllib.request.ProxyHandler({}))
+    for endpoint in ('/api/health', '/api/update/status'):
+        try:
+            with local_opener.open(address + endpoint, timeout=0.8) as response:
+                body = json.loads(response.read(65536).decode('utf-8'))
+            if not isinstance(body, dict) or body.get('ok') is not True:
+                continue
+            if endpoint == '/api/health' and body.get('service') == 'bookkeeping-local':
+                return True
+            if endpoint == '/api/update/status' and valid_version(body.get('installed_version')) and isinstance(body.get('update'), dict):
+                return True
+        except (OSError, ValueError, UnicodeError):
+            pass
+    return False
+
+
+def open_app_page():
+    address = f'http://{HOST}:{PORT}'
+    # LaunchServices opens and activates the default browser on macOS. A failed
+    # request must not be reported as a successful reopen.
+    if sys.platform == 'darwin':
+        try:
+            result = subprocess.run(['/usr/bin/open', address], capture_output=True, text=True, timeout=10)
+            if result.returncode == 0:
+                print('已請預設瀏覽器打開：' + address, flush=True)
+                return True
+        except (OSError, subprocess.TimeoutExpired):
+            pass
+    try:
+        if webbrowser.open(address, new=2):
+            print('已請預設瀏覽器打開：' + address, flush=True)
+            return True
+    except (OSError, webbrowser.Error):
+        pass
+    print('無法自動打開瀏覽器，請手動開啟：' + address, flush=True)
+    return False
+
+
+# Close only this launcher's finished Terminal session. The bounded helper has
+# no TTY and exits as soon as the launcher shell finishes; the service is never
+# its target. Interactive shells, busy tabs and multi-tab windows stay open.
+CLOSE_LAUNCHER_SCRIPT = r'''on run argv
+    if (count of argv) is not 1 then return
+    set launcherTTY to item 1 of argv
+    repeat 100 times
+        if application "Terminal" is not running then return
+        set matchingTabFound to false
+        tell application "Terminal"
+            repeat with wi from 1 to count of windows
+                repeat with ti from 1 to count of tabs of window wi
+                    if (tty of tab ti of window wi) is launcherTTY then
+                        set matchingTabFound to true
+                        set tabBusy to busy of tab ti of window wi
+                        set tabProcesses to processes of tab ti of window wi
+                        if (not tabBusy) and (count of tabProcesses is 0) then
+                            -- Never close a window that contains another tab.
+                            if (count of tabs of window wi) is 1 then
+                                close window wi saving no
+                            end if
+                            return
+                        end if
+                    end if
+                end repeat
+            end repeat
+        end tell
+        if not matchingTabFound then return
+        delay 0.2
+    end repeat
+end run
+'''
+
+
+def schedule_launcher_window_close():
+    if sys.platform != 'darwin':
+        return False
+    try:
+        launcher_tty = os.ttyname(sys.stdin.fileno())
+    except (OSError, ValueError, AttributeError):
+        return False
+    if not re.fullmatch(r'/dev/tty[A-Za-z0-9]+', launcher_tty):
+        return False
+    try:
+        subprocess.Popen(['/usr/bin/osascript', '-e', CLOSE_LAUNCHER_SCRIPT, launcher_tty],
+                         stdin=subprocess.DEVNULL, stdout=subprocess.DEVNULL,
+                         stderr=subprocess.DEVNULL, start_new_session=True,
+                         close_fds=True)
+        return True
+    except OSError:
+        return False
+
+
+def launch_from_finder():
+    """Short-lived Finder entry; the service runs in a separate visible window."""
+    if service_is_running():
+        return 0 if open_app_page() else 1
+    if sys.platform != 'darwin':
+        return main()
+    service_command = SYSTEM_DIR / '本地記帳服務.command'
+    if not service_command.is_file():
+        print('缺少系統檔案／本地記帳服務.command，請更新完整程式檔案。', flush=True)
+        return 1
+    try:
+        result = subprocess.run(['/usr/bin/open', '-a', 'Terminal', str(service_command)], capture_output=True, text=True, timeout=10)
+        if result.returncode != 0:
+            print('無法打開記帳服務視窗：' + result.stderr.strip(), flush=True)
+            return 1
+    except (OSError, subprocess.TimeoutExpired) as error:
+        print('無法打開記帳服務視窗：' + str(error), flush=True)
+        return 1
+    deadline = time.monotonic() + 15
+    while time.monotonic() < deadline:
+        if service_is_running():
+            return 0 if open_app_page() else 1
+        time.sleep(0.2)
+    print('服務尚未就緒，請查看「本地記帳服務」Terminal 視窗。', flush=True)
+    return 1
+
+
+def main(open_browser=True):
+    # Do not launch a duplicate process or switch ports: both would complicate
+    # closing the service, and a new origin would hide the user's browser data.
+    if service_is_running():
+        return (0 if open_app_page() else 1) if open_browser else 0
+    try:
+        server = ThreadingHTTPServer((HOST, PORT), Handler)
+    except OSError as error:
+        if error.errno == errno.EADDRINUSE:
+            # Another click may have bound the port while this click was probing.
+            for attempt in range(3):
+                if service_is_running():
+                    return (0 if open_app_page() else 1) if open_browser else 0
+                if attempt < 2:
+                    time.sleep(0.2)
+            print(f'連接埠 {PORT} 已被其他程式使用，記帳工具尚未啟動。', flush=True)
+        else:
+            print(f'記帳工具啟動失敗：{error}', flush=True)
+        return 1
+    server.daemon_threads = False
     restore_staged_release()
-    threading.Thread(target=updater_loop, daemon=True, name='github-update',).start()
-    print('記帳工具已啟動： http://127.0.0.1:8765', flush=True)
+    threading.Thread(target=updater_loop, daemon=True, name='github-update').start()
+    print(f'記帳工具已啟動： http://{HOST}:{PORT}', flush=True)
     print('備份資料夾：', BACKUP_DIR, flush=True)
-    print('更新狀態： http://127.0.0.1:8765/api/update/status', flush=True)
     print('保持此視窗開啟；按 Control+C 停止。', flush=True)
-    if not os.environ.pop('LEDGER_SERVICE_RESTART', ''):
-        webbrowser.open('http://127.0.0.1:8765')
+    restarting = bool(os.environ.pop('LEDGER_SERVICE_RESTART', ''))
+    if open_browser and not restarting:
+        open_app_page()
     def restart_watcher():
         RESTART_EVENT.wait()
         server.shutdown()
     threading.Thread(target=restart_watcher, daemon=True, name='service-restart').start()
-    try: server.serve_forever()
-    except KeyboardInterrupt: pass
-    finally: server.server_close()
+    try:
+        server.serve_forever()
+    except KeyboardInterrupt:
+        pass
+    finally:
+        server.server_close()
     if RESTART_EVENT.is_set():
         os.environ['LEDGER_SERVICE_RESTART'] = '1'
         os.execv(sys.executable, [sys.executable, str(SYSTEM_DIR / 'backup_server.py')])
+    return 0
+
+
+if __name__ == '__main__':
+    if '--launch' in sys.argv[1:]:
+        result = launch_from_finder()
+        if result == 0:
+            schedule_launcher_window_close()
+        sys.exit(result)
+    sys.exit(main(open_browser='--serve' not in sys.argv[1:]))
