@@ -764,6 +764,72 @@ def launch_from_finder():
     return 1
 
 
+# Only this app's fixed export filename and browser duplicate suffixes qualify.
+# Downloads elsewhere are deliberately outside this cleanup scope.
+EXPORT_NAME_PATTERN = re.compile(r'发票开具项目信息导入模板_自动修正后(?: ?\([1-9][0-9]*\)| [1-9][0-9]*)?\.xlsx\Z')
+CLEANUP_LOCK = threading.Lock()
+
+
+def cleanup_converted_xlsx(downloads=None, trash=None, state_path=None, now=None):
+    downloads = Path.home() / 'Downloads' if downloads is None else Path(downloads)
+    trash = Path.home() / '.Trash' if trash is None else Path(trash)
+    state_path = SYSTEM_DIR / '.xlsx_cleanup.json' if state_path is None else Path(state_path)
+    now = time.time() if now is None else now
+    today = datetime.fromtimestamp(now).strftime('%Y-%m-%d')
+    with CLEANUP_LOCK:
+        try:
+            state = json.loads(state_path.read_text(encoding='utf-8'))
+        except (OSError, ValueError):
+            state = {}
+        # Do not mark a day complete when Downloads is inaccessible.
+        entries = list(downloads.iterdir())
+        moved = 0
+        failed = False
+        for source in entries:
+            if not EXPORT_NAME_PATTERN.fullmatch(source.name):
+                continue
+            try:
+                if source.is_symlink() or not source.is_file():
+                    continue
+                initial = source.stat()
+                if now - initial.st_mtime < 10 * 60:
+                    continue
+                trash.mkdir(parents=True, exist_ok=True)
+                fd, target_name = tempfile.mkstemp(prefix=source.stem + '_', suffix='.xlsx', dir=trash)
+                os.close(fd)
+                target = Path(target_name)
+                try:
+                    # Recheck after reserving a unique Trash name; never overwrite
+                    # an existing trashed workbook or follow a replaced symlink.
+                    current = source.lstat()
+                    if source.is_symlink() or (current.st_ino, current.st_size, current.st_mtime_ns) != (initial.st_ino, initial.st_size, initial.st_mtime_ns):
+                        failed = True
+                        continue
+                    source.rename(target)
+                    moved += 1
+                finally:
+                    if source.exists() and target.exists() and target.stat().st_size == 0:
+                        target.unlink()
+            except OSError as exc:
+                failed = True
+                print('轉換 XLSX 清理稍後重試：', source.name, str(exc), flush=True)
+        if not failed:
+            atomic_json(state_path, {'date': today, 'moved': moved})
+        return moved
+
+
+def xlsx_cleanup_loop():
+    while True:
+        try:
+            moved = cleanup_converted_xlsx()
+            if moved:
+                print(f'已將 {moved} 個超過 10 分鐘的轉換 XLSX 移至垃圾桶。', flush=True)
+        except Exception as exc:
+            # A denied Downloads/Trash permission must not stop the local app.
+            print('轉換 XLSX 自動清理暫不可用：', str(exc), flush=True)
+        time.sleep(60)
+
+
 def main(open_browser=True):
     # Do not launch a duplicate process or switch ports: both would complicate
     # closing the service, and a new origin would hide the user's browser data.
@@ -786,6 +852,7 @@ def main(open_browser=True):
     server.daemon_threads = False
     restore_staged_release()
     threading.Thread(target=updater_loop, daemon=True, name='github-update').start()
+    threading.Thread(target=xlsx_cleanup_loop, daemon=True, name='xlsx-cleanup').start()
     print(f'記帳工具已啟動： http://{HOST}:{PORT}', flush=True)
     print('備份資料夾：', BACKUP_DIR, flush=True)
     print('保持此視窗開啟；按 Control+C 停止。', flush=True)
