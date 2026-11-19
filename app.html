@@ -952,7 +952,7 @@ html[data-theme="apple"] .app-tabs #tabStats{width:112px;white-space:nowrap;flex
         <button id="tabStats" role="tab" aria-controls="statsPane" aria-selected="false" type="button"><svg class="design-nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M4 20V10h4v10M10 20V4h4v16M16 20v-7h4v7"/></svg>統計分析</button>
         <button id="tabLedger" role="tab" aria-controls="ledgerPane" aria-selected="true" type="button"><svg class="design-nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="4" y="3" width="16" height="18" rx="3"/><path d="M8 8h8M8 12h8M8 16h5"/></svg>记账</button>
         <button id="tabInvoice" role="tab" aria-controls="invoicePane" aria-selected="false" type="button"><svg class="design-nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 3h14v18l-3-2-4 2-4-2-3 2zM8 8h8M8 12h8"/></svg>开票</button>
-      </nav><div class="design-nav-caption">記帳與開票工作空間<br>v1.0.17</div></div>
+      </nav><div class="design-nav-caption">記帳與開票工作空間<br>v1.0.18</div></div>
     </header>
     <dialog id="settingsDialog" aria-labelledby="settingsTitle"><form method="dialog"><div class="settings-heading"><h2 id="settingsTitle">Setting</h2><button class="settings-close" aria-label="關閉設定" type="submit">×</button></div><fieldset class="settings-layout"><legend>記帳首頁顯示方式</legend><label><input type="radio" name="homeLayout" value="list"> 列表</label><label><input type="radio" name="homeLayout" value="grid"> 格子</label></fieldset><fieldset class="settings-themes"><legend>介面風格</legend>
 <label class="theme-option"><input type="radio" name="appTheme" value="classic"><span class="theme-swatch theme-swatch-classic" aria-hidden="true"></span><span><strong>1 · 現有風格</strong><small>熟悉的藍白介面</small></span></label>
@@ -975,7 +975,7 @@ html[data-theme="apple"] .app-tabs #tabStats{width:112px;white-space:nowrap;flex
     <section class="ledger-pane" id="ledgerPane" role="tabpanel" aria-labelledby="tabLedger">
       <div class="ledger-home" id="ledgerHome">
         <div class="ledger-head">
-          <div><div class="ledger-home-title"><h2>记账项目</h2><span class="ledger-version" aria-label="目前版本 1.0.17">v1.0.17</span><span class="ledger-update-controls"><button type="button" id="manualUpdateBtn" class="ledger-update-btn">檢查更新</button><span id="manualUpdateStatus" class="ledger-update-status" aria-live="polite"></span></span></div><p class="ledger-subtitle">搜索项目名称或明细内容，打开最近编辑的账本。</p></div>
+          <div><div class="ledger-home-title"><h2>记账项目</h2><span class="ledger-version" aria-label="目前版本 1.0.18">v1.0.18</span><span class="ledger-update-controls"><button type="button" id="manualUpdateBtn" class="ledger-update-btn">檢查更新</button><span id="manualUpdateStatus" class="ledger-update-status" aria-live="polite"></span></span></div><p class="ledger-subtitle">搜索项目名称或明细内容，打开最近编辑的账本。</p></div>
           <div class="ledger-backup"><span id="autoBackupStatus" style="font-size:12px;color:#64748b;align-self:center">自動備份：等待連線</span><button type="button" id="ledgerCloudBackupBtn" class="ledger-btn-primary">☁ 手動雲端備份</button><span id="ledgerCloudBackupStatus" class="ledger-cloud-status" role="status" aria-live="polite"></span></div>
         </div>
         <div class="ledger-tools"><input id="ledgerSearch" class="ledger-search" placeholder="搜索项目名称／公司或人／商品名称" aria-label="搜索记账项目"><button type="button" id="ledgerNewBtn" class="ledger-btn-primary">＋ 新建项目</button></div>
@@ -1489,9 +1489,21 @@ html[data-theme="apple"] .app-tabs #tabStats{width:112px;white-space:nowrap;flex
       const spans=xs.slice(0,-1).map((x,ci)=>{
         const out=[];let start=0;
         for(let ri=1;ri<bands.length;ri++){
-          const y=bands[ri][0]*h;let n=0,t=0;
-          for(let px=x+4;px<xs[ci+1]-4;px+=step*2){n+=[-ysStep,0,ysStep].some(d=>ink(px,y+d));t++}
-          if(t&&n/t>.62){out.push([start,ri-1]);start=ri}
+          const y=bands[ri][0]*h,right=xs[ci+1];
+          const inset=Math.max(2,step*2),stride=Math.max(1,step),leftEdge=x+inset,rightEdge=right-inset;
+          // A real divider reaches both sides of this cell in one scanline.
+          // Combining ink from adjacent scanlines can turn a centered name into a false divider.
+          const isDivider=[-ysStep,0,ysStep].some(offset=>{
+            let inkCount=0,count=0,leftInk=0,leftCount=0,rightInk=0,rightCount=0;
+            const edgeWidth=Math.max(3*stride,Math.round((rightEdge-leftEdge)*.12));
+            for(let px=leftEdge;px<=rightEdge;px+=stride){
+              const dark=Number(ink(px,y+offset));inkCount+=dark;count++;
+              if(px<leftEdge+edgeWidth){leftInk+=dark;leftCount++}
+              if(px>rightEdge-edgeWidth){rightInk+=dark;rightCount++}
+            }
+            return count>0&&leftCount>0&&rightCount>0&&inkCount/count>=.75&&leftInk/leftCount>=.65&&rightInk/rightCount>=.65;
+          });
+          if(isDivider){out.push([start,ri-1]);start=ri}
         }
         out.push([start,bands.length-1]);return out;
       });
@@ -1691,6 +1703,20 @@ html[data-theme="apple"] .app-tabs #tabStats{width:112px;white-space:nowrap;flex
         :mismatches.length?`已合计 ${parsed.dataRows.length} 条明细，${mismatches.length} 行与来源不符，已标红。${sourceRows.length===parsed.dataRows.length?`来源合计 ¥${prettyMoney(sourceSum)}；计算后 ¥${prettyMoney(sum)}。`:''}总价按数量 × 单价计算，来源金额仍保留供核对。`
         :`已合计 ${parsed.dataRows.length} 条明细。`;
     }
+    function updateInvoiceUnit(row, holder){
+      const unit = {"钢绳索具":"条", "吊钩":"只", "光面钢丝绳":"m"}[row.name];
+      if(!unit)return;
+      row.unit=unit;
+      row._unitMissing=false;
+      const input=holder.closest(".item-row")?.querySelector('input[data-key="unit"]');
+      if(input){
+        input.value=unit;
+        const field=input.closest(".item-field");
+        field?.classList.remove("unit-review");
+        const label=field?.querySelector("label");
+        if(label)label.textContent="单位";
+      }
+    }
     function attachNameOptions(input,holder,row,afterPick=null,normalize=normalizeItemName){
       const menu=document.createElement("div");
       menu.className="name-suggestions";
@@ -1706,6 +1732,7 @@ html[data-theme="apple"] .app-tabs #tabStats{width:112px;white-space:nowrap;flex
         // 保留既有指定的自动品名归类规则，选用与自动识别的名称处理一致。
         const fixed=normalize(name);
         row.name=fixed;input.value=fixed;
+        if(normalize===normalizeItemName)updateInvoiceUnit(row,holder);
         close();if(afterPick)afterPick();else updateSummary();
       }
       function repaint(){
